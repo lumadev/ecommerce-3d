@@ -2,7 +2,7 @@ import { motion } from "framer-motion";
 import { useNavigate } from "react-router-dom";
 import { products } from "@/data/products";
 import { useCart } from "@/contexts/CartContext";
-import { ShoppingCart } from "lucide-react";
+import { ShoppingCart, ChevronLeft, ChevronRight } from "lucide-react";
 import { useState, useEffect } from "react";
 
 const featuredProducts = products.slice(0, 4);
@@ -15,7 +15,7 @@ const HeroSection = () => {
   useEffect(() => {
     const interval = setInterval(() => {
       setActiveIndex((prev) => (prev + 1) % featuredProducts.length);
-    }, 4000);
+    }, 6000);
     return () => clearInterval(interval);
   }, []);
 
@@ -76,7 +76,7 @@ const HeroSection = () => {
                 {featuredProducts.map((product, index) => (
                   <motion.div
                     key={product.id}
-                    className="absolute inset-0"
+                    className={`absolute inset-0 ${activeIndex === index ? "pointer-events-auto z-10" : "pointer-events-none z-0"}`}
                     initial={false}
                     animate={{
                       opacity: activeIndex === index ? 1 : 0,
@@ -122,7 +122,20 @@ const HeroSection = () => {
                     </motion.div>
                   </motion.div>
                 ))}
-              </div>
+                {/* Navigation arrows */}
+                <button
+                  onClick={() => setActiveIndex((prev) => (prev - 1 + featuredProducts.length) % featuredProducts.length)}
+                  className="absolute left-3 top-1/2 -translate-y-1/2 z-20 flex h-10 w-10 items-center justify-center rounded-full bg-background/60 text-foreground backdrop-blur-sm transition-all hover:bg-background/80 hover:shadow-glow"
+                >
+                  <ChevronLeft className="h-5 w-5" />
+                </button>
+                <button
+                  onClick={() => setActiveIndex((prev) => (prev + 1) % featuredProducts.length)}
+                  className="absolute right-3 top-1/2 -translate-y-1/2 z-20 flex h-10 w-10 items-center justify-center rounded-full bg-background/60 text-foreground backdrop-blur-sm transition-all hover:bg-background/80 hover:shadow-glow"
+                >
+                  <ChevronRight className="h-5 w-5" />
+                </button>
+               </div>
 
               {/* Dots indicator */}
               <div className="mt-4 flex justify-center gap-2">
