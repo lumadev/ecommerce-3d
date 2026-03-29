@@ -1,4 +1,4 @@
-import { Instagram } from "lucide-react";
+import { FaInstagram as Instagram } from "react-icons/fa";
 
 const Footer = () => {
   return (
