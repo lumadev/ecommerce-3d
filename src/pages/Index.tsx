@@ -1,4 +1,5 @@
-import { CartProvider } from "@/contexts/CartContext";
+import { CartProvider } from "@/features/cart/cart.provider";
+
 import Navbar from "@/components/Navbar";
 import HeroSection from "@/components/HeroSection";
 import CategoriesSection from "@/components/CategoriesSection";

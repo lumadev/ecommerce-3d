@@ -1,13 +1,14 @@
-import { CartProvider } from "@/contexts/CartContext";
-import Navbar from "@/components/Navbar";
-import CartDrawer from "@/components/CartDrawer";
-import Footer from "@/components/Footer";
+import { CartProvider } from "@/features/cart/cart.provider";
 import { ArrowLeft, ShoppingCart, Sparkles, Package, Ruler, Layers } from "lucide-react";
 import { useNavigate, useParams } from "react-router-dom";
 import { products } from "@/data/products";
-import { useCart } from "@/contexts/CartContext";
+import { useCartContext as useCart } from "@/features/cart/useCart";
 import { motion } from "framer-motion";
 import { useState } from "react";
+
+import Navbar from "@/components/Navbar";
+import CartDrawer from "@/components/CartDrawer";
+import Footer from "@/components/Footer";
 
 const ProdutoDetalheContent = () => {
   const { id } = useParams<{ id: string }>();

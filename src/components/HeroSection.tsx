@@ -1,7 +1,7 @@
 import { motion } from "framer-motion";
 import { useNavigate } from "react-router-dom";
 import { products } from "@/data/products";
-import { useCart } from "@/contexts/CartContext";
+import { useCartContext as useCart } from "@/features/cart/useCart";
 import { ShoppingCart, ChevronLeft, ChevronRight } from "lucide-react";
 import { useState, useEffect } from "react";
 

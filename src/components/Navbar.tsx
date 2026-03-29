@@ -1,6 +1,6 @@
 import { ShoppingCart } from "lucide-react";
 import { FaInstagram as Instagram } from "react-icons/fa";
-import { useCart } from "@/contexts/CartContext";
+import { useCartContext as useCart } from "@/features/cart/useCart";
 import { motion } from "framer-motion";
 
 const Navbar = () => {

@@ -1,7 +1,7 @@
 import { motion } from "framer-motion";
 import { ShoppingCart, Sparkles, Eye } from "lucide-react";
 import { Product } from "@/data/products";
-import { useCart } from "@/contexts/CartContext";
+import { useCartContext as useCart } from "@/features/cart/useCart";
 import { useNavigate } from "react-router-dom";
 
 interface ProductCardProps {

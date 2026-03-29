@@ -1,10 +1,11 @@
-import { CartProvider } from "@/contexts/CartContext";
+import { CartProvider } from "@/features/cart/cart.provider";
+import { ArrowLeft } from "lucide-react";
+import { useNavigate } from "react-router-dom";
+
 import Navbar from "@/components/Navbar";
 import ProductGrid from "@/components/ProductGrid";
 import CartDrawer from "@/components/CartDrawer";
 import Footer from "@/components/Footer";
-import { ArrowLeft } from "lucide-react";
-import { useNavigate } from "react-router-dom";
 
 const Produtos = () => {
   const navigate = useNavigate();

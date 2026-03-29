@@ -1,5 +1,5 @@
 import { X, Minus, Plus, Trash2 } from "lucide-react";
-import { useCart } from "@/contexts/CartContext";
+import { useCartContext as useCart } from "@/features/cart/useCart";
 import { motion, AnimatePresence } from "framer-motion";
 
 const CartDrawer = () => {
