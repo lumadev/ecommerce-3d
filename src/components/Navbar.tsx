@@ -2,24 +2,13 @@ import { ShoppingCart, Search } from "lucide-react";
 import { FaInstagram as Instagram } from "react-icons/fa";
 import { useCartContext as useCart } from "@/features/cart/useCart";
 import { motion } from "framer-motion";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 
 import SearchDialog from "./SearchDialog";
 
 const Navbar = () => {
   const { totalItems, setIsOpen } = useCart();
   const [searchOpen, setSearchOpen] = useState(false);
-
-  useEffect(() => {
-    const down = (e: KeyboardEvent) => {
-      if (e.key === "k" && (e.metaKey || e.ctrlKey)) {
-        e.preventDefault();
-        setSearchOpen(true);
-      }
-    };
-    document.addEventListener("keydown", down);
-    return () => document.removeEventListener("keydown", down);
-  }, []);
 
   return (
     <>
@@ -43,9 +32,6 @@ const Navbar = () => {
             >
               <Search size={16} />
               <span className="hidden sm:inline">Buscar...</span>
-              <kbd className="hidden sm:inline-flex h-5 items-center gap-1 rounded border border-border bg-background px-1.5 font-mono text-[10px] text-muted-foreground">
-                ⌘K
-              </kbd>
             </button>
 
             <a
