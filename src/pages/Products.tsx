@@ -7,7 +7,7 @@ import ProductGrid from "@/features/product/components/ProductGrid";
 import CartDrawer from "@/features/cart/components/CartDrawer";
 import Footer from "@/components/Footer";
 
-const Produtos = () => {
+const Products = () => {
   const navigate = useNavigate();
 
   return (
@@ -31,4 +31,4 @@ const Produtos = () => {
   );
 };
 
-export default Produtos;
+export default Products;
