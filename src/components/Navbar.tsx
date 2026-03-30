@@ -4,7 +4,7 @@ import { useCartContext as useCart } from "@/features/cart/useCart";
 import { motion } from "framer-motion";
 import { useState } from "react";
 
-import SearchDialog from "./SearchDialog";
+import SearchDialog from "../features/search/SearchDialog";
 import LoginModal from "./LoginModal";
 
 const Navbar = () => {
