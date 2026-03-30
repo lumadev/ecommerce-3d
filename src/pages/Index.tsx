@@ -3,7 +3,7 @@ import { CartProvider } from "@/features/cart/cart.provider";
 import Navbar from "@/components/Navbar";
 import HeroSection from "@/components/HeroSection";
 import CategoriesSection from "@/features/product/components/CategoriesSection";
-import CustomOrderSection from "@/components/CustomOrderSection";
+import CustomOrderSection from "@/features/custom-order/CustomOrderSection";
 import CartDrawer from "@/features/cart/components/CartDrawer";
 import Footer from "@/components/Footer";
 
