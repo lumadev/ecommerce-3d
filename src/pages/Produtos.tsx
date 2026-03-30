@@ -3,7 +3,7 @@ import { ArrowLeft } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 
 import Navbar from "@/components/Navbar";
-import ProductGrid from "@/components/ProductGrid";
+import ProductGrid from "@/features/product/components/ProductGrid";
 import CartDrawer from "@/features/cart/components/CartDrawer";
 import Footer from "@/components/Footer";
 
