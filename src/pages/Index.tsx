@@ -4,7 +4,7 @@ import Navbar from "@/components/Navbar";
 import HeroSection from "@/components/HeroSection";
 import CategoriesSection from "@/components/CategoriesSection";
 import CustomOrderSection from "@/components/CustomOrderSection";
-import CartDrawer from "@/components/CartDrawer";
+import CartDrawer from "@/features/cart/components/CartDrawer";
 import Footer from "@/components/Footer";
 
 const Index = () => {

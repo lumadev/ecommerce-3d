@@ -7,7 +7,7 @@ import { motion } from "framer-motion";
 import { useState } from "react";
 
 import Navbar from "@/components/Navbar";
-import CartDrawer from "@/components/CartDrawer";
+import CartDrawer from "@/features/cart/components/CartDrawer";
 import Footer from "@/components/Footer";
 
 const ProdutoDetalheContent = () => {

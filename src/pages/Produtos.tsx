@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 
 import Navbar from "@/components/Navbar";
 import ProductGrid from "@/components/ProductGrid";
-import CartDrawer from "@/components/CartDrawer";
+import CartDrawer from "@/features/cart/components/CartDrawer";
 import Footer from "@/components/Footer";
 
 const Produtos = () => {
