@@ -1,18 +1,21 @@
-import { ShoppingCart, Search } from "lucide-react";
+import { ShoppingCart, Search, UserCircle } from "lucide-react";
 import { FaInstagram as Instagram } from "react-icons/fa";
 import { useCartContext as useCart } from "@/features/cart/useCart";
 import { motion } from "framer-motion";
 import { useState } from "react";
 
 import SearchDialog from "./SearchDialog";
+import LoginModal from "./LoginModal";
 
 const Navbar = () => {
   const { totalItems, setIsOpen } = useCart();
   const [searchOpen, setSearchOpen] = useState(false);
+  const [loginOpen, setLoginOpen] = useState(false);
 
   return (
     <>
       <SearchDialog open={searchOpen} onOpenChange={setSearchOpen} />
+      <LoginModal open={loginOpen} onOpenChange={setLoginOpen} />
       <motion.nav
         initial={{ y: -80 }}
         animate={{ y: 0 }}
@@ -32,6 +35,15 @@ const Navbar = () => {
             >
               <Search size={16} />
               <span className="hidden sm:inline">Buscar...</span>
+            </button>
+
+            <button
+              onClick={() => setLoginOpen(true)}
+              className="flex h-10 items-center gap-2 rounded-lg border border-border bg-secondary px-3 text-sm text-muted-foreground transition-colors hover:border-primary hover:text-primary"
+              aria-label="Entrar"
+            >
+              <UserCircle size={18} />
+              <span className="hidden sm:inline">Entrar</span>
             </button>
 
             <a

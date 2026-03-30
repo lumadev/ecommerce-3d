@@ -139,13 +139,41 @@
   --color-sidebar-ring: hsl(var(--sidebar-ring));
 }
 
-/* Utilities (continuam válidas no v4) */
 @layer utilities {
   .text-gradient-primary {
     background: var(--gradient-cta);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
+  }
+
+  .bg-card {
+    background: var(--gradient-card);
+  }
+
+  .bg-primary {
+    background: var(--gradient-cta);
+    color: hsl(var(--primary-foreground));
+  }
+
+  /* hover automático no botão */
+  .hover\:bg-primary\/90:hover {
+    opacity: 0.9;
+    box-shadow: var(--shadow-glow);
+  }
+
+  /* =========================
+   * INPUTS / FOCUS
+   * ========================= */
+
+  .focus\:ring-primary:focus {
+    box-shadow:
+      0 0 0 1px hsl(var(--primary)),
+      var(--shadow-glow);
+  }
+
+  .focus\:border-primary:focus {
+    border-color: hsl(var(--primary));
   }
 
   .bg-gradient-hero {
@@ -158,6 +186,12 @@
 
   .bg-gradient-cta {
     background: var(--gradient-cta);
+  }
+
+  .shadow-2xl {
+    box-shadow:
+      0 25px 50px -12px rgb(0 0 0 / 0.25),
+      var(--shadow-glow-strong);
   }
 
   .shadow-glow {
