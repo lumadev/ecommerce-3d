@@ -3,17 +3,32 @@ import { motion } from "framer-motion";
 import { Send, Sparkles } from "lucide-react";
 import { toast } from "sonner";
 
+import { customOrderRepository } from "@/features/custom-order/repositories/customOrderRepository";
+
 const CustomOrderSection = () => {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [description, setDescription] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    toast.success("Encomenda enviada com sucesso! Entraremos em contato em breve.");
-    setName("");
-    setEmail("");
-    setDescription("");
+
+    setIsLoading(true);
+
+    try {
+      await customOrderRepository.send({ name, email, description });
+
+      toast.success("Encomenda enviada com sucesso! Entraremos em contato em breve.");
+
+      setName("");
+      setEmail("");
+      setDescription("");
+    } catch {
+      toast.error("Ocorreu um erro ao enviar a sua encomenda");
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
@@ -84,10 +99,11 @@ const CustomOrderSection = () => {
             </div>
             <button
               type="submit"
-              className="flex w-full items-center justify-center gap-2 rounded-lg bg-gradient-cta py-3 font-display text-sm font-semibold uppercase tracking-wider text-primary-foreground transition-all hover:shadow-glow-strong hover:scale-[1.02]"
+              disabled={isLoading}
+              className="flex w-full items-center justify-center gap-2 rounded-lg bg-gradient-cta py-3 font-display text-sm font-semibold uppercase tracking-wider text-primary-foreground transition-all hover:shadow-glow-strong hover:scale-[1.02] disabled:opacity-50"
             >
               <Send size={16} />
-              Enviar Encomenda
+              {isLoading ? "Enviando..." : "Enviar Encomenda"}
             </button>
           </form>
         </motion.div>
