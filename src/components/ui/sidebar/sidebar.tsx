@@ -8,7 +8,7 @@ import { Button } from "@/components/ui/button/button";
 import { Input } from "@/components/ui/input";
 import { Separator } from "@/components/ui/separator";
 import { Sheet, SheetContent } from "@/components/ui/sheet";
-import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/shared/components/ui/tooltip";
 import { SidebarContext, useSidebar, type SidebarContextType } from "./sidebar-context";
 export { SidebarMenuSkeleton } from "./sidebar-menu-skeleton"
 
