@@ -4,8 +4,8 @@ import { useCartContext as useCart } from "@/features/cart/useCart";
 import { motion } from "framer-motion";
 import { useState } from "react";
 
-import SearchDialog from "../features/search/SearchDialog";
-import LoginModal from "../features/auth/LoginModal";
+import SearchDialog from "../../features/search/SearchDialog";
+import LoginModal from "../../features/auth/LoginModal";
 
 const Navbar = () => {
   const { totalItems, setIsOpen } = useCart();

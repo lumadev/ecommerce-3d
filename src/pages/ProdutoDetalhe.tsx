@@ -6,9 +6,9 @@ import { useCartContext as useCart } from "@/features/cart/useCart";
 import { motion } from "framer-motion";
 import { useState } from "react";
 
-import Navbar from "@/components/Navbar";
+import Navbar from "@/layout/components/Navbar";
 import CartDrawer from "@/features/cart/components/CartDrawer";
-import Footer from "@/components/Footer";
+import Footer from "@/layout/components/Footer";
 
 const ProdutoDetalheContent = () => {
   const { id } = useParams<{ id: string }>();
