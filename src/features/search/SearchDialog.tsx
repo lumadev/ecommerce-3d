@@ -9,7 +9,7 @@ import {
   CommandItem,
   CommandList,
   CommandSeparator,
-} from "@/components/ui/command";
+} from "@/shared/components/ui/command";
 
 interface SearchDialogProps {
   open: boolean;
