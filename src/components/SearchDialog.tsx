@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useMemo } from "react";
 import { useNavigate } from "react-router-dom";
 import { Sparkles, Package } from "lucide-react";
 import { products } from "@/data/products";
@@ -20,16 +20,23 @@ const SearchDialog = ({ open, onOpenChange }: SearchDialogProps) => {
   const navigate = useNavigate();
   const [search, setSearch] = useState("");
 
-  useEffect(() => {
-    if (!open) setSearch("");
-  }, [open]);
+  const handleOpenChange = (nextOpen: boolean) => {
+    if (!nextOpen) {
+      setSearch("");
+    }
+    onOpenChange(nextOpen);
+  };
 
-  const filtered = products.filter(
-    (p) =>
-      p.name.toLowerCase().includes(search.toLowerCase()) ||
-      p.category.toLowerCase().includes(search.toLowerCase()) ||
-      p.description.toLowerCase().includes(search.toLowerCase())
-  );
+  const filtered = useMemo(() => {
+    const normalizedSearch = search.toLowerCase();
+
+    return products.filter(
+        (p) =>
+          p.name.toLowerCase().includes(normalizedSearch) ||
+          p.category.toLowerCase().includes(normalizedSearch) ||
+          p.description.toLowerCase().includes(normalizedSearch)
+      );
+  }, [search]);
 
   const handleSelect = (productId: string) => {
     onOpenChange(false);
@@ -50,7 +57,7 @@ const SearchDialog = ({ open, onOpenChange }: SearchDialogProps) => {
   };
 
   return (
-    <CommandDialog open={open} onOpenChange={onOpenChange}>
+    <CommandDialog open={open} onOpenChange={handleOpenChange}>
       <CommandInput
         placeholder="Buscar produtos, categorias..."
         value={search}
