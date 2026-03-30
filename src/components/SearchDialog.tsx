@@ -1,10 +1,9 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { Search, Sparkles, Package } from "lucide-react";
+import { Sparkles, Package } from "lucide-react";
 import { products } from "@/data/products";
 import {
   CommandDialog,
-  CommandEmpty,
   CommandGroup,
   CommandInput,
   CommandItem,
@@ -56,13 +55,16 @@ const SearchDialog = ({ open, onOpenChange }: SearchDialogProps) => {
         placeholder="Buscar produtos, categorias..."
         value={search}
         onValueChange={setSearch}
+        className="h-14 text-base"
       />
       <CommandList>
-        <CommandEmpty className="py-8 text-center">
-          <p className="text-sm text-muted-foreground">
-            Nenhum produto encontrado.
-          </p>
-        </CommandEmpty>
+        {search.length > 0 && filtered.length === 0 && (
+          <div className="py-6 text-center">
+            <p className="text-sm text-muted-foreground">
+              Nenhum produto encontrado.
+            </p>
+          </div>
+        )}
 
         {filtered.length > 0 && (
           <CommandGroup heading="Produtos">
@@ -95,7 +97,7 @@ const SearchDialog = ({ open, onOpenChange }: SearchDialogProps) => {
 
         <CommandSeparator />
 
-        <CommandGroup>
+        <CommandGroup forceMount>
           <CommandItem
             onSelect={handleCustomOrder}
             className="group flex items-center gap-3 py-3 cursor-pointer"
