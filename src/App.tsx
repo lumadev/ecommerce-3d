@@ -8,6 +8,7 @@ import Index from "./pages/Index.tsx";
 import Products from "./pages/Products.tsx";
 import ProductDetails from "./pages/ProductDetails.tsx";
 import NotFound from "./pages/NotFound.tsx";
+import MyOrders from "./pages/MyOrders.tsx";
 
 const queryClient = new QueryClient();
 
@@ -21,7 +22,8 @@ const App = () => (
           <Route path="/" element={<Index />} />
           <Route path="/produtos" element={<Products />} />
           <Route path="/produto/:id" element={<ProductDetails />} />
-          {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
+          <Route path="/meus-pedidos" element={<MyOrders />} />
+          
           <Route path="*" element={<NotFound />} />
         </Routes>
       </BrowserRouter>
