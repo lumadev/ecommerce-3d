@@ -5,6 +5,8 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
+    "run:front": "cd ../ecommerce-3d-back && pnpm dev",
+    "run:all": "concurrently \"pnpm run dev\" \"pnpm run run:front\"",
     "build": "vite build",
     "build:dev": "vite build --mode development",
     "lint": "eslint .",
@@ -46,6 +48,7 @@
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
     "cmdk": "^1.1.1",
+    "concurrently": "^9.2.1",
     "date-fns": "^3.0.0",
     "embla-carousel-react": "^8.6.0",
     "framer-motion": "^12.38.0",
