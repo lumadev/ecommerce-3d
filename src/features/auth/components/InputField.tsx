@@ -6,6 +6,7 @@ interface InputFieldProps {
   placeholder: string;
   value: string;
   onChange: (value: string) => void;
+  autoComplete?: string;
 }
 
 export const InputField = ({
@@ -14,6 +15,7 @@ export const InputField = ({
   placeholder,
   value,
   onChange,
+  autoComplete,
 }: InputFieldProps) => {
   return (
     <div className="relative">
@@ -26,6 +28,7 @@ export const InputField = ({
         placeholder={placeholder}
         value={value}
         onChange={(e) => onChange(e.target.value)}
+        autoComplete={autoComplete}
         className="w-full rounded-lg border border-border bg-secondary py-3 pl-10 pr-4 text-sm text-foreground placeholder:text-muted-foreground focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary"
       />
     </div>
