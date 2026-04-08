@@ -1,7 +1,13 @@
 import { useState } from "react";
 import { Lock, Eye, EyeOff } from "lucide-react";
 
-export const PasswordField = () => {
+interface PasswordFieldProps {
+  value: string;
+  onChange: (value: string) => void;
+  placeholder?: string;
+}
+
+export const PasswordField = ({ value, onChange, placeholder = "Senha" }: PasswordFieldProps) => {
   const [show, setShow] = useState(false);
 
   return (
@@ -13,7 +19,9 @@ export const PasswordField = () => {
 
       <input
         type={show ? "text" : "password"}
-        placeholder="Senha"
+        placeholder={placeholder}
+        value={value}
+        onChange={(e) => onChange(e.target.value)}
         className="w-full rounded-lg border border-border bg-secondary py-3 pl-10 pr-10 text-sm text-foreground placeholder:text-muted-foreground focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary"
       />
 
