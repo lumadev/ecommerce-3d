@@ -19,6 +19,12 @@ export interface AuthResponse {
   token?: string;
 }
 
+export interface SessionUser {
+  id: string;
+  email: string;
+  name: string;
+}
+
 const BASE_URL = "/auth";
 
 export const authRepository = {
@@ -36,6 +42,14 @@ export const authRepository = {
       email: data.email,
       password: data.password,
     });
+    return response.data;
+  },
+
+  checkSession: async (userId: string): Promise<SessionUser> => {
+    const response = await httpClientAuth.get(`${BASE_URL}/me`, {
+      params: { userId },
+    });
+
     return response.data;
   },
 };
