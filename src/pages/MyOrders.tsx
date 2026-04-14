@@ -19,6 +19,7 @@ import {
 const statusSteps: OrderStatus[] = [
   "PENDING_PAYMENT",
   "PAYMENT_APPROVED",
+  "PREPARING",
   "SHIPPED",
   "DELIVERED",
 ];

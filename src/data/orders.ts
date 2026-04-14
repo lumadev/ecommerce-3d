@@ -1,6 +1,7 @@
 export type OrderStatus =
   | 'PENDING_PAYMENT'
   | 'PAYMENT_APPROVED'
+  | 'PREPARING'
   | 'PAYMENT_FAILED'
   | 'SHIPPED'
   | 'DELIVERED'
@@ -9,6 +10,7 @@ export type OrderStatus =
 export const OrderStatusLabel: Record<OrderStatus, string> = {
   PENDING_PAYMENT: 'Aguardando pagamento',
   PAYMENT_APPROVED: 'Pagamento aprovado',
+  PREPARING: 'Pedido em preparação',
   PAYMENT_FAILED: 'Pagamento recusado',
   SHIPPED: 'Enviado',
   DELIVERED: 'Entregue',
@@ -18,6 +20,7 @@ export const OrderStatusLabel: Record<OrderStatus, string> = {
 export const OrderStatusColor: Record<OrderStatus, string> = {
   PENDING_PAYMENT: 'bg-yellow-500/20 text-yellow-400 border-yellow-500/30',
   PAYMENT_APPROVED: 'bg-emerald-500/20 text-emerald-400 border-emerald-500/30',
+  PREPARING: 'bg-orange-500/20 text-orange-400 border-orange-500/30',
   PAYMENT_FAILED: 'bg-destructive/20 text-red-400 border-destructive/30',
   SHIPPED: 'bg-blue-500/20 text-blue-400 border-blue-500/30',
   DELIVERED: 'bg-emerald-500/20 text-emerald-400 border-emerald-500/30',
@@ -74,5 +77,15 @@ export const mockOrders: Order[] = [
       { productName: 'Vaso Geométrico', quantity: 1, unitPrice: 49.9, image: productVaso },
     ],
     total: 49.9,
+  },
+  {
+    id: 'PED-20250401-004',
+    date: '2025-04-01',
+    status: 'PREPARING',
+    items: [
+      { productName: 'Luminária Lua', quantity: 1, unitPrice: 89.9, image: productLuminaria },
+      { productName: 'Suporte para Fone', quantity: 2, unitPrice: 39.9, image: productSuporte },
+    ],
+    total: 169.7,
   },
 ];
