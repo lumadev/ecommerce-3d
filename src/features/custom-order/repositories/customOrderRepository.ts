@@ -1,7 +1,7 @@
-import { httpService } from "@/infra/http/httpService";
+import { httpClientPublic } from "@/infra/http/httpClient";
 import { CustomOrderRequest } from "../types";
 
 export const customOrderRepository = {
   send: (data: CustomOrderRequest) =>
-    httpService.post<void>("/email/custom-order", data),
+    httpClientPublic.post<void>("/email/custom-order", data),
 };
