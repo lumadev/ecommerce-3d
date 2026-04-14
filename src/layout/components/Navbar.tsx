@@ -1,6 +1,7 @@
 import { ShoppingCart, Search, UserCircle } from "lucide-react";
 import { FaInstagram as Instagram } from "react-icons/fa";
 import { useCartContext as useCart } from "@/features/cart/useCart";
+import { useAuth } from "@/features/auth/hooks/useAuth";
 import { motion } from "framer-motion";
 import { useState } from "react";
 
@@ -9,8 +10,15 @@ import LoginModal from "../../features/auth/LoginModal";
 
 const Navbar = () => {
   const { totalItems, setIsOpen } = useCart();
+  const { isAuthenticated, isCheckingSession, user } = useAuth();
   const [searchOpen, setSearchOpen] = useState(false);
   const [loginOpen, setLoginOpen] = useState(false);
+
+  const accountLabel = isCheckingSession
+    ? "Carregando..."
+    : isAuthenticated
+      ? user?.name ?? "Minha conta"
+      : "Entrar";
 
   return (
     <>
@@ -38,12 +46,16 @@ const Navbar = () => {
             </button>
 
             <button
-              onClick={() => setLoginOpen(true)}
+              onClick={() => {
+                if (!isAuthenticated) {
+                  setLoginOpen(true);
+                }
+              }}
               className="flex h-10 items-center gap-2 rounded-lg border border-border bg-secondary px-3 text-sm text-muted-foreground transition-colors hover:border-primary hover:text-primary"
-              aria-label="Entrar"
+              aria-label={accountLabel}
             >
               <UserCircle size={18} />
-              <span className="hidden sm:inline">Entrar</span>
+              <span className="hidden sm:inline">{accountLabel}</span>
             </button>
 
             <a

@@ -3,6 +3,7 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { Toaster as Sonner } from "@/shared/components/ui/sonner/sonner.tsx";
 import { Toaster } from "@/shared/components/ui/toaster.tsx";
 import { TooltipProvider } from "@/shared/components/ui/tooltip.tsx";
+import { AuthProvider } from "@/features/auth/auth.provider.tsx";
 
 import Index from "./pages/Index.tsx";
 import Products from "./pages/Products.tsx";
@@ -14,20 +15,21 @@ const queryClient = new QueryClient();
 
 const App = () => (
   <QueryClientProvider client={queryClient}>
-    <TooltipProvider>
-      <Toaster />
-      <Sonner />
-      <BrowserRouter>
-        <Routes>
-          <Route path="/" element={<Index />} />
-          <Route path="/produtos" element={<Products />} />
-          <Route path="/produto/:id" element={<ProductDetails />} />
-          <Route path="/meus-pedidos" element={<MyOrders />} />
-          
-          <Route path="*" element={<NotFound />} />
-        </Routes>
-      </BrowserRouter>
-    </TooltipProvider>
+    <AuthProvider>
+      <TooltipProvider>
+        <Toaster />
+        <Sonner />
+        <BrowserRouter>
+          <Routes>
+            <Route path="/" element={<Index />} />
+            <Route path="/produtos" element={<Products />} />
+            <Route path="/produto/:id" element={<ProductDetails />} />
+            <Route path="/meus-pedidos" element={<MyOrders />} />
+            <Route path="*" element={<NotFound />} />
+          </Routes>
+        </BrowserRouter>
+      </TooltipProvider>
+    </AuthProvider>
   </QueryClientProvider>
 );
 

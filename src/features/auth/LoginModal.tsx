@@ -51,6 +51,7 @@ const LoginModal = ({ open, onOpenChange }: LoginModalProps) => {
             <AuthForm
               isSignUp={isSignUp}
               onToggleMode={() => setIsSignUp(!isSignUp)}
+              onLoginSucess={() => onOpenChange(false)}
             />
           </motion.div>
         </>

@@ -1,34 +1,39 @@
 import { useState } from "react";
 import { Loader2, Mail } from "lucide-react";
+import { toast } from "sonner";
+import { getErrorMessage } from "@/infra/http/httpError";
+import { useAuth } from "../hooks/useAuth";
 import { InputField } from "../components/InputField";
 import { PasswordField } from "../components/PasswordField";
-import { authRepository } from "../repositories/authRepository";
 
 interface AuthLoginFormProps {
   onToggleMode: () => void;
+  onLoginSucess: () => void;
 }
 
-export const AuthLoginForm = ({ onToggleMode }: AuthLoginFormProps) => {
+export const AuthLoginForm = ({ onToggleMode, onLoginSucess }: AuthLoginFormProps) => {
   const [formData, setFormData] = useState({
     email: "",
     password: "",
   });
 
   const [isLoading, setIsLoading] = useState(false);
+  const { login } = useAuth();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsLoading(true);
 
     try {
-      const response = await authRepository.login({
+      await login({
         email: formData.email,
         password: formData.password,
       });
 
-      console.log("Resposta do backend:", response);
+      toast.success("Login realizado com sucesso.");
+      onLoginSucess();
     } catch (error) {
-      console.error("Erro no login:", error);
+      toast.error(getErrorMessage(error));
     } finally {
       setIsLoading(false);
     }
