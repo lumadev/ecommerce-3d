@@ -1,9 +1,9 @@
 import { AxiosRequestConfig } from "axios";
-import { httpClient } from "./httpClient";
+import { httpClientAuth } from "./httpClient";
 
 export const httpService = {
   get: async <T>(url: string, config?: AxiosRequestConfig): Promise<T> => {
-    const { data } = await httpClient.get<T>(url, config);
+    const { data } = await httpClientAuth.get<T>(url, config);
     return data;
   },
 
@@ -12,7 +12,7 @@ export const httpService = {
     body?: unknown,
     config?: AxiosRequestConfig
   ): Promise<T> => {
-    const { data } = await httpClient.post<T>(url, body, config);
+    const { data } = await httpClientAuth.post<T>(url, body, config);
     return data;
   },
 
@@ -21,7 +21,7 @@ export const httpService = {
     body?: unknown,
     config?: AxiosRequestConfig
   ): Promise<T> => {
-    const { data } = await httpClient.put<T>(url, body, config);
+    const { data } = await httpClientAuth.put<T>(url, body, config);
     return data;
   },
 };
