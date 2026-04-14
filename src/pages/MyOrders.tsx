@@ -5,7 +5,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { CartProvider } from "@/features/cart/cart.provider";
 import { Badge } from "@/shared/components/ui/badge";
 
-import Navbar from "@/layout/components/Navbar";
+import Navbar from "@/layout/navbar/Navbar";
 import CartDrawer from "@/features/cart/components/CartDrawer";
 
 import {

@@ -7,6 +7,8 @@ import { useState } from "react";
 
 import SearchDialog from "../../features/search/SearchDialog";
 import LoginModal from "../../features/auth/LoginModal";
+import NavbarSearch from "./NavbarSearch";
+import NavbarInstagramBtn from "./NavbarInstagramBtn";
 
 const Navbar = () => {
   const { totalItems, setIsOpen } = useCart();
@@ -36,14 +38,7 @@ const Navbar = () => {
           </a>
 
           <div className="flex items-center gap-3">
-            <button
-              onClick={() => setSearchOpen(true)}
-              className="flex h-10 items-center gap-2 rounded-lg border border-border bg-secondary px-3 text-sm text-muted-foreground transition-colors hover:border-primary hover:text-primary"
-              aria-label="Buscar"
-            >
-              <Search size={16} />
-              <span className="hidden sm:inline">Buscar...</span>
-            </button>
+            <NavbarSearch onOpen={() => setSearchOpen(true)} />
 
             <button
               onClick={() => {
@@ -58,15 +53,7 @@ const Navbar = () => {
               <span className="hidden sm:inline">{accountLabel}</span>
             </button>
 
-            <a
-              href="https://instagram.com"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="flex h-10 w-10 items-center justify-center rounded-lg border border-border bg-secondary text-muted-foreground transition-colors hover:border-primary hover:text-primary"
-              aria-label="Instagram"
-            >
-              <Instagram size={18} />
-            </a>
+            <NavbarInstagramBtn />
 
             <button
               onClick={() => setIsOpen(true)}

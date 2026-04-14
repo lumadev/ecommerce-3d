@@ -2,7 +2,7 @@ import { CartProvider } from "@/features/cart/cart.provider";
 import { ArrowLeft } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 
-import Navbar from "@/layout/components/Navbar";
+import Navbar from "@/layout/navbar/Navbar";
 import ProductGrid from "@/features/product/components/ProductGrid";
 import CartDrawer from "@/features/cart/components/CartDrawer";
 import Footer from "@/layout/components/Footer";

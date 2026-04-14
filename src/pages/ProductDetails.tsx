@@ -6,7 +6,7 @@ import { useCartContext as useCart } from "@/features/cart/useCart";
 import { motion } from "framer-motion";
 import { useState } from "react";
 
-import Navbar from "@/layout/components/Navbar";
+import Navbar from "@/layout/navbar/Navbar";
 import CartDrawer from "@/features/cart/components/CartDrawer";
 import Footer from "@/layout/components/Footer";
 

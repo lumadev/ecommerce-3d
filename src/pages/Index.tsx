@@ -1,6 +1,6 @@
 import { CartProvider } from "@/features/cart/cart.provider";
 
-import Navbar from "@/layout/components/Navbar";
+import Navbar from "@/layout/navbar/Navbar";
 import HeroSection from "@/layout/components/HeroSection";
 import CategoriesSection from "@/features/product/components/CategoriesSection";
 import CustomOrderSection from "@/features/custom-order/CustomOrderSection";
