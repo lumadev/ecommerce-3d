@@ -10,8 +10,8 @@ export type OrderStatus =
 export const OrderStatusLabel: Record<OrderStatus, string> = {
   PENDING_PAYMENT: 'Aguardando pagamento',
   PAYMENT_APPROVED: 'Pagamento aprovado',
-  PREPARING: 'Pedido em preparação',
   PAYMENT_FAILED: 'Pagamento recusado',
+  PREPARING: 'Pedido em preparação',
   SHIPPED: 'Enviado',
   DELIVERED: 'Entregue',
   CANCELED: 'Cancelado',
@@ -34,13 +34,20 @@ export interface OrderItem {
   image: string;
 }
 
+export interface StatusHistoryEntry {
+  status: OrderStatus;
+  date: string;
+}
+
 export interface Order {
   id: string;
   date: string;
   status: OrderStatus;
   items: OrderItem[];
   total: number;
+  customerName: string;
   trackingCode?: string;
+  statusHistory: StatusHistoryEntry[];
 }
 
 // Mock data
@@ -53,39 +60,48 @@ export const mockOrders: Order[] = [
     id: 'PED-20250328-001',
     date: '2025-03-28',
     status: 'SHIPPED',
+    customerName: 'Maria Silva',
     trackingCode: 'BR123456789XX',
     items: [
       { productName: 'Vaso Geométrico', quantity: 2, unitPrice: 49.9, image: productVaso },
       { productName: 'Luminária Lua', quantity: 1, unitPrice: 89.9, image: productLuminaria },
     ],
     total: 189.7,
+    statusHistory: [
+      { status: 'PENDING_PAYMENT', date: '2025-03-28T10:00:00' },
+      { status: 'PAYMENT_APPROVED', date: '2025-03-28T10:15:00' },
+      { status: 'PREPARING', date: '2025-03-28T14:30:00' },
+      { status: 'SHIPPED', date: '2025-03-29T09:00:00' },
+    ],
   },
   {
     id: 'PED-20250325-002',
     date: '2025-03-25',
     status: 'DELIVERED',
+    customerName: 'João Santos',
     items: [
       { productName: 'Suporte para Fone', quantity: 1, unitPrice: 39.9, image: productSuporte },
     ],
     total: 39.9,
+    statusHistory: [
+      { status: 'PENDING_PAYMENT', date: '2025-03-25T08:00:00' },
+      { status: 'PAYMENT_APPROVED', date: '2025-03-25T08:05:00' },
+      { status: 'PREPARING', date: '2025-03-25T12:00:00' },
+      { status: 'SHIPPED', date: '2025-03-26T10:00:00' },
+      { status: 'DELIVERED', date: '2025-03-28T14:00:00' },
+    ],
   },
   {
     id: 'PED-20250330-003',
     date: '2025-03-30',
     status: 'PENDING_PAYMENT',
+    customerName: 'Ana Oliveira',
     items: [
       { productName: 'Vaso Geométrico', quantity: 1, unitPrice: 49.9, image: productVaso },
     ],
     total: 49.9,
-  },
-  {
-    id: 'PED-20250401-004',
-    date: '2025-04-01',
-    status: 'PREPARING',
-    items: [
-      { productName: 'Luminária Lua', quantity: 1, unitPrice: 89.9, image: productLuminaria },
-      { productName: 'Suporte para Fone', quantity: 2, unitPrice: 39.9, image: productSuporte },
+    statusHistory: [
+      { status: 'PENDING_PAYMENT', date: '2025-03-30T16:00:00' },
     ],
-    total: 169.7,
   },
 ];
