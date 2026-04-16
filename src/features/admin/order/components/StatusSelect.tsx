@@ -5,8 +5,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/shared/components/ui/select";
-import { Badge } from "@/shared/components/ui/badge";
-import { OrderStatus, OrderStatusColor, OrderStatusLabel } from "@/data/orders";
+import { OrderStatus, OrderStatusLabel } from "@/data/orders";
 
 const adminStatuses: OrderStatus[] = [
   "PREPARING",
@@ -23,27 +22,23 @@ export const StatusSelect = ({
   onChange: (status: OrderStatus) => void;
 }) => {
   return (
-    <Select value={value} onValueChange={(val) => onChange(val as OrderStatus)}>
-      <SelectTrigger className="h-8 w-[200px] border-border text-xs">
+    <Select
+      value={value}
+      onValueChange={(val) => onChange(val as OrderStatus)}
+    >
+      <SelectTrigger className="h-8 w-[200px] border-border bg-secondary/50 text-xs hover:bg-secondary">
         <SelectValue>
-          <Badge
-            variant="outline"
-            className={`${OrderStatusColor[value]} text-[11px]`}
-          >
+          <span className="text-xs font-medium text-foreground">
             {OrderStatusLabel[value]}
-          </Badge>
+          </span>
         </SelectValue>
       </SelectTrigger>
-
       <SelectContent>
         {adminStatuses.map((s) => (
           <SelectItem key={s} value={s} className="text-xs">
-            <Badge
-              variant="outline"
-              className={`${OrderStatusColor[s]} text-[11px]`}
-            >
+            <span className="text-xs font-medium">
               {OrderStatusLabel[s]}
-            </Badge>
+            </span>
           </SelectItem>
         ))}
       </SelectContent>
