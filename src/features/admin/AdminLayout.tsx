@@ -12,7 +12,11 @@ export const AdminLayout = () => {
   return (
     <SidebarProvider>
       <div className="min-h-screen flex w-full bg-background text-foreground">
-        <AdminSidebar active={section} onNavigate={setSection} />
+        <AdminSidebar 
+          active={section} 
+          onNavigate={setSection}
+          className="hidden md:flex"
+        />
 
         <div className="flex-1 flex flex-col">
           <header className="border-b border-border bg-background/80 backdrop-blur-xl">

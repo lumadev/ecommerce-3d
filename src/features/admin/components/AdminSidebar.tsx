@@ -27,6 +27,7 @@ export type AdminSection = (typeof menuItems)[number]["key"];
 interface AdminSidebarProps {
   active: AdminSection;
   onNavigate: (section: AdminSection) => void;
+  className?: string;
 }
 
 const AdminSidebar = ({ active, onNavigate }: AdminSidebarProps) => {
@@ -42,12 +43,14 @@ const AdminSidebar = ({ active, onNavigate }: AdminSidebarProps) => {
             ADMIN
           </span>
         ) : (
-          <span className="font-display text-lg font-bold text-primary">A</span>
+          <span className="font-display text-lg font-bold text-primary mx-auto">
+            A
+          </span>
         )}
       </SidebarHeader>
 
       <SidebarContent>
-        <SidebarGroup className="px-3 pt-4 pr-6">
+        <SidebarGroup className={collapsed ? "px-2 pt-4" : "px-3 pt-4 pr-6"}>
           <SidebarGroupLabel>Menu</SidebarGroupLabel>
           <SidebarGroupContent>
             <SidebarMenu>
@@ -58,7 +61,7 @@ const AdminSidebar = ({ active, onNavigate }: AdminSidebarProps) => {
                     onClick={() => onNavigate(item.key)}
                     tooltip={item.title}
                     size="default"
-                    className="h-9 text-sm pr-30"
+                    className="h-9 text-sm md:pr-30"
                   >
                     <item.icon className="h-4 w-4" />
                     {!collapsed && <span>{item.title}</span>}
@@ -70,7 +73,7 @@ const AdminSidebar = ({ active, onNavigate }: AdminSidebarProps) => {
         </SidebarGroup>
       </SidebarContent>
 
-      <SidebarFooter className="border-t border-border px-3 py-3 pr-4">
+      <SidebarFooter className={`border-t border-border py-3 ${collapsed ? "px-2" : "px-3 pr-6"}`}>
         <SidebarMenuButton
           onClick={() => navigate("/")}
           tooltip="Sair"
