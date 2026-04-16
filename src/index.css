@@ -97,6 +97,9 @@
 }
 
 @theme {
+  --font-display: "Orbitron", sans-serif;
+  --font-body: "Inter", sans-serif;
+
   /* base */
   --color-border: hsl(var(--border));
   --color-input: hsl(var(--input));

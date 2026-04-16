@@ -12,9 +12,6 @@ import ProductDetails from "./pages/ProductDetails.tsx";
 import NotFound from "./pages/NotFound.tsx";
 import MyOrders from "./pages/MyOrders.tsx";
 
-// admin pages
-import OrderPage from "@/features/admin/order/OrderPage";
-
 const queryClient = new QueryClient();
 
 const App = () => (
@@ -28,14 +25,15 @@ const App = () => (
             <Route path="/" element={<Index />} />
             <Route path="/produtos" element={<Products />} />
             <Route path="/produto/:id" element={<ProductDetails />} />
+            <Route path="/admin" element={<AdminLayout />} />
             <Route path="/meus-pedidos" element={<MyOrders />} />
 
             {/* ADMIN */}
-            <Route path="/admin" element={<AdminLayout />}>
+            {/* <Route path="/admin" element={<AdminLayout />}>
               <Route index element={<OrderPage />} />
-              <Route path="orders" element={<OrderPage />} />
+              <Route path="orders" element={<OrderPage />} /> */}
               {/* <Route path="products" element={<ProductPage />} /> */}
-            </Route>
+            {/* </Route> */}
 
             <Route path="*" element={<NotFound />} />
           </Routes>
