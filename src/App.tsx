@@ -7,10 +7,10 @@ import { AuthProvider } from "@/features/auth/auth.provider.tsx";
 import { AdminLayout } from "@/features/admin/AdminLayout";
 
 import Index from "./pages/Index.tsx";
-import Products from "./pages/Products.tsx";
-import ProductDetails from "./pages/ProductDetails.tsx";
+import Products from "./features/product/Products.tsx";
+import ProductDetails from "./features/product/details/ProductDetails.tsx";
 import NotFound from "./pages/NotFound.tsx";
-import MyOrders from "./pages/MyOrders.tsx";
+import MyOrders from "./features/order/MyOrders.tsx";
 
 const queryClient = new QueryClient();
 
