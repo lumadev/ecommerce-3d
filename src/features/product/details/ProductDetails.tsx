@@ -10,7 +10,7 @@ import Navbar from "@/layout/navbar/Navbar";
 import CartDrawer from "@/features/cart/components/CartDrawer";
 import Footer from "@/layout/components/Footer";
 
-const ProdutoDetalheContent = () => {
+const ProductDetailContent = () => {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
   const { addItem } = useCart();
@@ -164,7 +164,7 @@ const ProdutoDetalheContent = () => {
 
 const ProdutoDetalhe = () => (
   <CartProvider>
-    <ProdutoDetalheContent />
+    <ProductDetailContent />
   </CartProvider>
 );
 
