@@ -60,7 +60,7 @@ const EditProductDialog = ({ product, onClose, onSave }: Props) => {
 
   return (
     <Dialog open={!!product} onOpenChange={onClose}>
-      <DialogContent>
+      <DialogContent className="sm:max-w-[800px]">
         <DialogHeader>
           <DialogTitle>Editar Produto</DialogTitle>
         </DialogHeader>

@@ -34,7 +34,7 @@ const CreateProductDialog = ({ open, onClose, onCreate }: Props) => {
     const stock = parseInt(form.stock);
 
     if (!form.name || !form.category || isNaN(price) || isNaN(stock)) {
-      toast.error("Preencha corretamente");
+      toast.error("Preencha corretamente o formulário");
       return;
     }
 
@@ -56,7 +56,7 @@ const CreateProductDialog = ({ open, onClose, onCreate }: Props) => {
 
   return (
     <Dialog open={open} onOpenChange={onClose}>
-      <DialogContent className="sm:max-w-[640px]">
+      <DialogContent className="sm:max-w-[800px]">
         <DialogHeader>
           <DialogTitle>Novo Produto</DialogTitle>
           <DialogDescription>
