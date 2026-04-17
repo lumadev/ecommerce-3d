@@ -5,6 +5,7 @@ import { motion } from "framer-motion";
 import { SidebarProvider, SidebarTrigger } from "@/shared/components/ui/sidebar/sidebar";
 import AdminSidebar, { AdminSection } from "@/features/admin/components/AdminSidebar";
 import OrderPage from "@/features/admin/order/OrderPage";
+import AdminProducts from "@/features/admin/product/AdminProducts";
 
 export const AdminLayout = () => {
   const [section, setSection] = useState<AdminSection>("pedidos");
@@ -36,6 +37,7 @@ export const AdminLayout = () => {
               transition={{ duration: 0.3 }}
             >
               {section === "pedidos" && <OrderPage />}
+              {section === "produtos" && <AdminProducts />}
             </motion.div>
           </main>
         </div>

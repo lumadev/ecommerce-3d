@@ -28,13 +28,6 @@ const App = () => (
             <Route path="/admin" element={<AdminLayout />} />
             <Route path="/meus-pedidos" element={<MyOrders />} />
 
-            {/* ADMIN */}
-            {/* <Route path="/admin" element={<AdminLayout />}>
-              <Route index element={<OrderPage />} />
-              <Route path="orders" element={<OrderPage />} /> */}
-              {/* <Route path="products" element={<ProductPage />} /> */}
-            {/* </Route> */}
-
             <Route path="*" element={<NotFound />} />
           </Routes>
         </BrowserRouter>
