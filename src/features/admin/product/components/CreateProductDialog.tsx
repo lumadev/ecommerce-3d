@@ -4,6 +4,7 @@ import {
   DialogContent,
   DialogHeader,
   DialogTitle,
+  DialogDescription,
   DialogFooter,
 } from "@/shared/components/ui/dialog";
 import { Button } from "@/shared/components/ui/button/button";
@@ -55,14 +56,16 @@ const CreateProductDialog = ({ open, onClose, onCreate }: Props) => {
 
   return (
     <Dialog open={open} onOpenChange={onClose}>
-      <DialogContent>
+      <DialogContent className="sm:max-w-[640px]">
         <DialogHeader>
           <DialogTitle>Novo Produto</DialogTitle>
+          <DialogDescription>
+            Preencha os dados e visualize a foto antes de confirmar o cadastro.
+          </DialogDescription>
         </DialogHeader>
 
         <ProductForm
           form={form}
-          showCategory
           onChange={(f, v) => setForm((s) => ({ ...s, [f]: v }))}
         />
 
