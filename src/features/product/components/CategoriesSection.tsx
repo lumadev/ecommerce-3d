@@ -50,7 +50,7 @@ const CategoriesSection = () => {
                 </p>
 
                 <div className="mb-3 flex flex-wrap gap-2">
-                  {category.examples.map((example) => (
+                  {category.hashtags.map((example) => (
                     <span
                       key={example}
                       className="rounded-full bg-primary/10 px-3 py-1 text-xs font-medium text-primary"
