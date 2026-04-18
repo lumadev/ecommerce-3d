@@ -6,8 +6,8 @@ import { useProducts } from "./hooks/useProducts";
 import { AdminProduct } from "./types";
 
 import ProductTable from "./list/ProductTable";
-import EditProductDialog from "./components/EditProductDialog";
-import CreateProductDialog from "./components/CreateProductDialog";
+import EditProductDialog from "./form/EditProductDialog";
+import CreateProductDialog from "./form/CreateProductDialog";
 
 const AdminProducts = () => {
   const { productList, updateProduct, createProduct } = useProducts();
