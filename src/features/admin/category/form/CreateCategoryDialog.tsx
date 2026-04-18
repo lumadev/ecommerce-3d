@@ -37,7 +37,7 @@ const CreateCategoryDialog = ({ open, onClose, onCreate }: Props) => {
       name: form.name.trim(),
       description: form.description.trim(),
       image: form.image,
-      examples: [],
+      hashtags: [],
     };
     onCreate(newCategory);
     toast.success(`"${newCategory.name}" cadastrada com sucesso.`);
