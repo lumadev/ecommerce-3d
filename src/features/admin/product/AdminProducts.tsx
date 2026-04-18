@@ -5,7 +5,7 @@ import { Button } from "@/shared/components/ui/button/button";
 import { useProducts } from "./hooks/useProducts";
 import { AdminProduct } from "./types";
 
-import ProductTable from "./components/ProductTable";
+import ProductTable from "./list/ProductTable";
 import EditProductDialog from "./components/EditProductDialog";
 import CreateProductDialog from "./components/CreateProductDialog";
 

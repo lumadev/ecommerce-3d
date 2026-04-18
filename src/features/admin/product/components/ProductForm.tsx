@@ -12,13 +12,11 @@ import { ProductFormState } from "../types";
 interface Props {
   form: ProductFormState;
   onChange: (field: keyof ProductFormState, value: string) => void;
-  showCategory?: boolean;
 }
 
 const ProductForm = ({
   form,
   onChange,
-  showCategory = true,
 }: Props) => {
   const fileInputRef = useRef<HTMLInputElement>(null);
 
@@ -123,20 +121,18 @@ const ProductForm = ({
             />
           </div>
 
-          {showCategory && (
-            <div className="grid gap-2">
-              <Label htmlFor="category" className="text-sm font-medium">
-                Categoria
-              </Label>
-              <Input
-                id="category"
-                value={form.category}
-                onChange={(e) => onChange("category", e.target.value)}
-                placeholder="Ex: Decoração"
-                className="bg-background"
-              />
-            </div>
-          )}
+          <div className="grid gap-2">
+            <Label htmlFor="category" className="text-sm font-medium">
+              Categoria
+            </Label>
+            <Input
+              id="category"
+              value={form.category}
+              onChange={(e) => onChange("category", e.target.value)}
+              placeholder="Ex: Decoração"
+              className="bg-background"
+            />
+          </div>
         </div>
 
         <div className="grid gap-2">

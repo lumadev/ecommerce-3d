@@ -25,6 +25,12 @@ const ProductRow = ({ product, index, onEdit }: Props) => {
         </span>
       </TableCell>
 
+      <TableCell>
+        <span className="inline-flex items-center rounded-full border border-border bg-secondary px-2.5 py-0.5 text-xs font-medium text-secondary-foreground">
+          {/* {product.category} */}
+        </span>
+      </TableCell>
+
       <TableCell className="text-right">
         R$ {product.price.toFixed(2).replace(".", ",")}
       </TableCell>

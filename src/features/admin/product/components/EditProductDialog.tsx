@@ -56,7 +56,10 @@ const EditProductDialog = ({ product, onClose, onSave }: Props) => {
           <DialogTitle>Editar Produto</DialogTitle>
         </DialogHeader>
 
-        <ProductForm form={form} onChange={(f, v) => setForm((s) => ({ ...s, [f]: v }))} />
+        <ProductForm 
+          form={form} 
+          onChange={(f, v) => setForm((s) => ({ ...s, [f]: v }))} 
+        />
 
         <DialogFooter>
           <Button variant="outline" onClick={onClose}>
