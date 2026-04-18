@@ -26,9 +26,16 @@ const ProductRow = ({ product, index, onEdit }: Props) => {
       </TableCell>
 
       <TableCell>
-        <span className="inline-flex items-center rounded-full border border-border bg-secondary px-2.5 py-0.5 text-xs font-medium text-secondary-foreground">
-          {/* {product.category} */}
-        </span>
+        <div className="flex flex-wrap gap-1">
+          {product.categories.map((cat) => (
+            <span
+              key={cat}
+              className="inline-flex items-center rounded-full border border-border bg-secondary px-2.5 py-0.5 text-xs font-medium text-secondary-foreground"
+            >
+              {cat}
+            </span>
+          ))}
+        </div>
       </TableCell>
 
       <TableCell className="text-right">
