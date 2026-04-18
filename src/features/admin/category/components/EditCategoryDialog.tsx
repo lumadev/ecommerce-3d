@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import {
   Dialog,
   DialogContent,
@@ -18,20 +18,14 @@ interface Props {
   onSave: (category: Category) => void;
 }
 
-const emptyForm: CategoryFormState = { name: "", description: "", image: "" };
+const toFormState = (c: Category | null): CategoryFormState => ({
+  name: c?.name ?? "",
+  description: c?.description ?? "",
+  image: c?.image ?? "",
+});
 
 const EditCategoryDialog = ({ category, onClose, onSave }: Props) => {
-  const [form, setForm] = useState<CategoryFormState>(emptyForm);
-
-  useEffect(() => {
-    if (category) {
-      setForm({
-        name: category.name,
-        description: category.description,
-        image: category.image,
-      });
-    }
-  }, [category]);
+  const [form, setForm] = useState<CategoryFormState>(() => toFormState(category));
 
   const handleSave = () => {
     if (!category) return;

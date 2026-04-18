@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import {
   Dialog,
   DialogContent,
@@ -17,24 +17,15 @@ interface Props {
   onSave: (product: AdminProduct) => void;
 }
 
-const EditProductDialog = ({ product, onClose, onSave }: Props) => {
-  const [form, setForm] = useState<ProductFormState>({
-    name: "",
-    description: "",
-    price: "",
-    stock: "",
-  });
+const toFormState = (p: AdminProduct | null): ProductFormState => ({
+  name: p?.name ?? "",
+  description: p?.description ?? "",
+  price: p?.price.toString() ?? "",
+  stock: p?.stock.toString() ?? "",
+});
 
-  useEffect(() => {
-    if (product) {
-      setForm({
-        name: product.name,
-        description: product.description,
-        price: product.price.toString(),
-        stock: product.stock.toString(),
-      });
-    }
-  }, [product]);
+const EditProductDialog = ({ product, onClose, onSave }: Props) => {
+  const [form, setForm] = useState<ProductFormState>(() => toFormState(product));
 
   const handleSave = () => {
     if (!product) return;
