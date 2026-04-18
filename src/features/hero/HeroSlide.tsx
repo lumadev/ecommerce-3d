@@ -1,7 +1,10 @@
 import { motion } from "framer-motion";
-import { ShoppingCart } from "lucide-react";
+import { useNavigate } from "react-router-dom";
+import { ShoppingCart, Eye } from "lucide-react";
 
 const HeroSlide = ({ product, isActive, onAdd }) => {
+  const navigate = useNavigate();
+
   return (
     <motion.div
       className={`absolute inset-0 ${
@@ -36,17 +39,27 @@ const HeroSlide = ({ product, isActive, onAdd }) => {
         <h3 className="mb-1 font-display text-xl font-bold text-foreground">
           {product.name}
         </h3>
+
         <div className="flex items-center justify-between">
           <span className="font-display text-lg font-bold text-primary">
             R$ {product.price.toFixed(2)}
           </span>
-          <button
-            onClick={onAdd}
-            className="flex items-center gap-2 rounded-lg bg-primary/20 px-4 py-2 text-sm font-medium text-primary transition-all hover:bg-primary hover:text-primary-foreground"
-          >
-            <ShoppingCart className="h-4 w-4" />
-            Adicionar
-          </button>
+          <div className="flex items-center gap-2">
+            <button
+              onClick={() => navigate(`/produto/${product.id}`)}
+              className="flex items-center gap-2 rounded-lg border border-primary/30 px-4 py-2 text-sm font-medium text-primary transition-all hover:border-primary hover:bg-primary/10"
+            >
+              <Eye className="h-4 w-4" />
+              Visualizar
+            </button>
+            <button
+              onClick={onAdd}
+              className="flex items-center gap-2 rounded-lg bg-primary/20 px-4 py-2 text-sm font-medium text-primary transition-all hover:bg-primary hover:text-primary-foreground"
+            >
+              <ShoppingCart className="h-4 w-4" />
+              Adicionar
+            </button>
+          </div>
         </div>
       </motion.div>
     </motion.div>
