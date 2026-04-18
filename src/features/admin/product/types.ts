@@ -9,6 +9,6 @@ export interface ProductFormState {
   description: string;
   price: string;
   stock: string;
-  category?: string;
   image?: string;
+  categories: string[];
 }

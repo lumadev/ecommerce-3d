@@ -11,7 +11,7 @@ export interface Product {
   description: string;
   price: number;
   image: string;
-  category: string;
+  categories: string[];
   customizable: boolean;
 }
 
@@ -22,7 +22,7 @@ export const products: Product[] = [
     description: "Vaso decorativo com design geométrico moderno, perfeito para suculentas e plantas pequenas.",
     price: 49.90,
     image: productVaso,
-    category: "Decoração",
+    categories: ["Decoração"],
     customizable: true,
   },
   {
@@ -31,7 +31,7 @@ export const products: Product[] = [
     description: "Luminária em formato de lua com detalhes realistas de crateras. Iluminação LED inclusa.",
     price: 89.90,
     image: productLuminaria,
-    category: "Iluminação",
+    categories: ["Iluminação", "Decoração"],
     customizable: true,
   },
   {
@@ -40,7 +40,7 @@ export const products: Product[] = [
     description: "Suporte elegante para headset com design minimalista e encaixe universal.",
     price: 39.90,
     image: productSuporte,
-    category: "Acessórios",
+    categories: ["Acessórios"],
     customizable: false,
   },
   {
@@ -49,7 +49,7 @@ export const products: Product[] = [
     description: "Organizador modular para escritório com compartimentos para canetas, celular e cartões.",
     price: 59.90,
     image: productOrganizador,
-    category: "Escritório",
+    categories: ["Escritório"],
     customizable: true,
   },
   {
@@ -58,7 +58,7 @@ export const products: Product[] = [
     description: "Miniatura articulada de dragão com alto nível de detalhe. Ideal para colecionadores.",
     price: 79.90,
     image: productDragao,
-    category: "Colecionáveis",
+    categories: ["Colecionáveis"],
     customizable: false,
   },
   {
@@ -67,7 +67,7 @@ export const products: Product[] = [
     description: "Porta-chaves com formato customizável. Adicione seu nome ou símbolo favorito.",
     price: 24.90,
     image: productChaveiro,
-    category: "Acessórios",
+    categories: ["Acessórios"],
     customizable: true,
   },
 ];

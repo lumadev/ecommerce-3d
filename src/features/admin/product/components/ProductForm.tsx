@@ -1,6 +1,7 @@
 import { useRef } from "react";
 import { Upload, ImageOff, X } from "lucide-react";
 import { toast } from "sonner";
+import { categories } from "@/data/categories";
 
 import { Input } from "@/shared/components/ui/input";
 import { Textarea } from "@/shared/components/ui/textarea";
@@ -8,16 +9,19 @@ import { Label } from "@/shared/components/ui/label";
 import { Button } from "@/shared/components/ui/button/button";
 
 import { ProductFormState } from "../types";
+import { CategoriesSelect } from "./CategoriesSelect";
+
+type Category = {
+  id: string;
+  name: string;
+};
 
 interface Props {
   form: ProductFormState;
-  onChange: (field: keyof ProductFormState, value: string) => void;
+  onChange: (field: keyof ProductFormState, value: string | string[]) => void;
 }
 
-const ProductForm = ({
-  form,
-  onChange,
-}: Props) => {
+const ProductForm = ({ form, onChange }: Props) => {
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -108,6 +112,7 @@ const ProductForm = ({
       {/* FIELDS */}
       <div className="grid gap-4">
         <div className="grid grid-cols-2 gap-4">
+          {/* NAME */}
           <div className="grid gap-2">
             <Label htmlFor="name" className="text-sm font-medium">
               Nome
@@ -121,20 +126,17 @@ const ProductForm = ({
             />
           </div>
 
+          {/* CATEGORIES */}
           <div className="grid gap-2">
-            <Label htmlFor="category" className="text-sm font-medium">
-              Categoria
-            </Label>
-            <Input
-              id="category"
-              value={form.category}
-              onChange={(e) => onChange("category", e.target.value)}
-              placeholder="Ex: Decoração"
-              className="bg-background"
+            <CategoriesSelect
+              categories={categories}
+              value={form.categories}
+              onChange={(cats) => onChange("categories", cats)}
             />
           </div>
         </div>
 
+        {/* DESCRIPTION */}
         <div className="grid gap-2">
           <Label htmlFor="description" className="text-sm font-medium">
             Descrição
@@ -149,6 +151,7 @@ const ProductForm = ({
           />
         </div>
 
+        {/* PRICE + STOCK */}
         <div className="grid grid-cols-2 gap-4">
           <div className="grid gap-2">
             <Label htmlFor="price" className="text-sm font-medium">

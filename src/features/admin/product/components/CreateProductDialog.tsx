@@ -23,7 +23,7 @@ const emptyForm: ProductFormState = {
   description: "",
   price: "",
   stock: "",
-  category: "",
+  categories: [],
 };
 
 const CreateProductDialog = ({ open, onClose, onCreate }: Props) => {
@@ -33,7 +33,7 @@ const CreateProductDialog = ({ open, onClose, onCreate }: Props) => {
     const price = parseFloat(form.price);
     const stock = parseInt(form.stock);
 
-    if (!form.name || !form.category || isNaN(price) || isNaN(stock)) {
+    if (!form.name || !form.categories.length || isNaN(price) || isNaN(stock)) {
       toast.error("Preencha corretamente o formulário");
       return;
     }
@@ -44,7 +44,7 @@ const CreateProductDialog = ({ open, onClose, onCreate }: Props) => {
       description: form.description,
       price,
       stock,
-      category: form.category,
+      categories: form.categories,
       image: "",
       customizable: false,
     };

@@ -22,6 +22,7 @@ const toFormState = (p: AdminProduct | null): ProductFormState => ({
   description: p?.description ?? "",
   price: p?.price.toString() ?? "",
   stock: p?.stock.toString() ?? "",
+  categories: p?.categories ?? [],
 });
 
 const EditProductDialog = ({ product, onClose, onSave }: Props) => {
