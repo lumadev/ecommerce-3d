@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {
   Dialog,
   DialogContent,
@@ -27,6 +27,10 @@ const toFormState = (p: AdminProduct | null): ProductFormState => ({
 
 const EditProductDialog = ({ product, onClose, onSave }: Props) => {
   const [form, setForm] = useState<ProductFormState>(() => toFormState(product));
+
+  useEffect(() => {
+    setForm(toFormState(product));
+  }, [product]);
 
   const handleSave = () => {
     if (!product) return;

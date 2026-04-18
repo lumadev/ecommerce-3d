@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {
   Dialog,
   DialogContent,
@@ -26,6 +26,10 @@ const toFormState = (c: Category | null): CategoryFormState => ({
 
 const EditCategoryDialog = ({ category, onClose, onSave }: Props) => {
   const [form, setForm] = useState<CategoryFormState>(() => toFormState(category));
+
+  useEffect(() => {
+    setForm(toFormState(category));
+  }, [category]);
 
   const handleSave = () => {
     if (!category) return;
