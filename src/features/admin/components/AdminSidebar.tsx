@@ -1,4 +1,4 @@
-import { Package, ShoppingCart, LogOut } from "lucide-react";
+import { Package, ShoppingCart, Tags, LogOut } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import {
   Sidebar,
@@ -20,6 +20,7 @@ import {
 const menuItems = [
   { title: "Pedidos", icon: ShoppingCart, key: "pedidos" },
   { title: "Produtos", icon: Package, key: "produtos" },
+  { title: "Categorias", icon: Tags, key: "categorias" },
 ] as const;
 
 export type AdminSection = (typeof menuItems)[number]["key"];
