@@ -12,6 +12,11 @@ export interface LoginData {
   password: string;
 }
 
+export interface LoginAdminData {
+  username: string;
+  password: string;
+}
+
 export interface AuthResponse {
   id: string;
   email: string;
@@ -41,6 +46,14 @@ export const authRepository = {
   login: async (data: LoginData): Promise<AuthResponse> => {
     const response = await httpClientAuth.post(`${BASE_URL}/login`, {
       email: data.email,
+      password: data.password,
+    });
+    return response.data;
+  },
+
+  loginAdmin: async (data: LoginAdminData): Promise<AuthResponse> => {
+    const response = await httpClientAuth.post(`${BASE_URL}/login-admin`, {
+      username: data.username,
       password: data.password,
     });
     return response.data;
