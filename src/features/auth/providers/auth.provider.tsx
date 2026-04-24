@@ -1,12 +1,12 @@
 import { ReactNode, useEffect, useState } from "react";
-import { authRepository, LoginData, SessionUser } from "../repositories/authRepository";
+import { AuthResponse, authRepository, SessionUser } from "../repositories/authRepository";
 import {
   AdminAuthContext,
-  ClientAuthContext,
+  AuthType,
   AuthContextValue,
+  CredentialsByRole,
+  ClientAuthContext,
 } from "../auth.context";
-
-type AuthType = "CUSTOMER" | "ADMIN";
 
 function getStorageKey(type: AuthType) {
   return `auth:${type}:userId`;
@@ -28,9 +28,9 @@ function assertRole(user: SessionUser, expectedRole: AuthType) {
   return user.role === expectedRole;
 }
 
-export function createAuthProvider(
-  role: AuthType,
-  Context: React.Context<AuthContextValue | undefined>
+export function createAuthProvider<R extends AuthType>(
+  role: R,
+  Context: React.Context<AuthContextValue<R> | undefined>
 ) {
   return function AuthProvider({ children }: { children: ReactNode }) {
     const [user, setUser] = useState<SessionUser | null>(null);
@@ -65,8 +65,16 @@ export function createAuthProvider(
       }
     };
 
-    const login = async (credentials: LoginData) => {
-      const authResponse = await authRepository.login(credentials);
+    const loginByRole: {
+      [K in AuthType]: (data: CredentialsByRole<K>) => Promise<AuthResponse>;
+    } = {
+      CUSTOMER: authRepository.login,
+      ADMIN: authRepository.loginAdmin,
+    };
+
+    const login = async (credentials: CredentialsByRole<R>) => {
+      const authResponse = await loginByRole[role](credentials);
+      
       persistUserId(authResponse.id, role);
 
       const sessionUser = await authRepository.checkSession(authResponse.id);

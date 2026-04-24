@@ -1,16 +1,23 @@
 import { createContext } from "react";
-import { LoginData, SessionUser } from "./repositories/authRepository";
+import { LoginAdminData, LoginData, SessionUser } from "./repositories/authRepository";
 
-export interface AuthContextValue {
+export type AuthType = "CUSTOMER" | "ADMIN";
+
+export type CredentialsByRole<R extends AuthType> = R extends "CUSTOMER"
+  ? LoginData
+  : LoginAdminData;
+
+export interface AuthContextValue<R extends AuthType = AuthType> {
   user: SessionUser | null;
   isAuthenticated: boolean;
   isCheckingSession: boolean;
-  login: (credentials: LoginData) => Promise<SessionUser | null>;
+  login: (credentials: CredentialsByRole<R>) => Promise<SessionUser | null>;
   logout: () => void;
   refreshSession: () => Promise<SessionUser | null>;
 }
 
-const createAuthContext = () => createContext<AuthContextValue | undefined>(undefined);
+const createAuthContext = <R extends AuthType>() =>
+  createContext<AuthContextValue<R> | undefined>(undefined);
 
-export const ClientAuthContext = createAuthContext();
-export const AdminAuthContext = createAuthContext();
+export const ClientAuthContext = createAuthContext<"CUSTOMER">();
+export const AdminAuthContext = createAuthContext<"ADMIN">();
