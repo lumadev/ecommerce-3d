@@ -2,10 +2,8 @@ import { ArrowLeft, Package, Truck, Copy, Check } from "lucide-react";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
-import { CartProvider } from "@/features/cart/cart.provider";
 import { Badge } from "@/shared/components/ui/badge";
 
-import Navbar from "@/layout/navbar/Navbar";
 import CartDrawer from "@/features/cart/components/CartDrawer";
 
 import {
@@ -156,15 +154,14 @@ function OrderCard({ order }: { order: Order }) {
   );
 }
 
-const MeusPedidosContent = () => {
+const MyOrdersContent = () => {
   const navigate = useNavigate();
 
   return (
-    <div className="min-h-screen bg-background">
-      <Navbar />
+    <div className="min-h-screen bg-background pt-16">
       <CartDrawer />
 
-      <div className="container mx-auto px-4 pt-24 pb-16 max-w-2xl">
+      <div className="container mx-auto px-4 pt-8 pb-16 max-w-2xl">
         <button
           onClick={() => navigate(-1)}
           className="mb-6 flex items-center gap-2 text-sm text-muted-foreground hover:text-primary transition-colors"
@@ -187,10 +184,6 @@ const MeusPedidosContent = () => {
   );
 };
 
-const MyOrders = () => (
-  <CartProvider>
-    <MeusPedidosContent />
-  </CartProvider>
-);
+const MyOrders = () => <MyOrdersContent />;
 
 export default MyOrders;

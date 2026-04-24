@@ -3,7 +3,12 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { Toaster as Sonner } from "@/shared/components/ui/sonner/sonner.tsx";
 import { Toaster } from "@/shared/components/ui/toaster.tsx";
 import { TooltipProvider } from "@/shared/components/ui/tooltip.tsx";
-import { AuthProvider } from "@/features/auth/auth.provider.tsx";
+
+import { ClientAuthProvider } from "@/features/auth/providers/auth.provider.tsx";
+import { AdminAuthProvider } from "@/features/auth/providers/admin-auth.provider.ts";
+import { CartProvider } from "@/features/cart/cart.provider";
+
+import Navbar from "@/layout/navbar/Navbar";
 import { AdminLayout } from "@/features/admin/AdminLayout";
 
 import Index from "./pages/Index.tsx";
@@ -16,23 +21,37 @@ const queryClient = new QueryClient();
 
 const App = () => (
   <QueryClientProvider client={queryClient}>
-    <AuthProvider>
-      <TooltipProvider>
-        <Toaster />
-        <Sonner />
-        <BrowserRouter>
-          <Routes>
-            <Route path="/" element={<Index />} />
-            <Route path="/produtos" element={<Products />} />
-            <Route path="/produto/:id" element={<ProductDetails />} />
-            <Route path="/admin" element={<AdminLayout />} />
-            <Route path="/meus-pedidos" element={<MyOrders />} />
+    <TooltipProvider>
+      <Toaster />
+      <Sonner />
 
-            <Route path="*" element={<NotFound />} />
-          </Routes>
-        </BrowserRouter>
-      </TooltipProvider>
-    </AuthProvider>
+      <BrowserRouter>
+        <ClientAuthProvider>
+          <CartProvider>
+            <Navbar />
+            <Routes>
+              <Route path="/" element={<Index />} />
+              <Route path="/produtos" element={<Products />} />
+              <Route path="/produto/:id" element={<ProductDetails />} />
+              <Route path="/meus-pedidos" element={<MyOrders />} />
+
+              {/* ÁREA ADMIN */}
+              <Route
+                path="/admin/*"
+                element={
+                  <AdminAuthProvider>
+                    <AdminLayout />
+                  </AdminAuthProvider>
+                }
+              />
+
+              {/* fallback */}
+              <Route path="*" element={<NotFound />} />
+            </Routes>
+          </CartProvider>
+        </ClientAuthProvider>
+      </BrowserRouter>
+    </TooltipProvider>
   </QueryClientProvider>
 );
 

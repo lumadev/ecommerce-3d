@@ -1,4 +1,3 @@
-import { CartProvider } from "@/features/cart/cart.provider";
 import { ArrowLeft, ShoppingCart, Sparkles, Package, Ruler, Layers } from "lucide-react";
 import { useNavigate, useParams } from "react-router-dom";
 import { products } from "@/data/products";
@@ -6,7 +5,6 @@ import { useCartContext as useCart } from "@/features/cart/useCart";
 import { motion } from "framer-motion";
 import { useState } from "react";
 
-import Navbar from "@/layout/navbar/Navbar";
 import CartDrawer from "@/features/cart/components/CartDrawer";
 import Footer from "@/layout/components/Footer";
 
@@ -20,9 +18,8 @@ const ProductDetailContent = () => {
 
   if (!product) {
     return (
-      <div className="min-h-screen bg-background">
-        <Navbar />
-        <div className="container mx-auto px-4 pt-28 text-center">
+      <div className="min-h-screen bg-background pt-16">
+        <div className="container mx-auto px-4 pt-12 text-center">
           <p className="text-xl text-muted-foreground">Produto não encontrado.</p>
           <button
             onClick={() => navigate("/produtos")}
@@ -44,9 +41,8 @@ const ProductDetailContent = () => {
   };
 
   return (
-    <div className="min-h-screen bg-background">
-      <Navbar />
-      <div className="container mx-auto px-4 pt-28 pb-4">
+    <div className="min-h-screen bg-background pt-16">
+      <div className="container mx-auto px-4 pt-12 pb-4">
         <button
           onClick={() => navigate("/produtos")}
           className="inline-flex items-center gap-2 rounded-lg border border-primary/30 px-4 py-2 font-display text-sm font-medium text-primary transition-all hover:border-primary hover:shadow-glow"
@@ -162,10 +158,6 @@ const ProductDetailContent = () => {
   );
 };
 
-const ProdutoDetalhe = () => (
-  <CartProvider>
-    <ProductDetailContent />
-  </CartProvider>
-);
+const ProdutoDetalhe = () => <ProductDetailContent />;
 
 export default ProdutoDetalhe;

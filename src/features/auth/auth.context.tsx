@@ -5,9 +5,12 @@ export interface AuthContextValue {
   user: SessionUser | null;
   isAuthenticated: boolean;
   isCheckingSession: boolean;
-  login: (credentials: LoginData) => Promise<SessionUser>;
+  login: (credentials: LoginData) => Promise<SessionUser | null>;
   logout: () => void;
   refreshSession: () => Promise<SessionUser | null>;
 }
 
-export const AuthContext = createContext<AuthContextValue | undefined>(undefined);
+const createAuthContext = () => createContext<AuthContextValue | undefined>(undefined);
+
+export const ClientAuthContext = createAuthContext();
+export const AdminAuthContext = createAuthContext();

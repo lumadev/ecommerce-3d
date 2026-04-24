@@ -1,6 +1,7 @@
 import { UserCircle, Package, LogOut } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "@/features/auth/hooks/useAuth";
+import { SessionUser } from "@/features/auth/repositories/authRepository";
 
 import {
   DropdownMenu,
@@ -12,12 +13,19 @@ import {
 
 import { Avatar, AvatarFallback } from "@/shared/components/ui/avatar";
 
+interface NavbarUserMenuProps {
+  isAuthenticated: boolean;
+  isCheckingSession: boolean;
+  user: SessionUser | null;
+  onLoginClick: () => void;
+}
+
 const NavbarUserMenu = ({
   isAuthenticated,
   isCheckingSession,
   user,
   onLoginClick,
-}) => {
+}: NavbarUserMenuProps) => {
   const navigate = useNavigate();
   const { logout } = useAuth();
 

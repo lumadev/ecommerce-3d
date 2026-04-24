@@ -23,6 +23,7 @@ export interface SessionUser {
   id: string;
   email: string;
   name: string;
+  role: "CUSTOMER" | "ADMIN";
 }
 
 const BASE_URL = "/auth";

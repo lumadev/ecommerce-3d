@@ -1,6 +1,3 @@
-import { CartProvider } from "@/features/cart/cart.provider";
-
-import Navbar from "@/layout/navbar/Navbar";
 import HeroSection from "@/features/hero/HeroSection";
 import CategoriesSection from "@/features/product/components/CategoriesSection";
 import CustomOrderSection from "@/features/custom-order/CustomOrderSection";
@@ -9,16 +6,13 @@ import Footer from "@/layout/components/Footer";
 
 const Index = () => {
   return (
-    <CartProvider>
-      <div className="min-h-screen bg-background">
-        <Navbar />
+    <div className="min-h-screen bg-background pt-16">
         <HeroSection />
         <CategoriesSection />
         <CustomOrderSection />
         <Footer />
         <CartDrawer />
       </div>
-    </CartProvider>
   );
 };
 
