@@ -1,15 +1,12 @@
-import { useRef } from "react";
-import { Upload, ImageOff, X } from "lucide-react";
-import { toast } from "sonner";
 import { categories } from "@/data/categories";
 
 import { Input } from "@/shared/components/ui/input";
 import { Textarea } from "@/shared/components/ui/textarea";
 import { Label } from "@/shared/components/ui/label";
-import { Button } from "@/shared/components/ui/button/button";
 
 import { ProductFormState } from "../types";
 import { CategoriesSelect } from "./CategoriesSelect";
+import { ImageUploadField } from "@/features/file";
 
 type Category = {
   id: string;
@@ -22,92 +19,14 @@ interface Props {
 }
 
 const ProductForm = ({ form, onChange }: Props) => {
-  const fileInputRef = useRef<HTMLInputElement>(null);
-
-  const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    if (!file) return;
-
-    if (!file.type.startsWith("image/")) {
-      toast.error("Selecione um arquivo de imagem válido.");
-      return;
-    }
-
-    if (file.size > 5 * 1024 * 1024) {
-      toast.error("A imagem deve ter no máximo 5MB.");
-      return;
-    }
-
-    const reader = new FileReader();
-
-    reader.onload = () => {
-      onChange("image", reader.result as string);
-    };
-
-    reader.readAsDataURL(file);
-  };
-
-  const handleRemoveImage = () => {
-    onChange("image", "");
-
-    if (fileInputRef.current) {
-      fileInputRef.current.value = "";
-    }
-  };
-
   return (
     <div className="grid gap-6 py-2 md:grid-cols-[240px_1fr]">
       {/* IMAGE */}
-      <div className="flex flex-col gap-3">
-        <Label className="text-sm font-medium">Foto do produto</Label>
-
-        <div className="relative aspect-square w-full overflow-hidden rounded-lg border-2 border-dashed border-border bg-background">
-          {form.image ? (
-            <>
-              <img
-                src={form.image}
-                alt="Pré-visualização"
-                className="h-full w-full object-cover"
-              />
-              <button
-                type="button"
-                onClick={handleRemoveImage}
-                className="absolute right-2 top-2 rounded-full bg-background/90 p-1.5 shadow-md backdrop-blur hover:bg-background"
-              >
-                <X size={14} />
-              </button>
-            </>
-          ) : (
-            <div className="flex h-full w-full flex-col items-center justify-center gap-2 text-muted-foreground">
-              <ImageOff size={32} />
-              <span className="text-xs">Sem imagem</span>
-            </div>
-          )}
-        </div>
-
-        <input
-          ref={fileInputRef}
-          type="file"
-          accept="image/*"
-          className="hidden"
-          onChange={handleImageChange}
-        />
-
-        <Button
-          type="button"
-          variant="outline"
-          size="sm"
-          className="gap-2"
-          onClick={() => fileInputRef.current?.click()}
-        >
-          <Upload size={14} />
-          {form.image ? "Trocar foto" : "Enviar foto"}
-        </Button>
-
-        <p className="text-xs text-muted-foreground">
-          PNG ou JPG, até 5MB.
-        </p>
-      </div>
+      <ImageUploadField
+        label="Foto do produto"
+        value={form.image}
+        onChange={(v) => onChange("image", v)}
+      />
 
       {/* FIELDS */}
       <div className="grid gap-4">

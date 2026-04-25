@@ -56,7 +56,7 @@ const CreateProductDialog = ({ open, onClose, onCreate }: Props) => {
 
   return (
     <Dialog open={open} onOpenChange={onClose}>
-      <DialogContent className="sm:max-w-[800px]">
+      <DialogContent className="sm:max-w-[890px]">
         <DialogHeader>
           <DialogTitle>Novo Produto</DialogTitle>
           <DialogDescription>
