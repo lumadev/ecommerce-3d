@@ -2,8 +2,10 @@ import { useState, useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import { motion } from "framer-motion";
 import { Loader2, Lock, User, Eye, EyeOff, AlertCircle, ShieldCheck } from "lucide-react";
-import { useAdminAuth } from "@/features/auth/hooks/useAdminAuth";
 import { toast } from "sonner";
+
+import { getErrorMessage } from "@/infra/http/httpError";
+import { useAdminAuth } from "@/features/auth/hooks/useAdminAuth";
 
 const AdminLogin = () => {
   const navigate = useNavigate();
@@ -42,8 +44,8 @@ const AdminLogin = () => {
       } else {
         setError("Credenciais inválidas. Tente novamente.");
       }
-    } catch (err) {
-      setError("Erro ao fazer login. Tente novamente.");
+    } catch (error) {
+      setError(getErrorMessage(error));
     } finally {
       setIsLoading(false);
     }

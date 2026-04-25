@@ -5,7 +5,7 @@ function getHttpStatusMessage(status?: number): string {
     case 400:
       return "Não foi possível concluir a solicitação. Revise os dados e tente novamente.";
     case 401:
-      return "E-mail ou senha inválidos.";
+      return "Usuário ou senha inválidos.";
     case 403:
       return "Você não tem permissão para realizar esta ação.";
     case 404:
