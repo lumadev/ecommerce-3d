@@ -1,35 +1,12 @@
 import { httpClientPublic } from "@/infra/http/httpClient";
 import { httpClientAuth } from "@/infra/http/httpClient";
-
-export interface RegisterData {
-  name: string;
-  email: string;
-  password: string;
-}
-
-export interface LoginData {
-  email: string;
-  password: string;
-}
-
-export interface LoginAdminData {
-  username: string;
-  password: string;
-}
-
-export interface AuthResponse {
-  id: string;
-  email: string;
-  name: string;
-  token?: string;
-}
-
-export interface SessionUser {
-  id: string;
-  email: string;
-  name: string;
-  role: "CUSTOMER" | "ADMIN";
-}
+import {
+  RegisterData,
+  LoginData,
+  LoginAdminData,
+  AuthResponse,
+  SessionUser,
+} from "../types/auth.types";
 
 const BASE_URL = "/auth";
 

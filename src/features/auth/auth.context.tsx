@@ -1,5 +1,5 @@
 import { createContext } from "react";
-import { LoginAdminData, LoginData, SessionUser } from "./repositories/authRepository";
+import { LoginAdminData, LoginData, SessionUser } from "./types/auth.types";
 
 export type AuthType = "CUSTOMER" | "ADMIN";
 

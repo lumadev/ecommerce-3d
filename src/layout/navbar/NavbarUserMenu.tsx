@@ -1,7 +1,7 @@
 import { UserCircle, Package, LogOut } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "@/features/auth/hooks/useAuth";
-import { SessionUser } from "@/features/auth/repositories/authRepository";
+import { SessionUser } from "@/features/auth/types/auth.types";
 
 import {
   DropdownMenu,

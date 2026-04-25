@@ -1,5 +1,6 @@
 import { ReactNode, useEffect, useState } from "react";
-import { AuthResponse, authRepository, SessionUser } from "../repositories/authRepository";
+import { authRepository } from "../repositories/authRepository";
+import { AuthResponse, SessionUser } from "../types/auth.types";
 import {
   AdminAuthContext,
   AuthType,
