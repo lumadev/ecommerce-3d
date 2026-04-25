@@ -59,10 +59,8 @@ export const authRepository = {
     return response.data;
   },
 
-  checkSession: async (userId: string): Promise<SessionUser> => {
-    const response = await httpClientAuth.get(`${BASE_URL}/me`, {
-      params: { userId },
-    });
+  checkSession: async (): Promise<SessionUser> => {
+    const response = await httpClientAuth.get(`${BASE_URL}/me`);
 
     return response.data;
   },

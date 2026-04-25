@@ -46,7 +46,7 @@ export function createAuthProvider<R extends AuthType>(
       }
 
       try {
-        const sessionUser = await authRepository.checkSession(userId);
+        const sessionUser = await authRepository.checkSession();
 
         if (!assertRole(sessionUser, role)) {
           clearPersistedUserId(role);
@@ -74,10 +74,10 @@ export function createAuthProvider<R extends AuthType>(
 
     const login = async (credentials: CredentialsByRole<R>) => {
       const authResponse = await loginByRole[role](credentials);
-      
+
       persistUserId(authResponse.id, role);
 
-      const sessionUser = await authRepository.checkSession(authResponse.id);
+      const sessionUser = await authRepository.checkSession();
 
       if (!assertRole(sessionUser, role)) {
         clearPersistedUserId(role);
