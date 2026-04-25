@@ -48,7 +48,7 @@ export const AuthSignupForm = ({ onToggleMode, onLoginSucess }: AuthSignupFormPr
       });
 
       toast.success("Registro feito com sucesso.");
-      onLoginSucess();
+      onLoginSucess(); // closes modal
     } catch (error) {
       toast.error(getErrorMessage(error));
     } finally {

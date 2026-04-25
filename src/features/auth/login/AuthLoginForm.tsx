@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Loader2, Mail } from "lucide-react";
 import { toast } from "sonner";
+
 import { getErrorMessage } from "@/infra/http/httpError";
 import { useAuth } from "../hooks/useAuth";
 import { InputField } from "../components/InputField";
@@ -31,7 +32,8 @@ export const AuthLoginForm = ({ onToggleMode, onLoginSucess }: AuthLoginFormProp
       });
 
       toast.success("Login realizado com sucesso.");
-      onLoginSucess();
+
+      onLoginSucess(); // closes modal
     } catch (error) {
       toast.error(getErrorMessage(error));
     } finally {
