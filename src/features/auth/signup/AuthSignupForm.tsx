@@ -1,34 +1,56 @@
 import { useState } from "react";
 import { Mail, User, Loader2 } from "lucide-react";
+import { toast } from "sonner";
+import { getErrorMessage } from "@/infra/http/httpError";
+
 import { InputField } from "../components/InputField";
 import { PasswordField } from "../components/PasswordField";
+import { useAuth } from "../hooks/useAuth";
 import { authRepository } from "../repositories/authRepository";
+
 
 interface AuthSignupFormProps {
   onToggleMode: () => void;
+  onLoginSucess: () => void;
 }
 
-export const AuthSignupForm = ({ onToggleMode }: AuthSignupFormProps) => {
+export const AuthSignupForm = ({ onToggleMode, onLoginSucess }: AuthSignupFormProps) => {
   const [formData, setFormData] = useState({
     name: "",
     email: "",
     password: "",
+    confirmPassword: "",
   });
 
   const [isLoading, setIsLoading] = useState(false);
+  const { login } = useAuth();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+
+    if (formData.password !== formData.confirmPassword) {
+      toast.error("As senhas informadas precisam ser iguais.");
+      return;
+    }
+
     setIsLoading(true);
+
     try {
-      const response = await authRepository.register({
+      await authRepository.register({
         name: formData.name,
         email: formData.email,
         password: formData.password,
       });
-      console.log("Resposta do backend:", response);
+
+      await login({
+        email: formData.email,
+        password: formData.password,
+      });
+
+      toast.success("Registro feito com sucesso.");
+      onLoginSucess();
     } catch (error) {
-      console.error("Erro no registro:", error);
+      toast.error(getErrorMessage(error));
     } finally {
       setIsLoading(false);
     }
@@ -67,11 +89,11 @@ export const AuthSignupForm = ({ onToggleMode }: AuthSignupFormProps) => {
           onChange={updateFormData("password")}
         />
 
-        {/* <PasswordField
+        <PasswordField
           placeholder="Confirmar Senha"
           value={formData.confirmPassword}
           onChange={updateFormData("confirmPassword")}
-        /> */}
+        />
 
         <button
           type="submit"

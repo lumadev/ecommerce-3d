@@ -9,7 +9,12 @@ interface AuthFormProps {
 
 export const AuthForm = ({ isSignUp, onToggleMode, onLoginSucess }: AuthFormProps) => {
   if (isSignUp) {
-    return <AuthSignupForm onToggleMode={onToggleMode} />;
+    return (
+      <AuthSignupForm
+        onToggleMode={onToggleMode}
+        onLoginSucess={onLoginSucess}
+      />
+    );
   }
 
   return (
