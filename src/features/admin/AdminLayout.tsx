@@ -1,25 +1,14 @@
-import { useState } from "react";
-
+import { Outlet } from "react-router-dom";
 import { motion } from "framer-motion";
 
 import { SidebarProvider, SidebarTrigger } from "@/shared/components/ui/sidebar/sidebar";
-import AdminSidebar, { AdminSection } from "@/features/admin/components/AdminSidebar";
-
-import OrderPage from "@/features/admin/order/OrderPage";
-import AdminProducts from "@/features/admin/product/AdminProducts";
-import AdminCategories from "@/features/admin/category/AdminCategories";
+import AdminSidebar from "@/features/admin/components/AdminSidebar";
 
 export const AdminLayout = () => {
-  const [section, setSection] = useState<AdminSection>("pedidos");
-
   return (
     <SidebarProvider>
       <div className="min-h-screen flex w-full bg-background text-foreground">
-        <AdminSidebar 
-          active={section} 
-          onNavigate={setSection}
-          className="hidden md:flex"
-        />
+        <AdminSidebar className="hidden md:flex" />
 
         <div className="flex-1 flex flex-col">
           <header className="border-b border-border bg-background/80 backdrop-blur-xl">
@@ -33,14 +22,11 @@ export const AdminLayout = () => {
 
           <main className="flex-1 p-6">
             <motion.div
-              key={section}
               initial={{ opacity: 0, y: 12 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.3 }}
             >
-              {section === "pedidos" && <OrderPage />}
-              {section === "produtos" && <AdminProducts />}
-              {section === "categorias" && <AdminCategories />}
+              <Outlet />
             </motion.div>
           </main>
         </div>

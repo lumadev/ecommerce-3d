@@ -1,5 +1,5 @@
 import { Package, ShoppingCart, Tags, LogOut } from "lucide-react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import { useAdminAuth } from "@/features/auth/hooks/useAdminAuth";
 import {
   Sidebar,
@@ -27,13 +27,13 @@ const menuItems = [
 export type AdminSection = (typeof menuItems)[number]["key"];
 
 interface AdminSidebarProps {
-  active: AdminSection;
-  onNavigate: (section: AdminSection) => void;
   className?: string;
 }
 
-const AdminSidebar = ({ active, onNavigate }: AdminSidebarProps) => {
+const AdminSidebar = (_props: AdminSidebarProps) => {
   const navigate = useNavigate();
+  const location = useLocation();
+  
   const { state } = useSidebar();
   const { logout } = useAdminAuth();
 
@@ -66,8 +66,8 @@ const AdminSidebar = ({ active, onNavigate }: AdminSidebarProps) => {
               {menuItems.map((item) => (
                 <SidebarMenuItem key={item.key}>
                   <SidebarMenuButton
-                    isActive={active === item.key}
-                    onClick={() => onNavigate(item.key)}
+                    isActive={location.pathname.endsWith(item.key)}
+                    onClick={() => navigate(item.key)}
                     tooltip={item.title}
                     size="default"
                     className="h-9 text-sm md:pr-30"

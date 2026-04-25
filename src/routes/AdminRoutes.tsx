@@ -4,6 +4,9 @@ import { AdminAuthProvider } from "@/features/auth/providers/admin-auth.provider
 import { useAdminAuth } from "@/features/auth/hooks/useAdminAuth";
 import { AdminLayout } from "@/features/admin/AdminLayout";
 import AdminLogin from "@/features/admin/login/AdminLogin";
+import OrderPage from "@/features/admin/order/OrderPage";
+import AdminProducts from "@/features/admin/product/AdminProducts";
+import AdminCategories from "@/features/admin/category/AdminCategories";
 
 const RequireAdmin = () => {
   const { isAuthenticated, isCheckingSession } = useAdminAuth();
@@ -44,7 +47,12 @@ export const AdminRoutes = () => (
   <AdminAuthProvider>
     <Routes>
       <Route path="/login" element={<RedirectIfAuthenticated />} />
-      <Route path="/*" element={<RequireAdmin />} />
+      <Route path="/*" element={<RequireAdmin />}>
+        <Route index element={<Navigate to="pedidos" replace />} />
+        <Route path="pedidos" element={<OrderPage />} />
+        <Route path="produtos" element={<AdminProducts />} />
+        <Route path="categorias" element={<AdminCategories />} />
+      </Route>
     </Routes>
   </AdminAuthProvider>
 );
