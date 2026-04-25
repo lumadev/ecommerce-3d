@@ -2,14 +2,16 @@ import { useState } from "react";
 import { Plus } from "lucide-react";
 import { Button } from "@/shared/components/ui/button/button";
 import { Category } from "@/data/categories";
-
 import { useCategories } from "./hooks/useCategories";
+
+import CategoryTableSkeleton from "./list/CategoryTableSkeleton";
 import CategoryTable from "./list/CategoryTable";
+
 import EditCategoryDialog from "./form/EditCategoryDialog";
 import CreateCategoryDialog from "./form/CreateCategoryDialog";
 
 const AdminCategories = () => {
-  const { categoryList, updateCategory, createCategory } = useCategories();
+  const { categoryList, isLoading, updateCategory, createCategory } = useCategories();
 
   const [editingCategory, setEditingCategory] = useState<Category | null>(null);
   const [createOpen, setCreateOpen] = useState(false);
@@ -25,7 +27,13 @@ const AdminCategories = () => {
         </Button>
       </div>
 
-      <CategoryTable categories={categoryList} onEdit={setEditingCategory} />
+      {isLoading ? (
+        <CategoryTableSkeleton />
+      ) : categoryList.length === 0 ? (
+        <p className="text-sm text-muted-foreground">Nenhuma categoria encontrada.</p>
+      ) : (
+        <CategoryTable categories={categoryList} onEdit={setEditingCategory} />
+      )}
 
       <EditCategoryDialog
         category={editingCategory}
