@@ -1,5 +1,6 @@
 import { Package, ShoppingCart, Tags, LogOut } from "lucide-react";
 import { useNavigate } from "react-router-dom";
+import { useAdminAuth } from "@/features/auth/hooks/useAdminAuth";
 import {
   Sidebar,
   SidebarContent,
@@ -34,6 +35,13 @@ interface AdminSidebarProps {
 const AdminSidebar = ({ active, onNavigate }: AdminSidebarProps) => {
   const navigate = useNavigate();
   const { state } = useSidebar();
+  const { logout } = useAdminAuth();
+
+  const handleLogout = () => {
+    logout();
+    navigate("/");
+  };
+
   const collapsed = state === "collapsed";
 
   return (
@@ -76,7 +84,7 @@ const AdminSidebar = ({ active, onNavigate }: AdminSidebarProps) => {
 
       <SidebarFooter className={`border-t border-border py-3 ${collapsed ? "px-2" : "px-3 pr-6"}`}>
         <SidebarMenuButton
-          onClick={() => navigate("/")}
+          onClick={handleLogout}
           tooltip="Sair"
           size="default"
           className="h-9 text-sm text-muted-foreground hover:text-destructive"
