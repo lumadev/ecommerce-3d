@@ -12,14 +12,14 @@ import { toast } from "sonner";
 import { Loader2 } from "lucide-react";
 
 import { CategoryFormState } from "@/features/admin/category/types/category-form.types";
-import { CreateCategoryData } from "../types/category.types";
+import { Category, CreateCategoryData } from "../types/category.types";
 
 import CategoryForm from "./CategoryForm";
 
 interface Props {
   open: boolean;
   onClose: () => void;
-  onCreate: (category: CreateCategoryData) => Promise<void>;
+  onCreate: (category: CreateCategoryData) => Promise<Category>;
 }
 
 const emptyForm: CategoryFormState = {

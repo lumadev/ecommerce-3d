@@ -11,13 +11,14 @@ import { Button } from "@/shared/components/ui/button/button";
 import { toast } from "sonner";
 import { Category } from "@/data/categories";
 import { CategoryFormState } from "@/features/admin/category/types/category-form.types";
+import { UpdateCategoryData } from "@/features/admin/category/types/category.types";
 
 import CategoryForm from "./CategoryForm";
 
 interface Props {
   category: Category | null;
   onClose: () => void;
-  onSave: (category: Category) => void;
+  onSave: (category: UpdateCategoryData) => void;
 }
 
 const emptyForm: CategoryFormState = {
@@ -28,10 +29,11 @@ const emptyForm: CategoryFormState = {
   hashtags: [],
 };
 
-const toFormState = (c: CategoryFormState | null): CategoryFormState => ({
+const toFormState = (c: Category | null): CategoryFormState => ({
   name: c?.name ?? "",
   description: c?.description ?? "",
   picturePublicId: c?.picturePublicId ?? "",
+  url: c?.url ?? "",
   hashtags: c?.hashtags ?? [],
 });
 
@@ -56,7 +58,6 @@ const EditCategoryDialog = ({ category, onClose, onSave }: Props) => {
     }
 
     onSave({
-      ...category,
       name: form.name.trim(),
       description: form.description.trim(),
       picturePublicId: form.picturePublicId,

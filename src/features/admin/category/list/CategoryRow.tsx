@@ -20,7 +20,7 @@ const CategoryRow = ({ category, index, onEdit }: Props) => {
       <TableCell className="font-medium text-foreground">
         <div className="flex items-center gap-3">
           <img
-            src={category.image}
+            src={category.url}
             alt={category.name}
             className="h-10 w-10 rounded-md border border-border object-cover"
           />

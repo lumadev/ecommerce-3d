@@ -10,7 +10,7 @@ export interface Category {
   name: string;
   description: string;
   picturePublicId: string;
-  url: string;
+  url?: string;
   hashtags: string[];
 }
 
