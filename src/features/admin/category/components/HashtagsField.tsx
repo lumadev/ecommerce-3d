@@ -12,11 +12,11 @@ const HashtagsField = ({ value, onChange }: Props) => {
   const [input, setInput] = useState("");
 
   const add = (raw: string) => {
-    const tag = raw.trim().replace(/^#+/, "");
+    const tag = raw.trim().replace(/,/g, ""); // remove commas
     if (!tag) return;
-    const normalized = `#${tag}`;
-    if (!value.includes(normalized)) {
-      onChange([...value, normalized]);
+
+    if (!value.includes(tag)) {
+      onChange([...value, tag]);
     }
     setInput("");
   };
