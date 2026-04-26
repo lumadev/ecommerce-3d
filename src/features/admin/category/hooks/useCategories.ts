@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
 import { categoryRepository } from "../repositories/categoryRepository";
-import { Category } from "../types/category.types";
+import { Category, CreateCategoryData } from "../types/category.types";
 
 export const useCategories = () => {
   const [categoryList, setCategoryList] = useState<Category[]>([]);
@@ -40,8 +40,17 @@ export const useCategories = () => {
     );
   };
 
-  const createCategory = (category: Category) => {
-    setCategoryList((prev) => [category, ...prev]);
+  const createCategory = async (data: CreateCategoryData) => {
+    try {
+      const created = await categoryRepository.create(data);
+      setCategoryList((prev) => [created, ...prev]);
+      
+      toast.success("Categoria criada com sucesso.");
+      return created;
+    } catch (error) {
+      toast.error("Não foi possível criar a categoria.");
+      throw error;
+    }
   };
 
   return { categoryList, isLoading, updateCategory, createCategory };

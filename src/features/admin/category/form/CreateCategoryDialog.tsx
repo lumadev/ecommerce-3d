@@ -41,7 +41,8 @@ const CreateCategoryDialog = ({ open, onClose, onCreate }: Props) => {
       hashtags: form.hashtags,
     };
     onCreate(newCategory);
-    toast.success(`"${newCategory.name}" cadastrada com sucesso.`);
+    toast.success(`Categoria "${newCategory.name}" cadastrada com sucesso.`);
+    
     onClose();
     setForm(emptyForm);
   };
@@ -65,7 +66,9 @@ const CreateCategoryDialog = ({ open, onClose, onCreate }: Props) => {
           <Button variant="outline" onClick={onClose}>
             Cancelar
           </Button>
-          <Button onClick={handleCreate}>Confirmar Cadastro</Button>
+          <Button onClick={handleCreate}>
+            Confirmar Cadastro
+          </Button>
         </DialogFooter>
       </DialogContent>
     </Dialog>
