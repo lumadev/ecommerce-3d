@@ -22,6 +22,7 @@ const toFormState = (c: Category | null): CategoryFormState => ({
   name: c?.name ?? "",
   description: c?.description ?? "",
   image: c?.image ?? "",
+  hashtags: c?.hashtags ?? [],
 });
 
 const EditCategoryDialog = ({ category, onClose, onSave }: Props) => {
@@ -42,6 +43,7 @@ const EditCategoryDialog = ({ category, onClose, onSave }: Props) => {
       name: form.name.trim(),
       description: form.description.trim(),
       image: form.image,
+      hashtags: form.hashtags,
     });
     toast.success(`"${form.name.trim()}" atualizada com sucesso.`);
     onClose();

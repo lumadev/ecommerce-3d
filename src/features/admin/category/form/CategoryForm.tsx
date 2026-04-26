@@ -3,16 +3,18 @@ import { Textarea } from "@/shared/components/ui/textarea";
 import { Label } from "@/shared/components/ui/label";
 
 import { ImageUploadField } from "@/features/file";
+import HashtagsField from "../components/HashtagsField";
 
 export interface CategoryFormState {
   name: string;
   description: string;
   image: string;
+  hashtags: string[];
 }
 
 interface Props {
   form: CategoryFormState;
-  onChange: (field: keyof CategoryFormState, value: string) => void;
+  onChange: (field: keyof CategoryFormState, value: string | string[]) => void;
   namePlaceholder?: string;
   descriptionPlaceholder?: string;
 }
@@ -23,6 +25,7 @@ const CategoryForm = ({
   namePlaceholder = "Ex: Decoração",
   descriptionPlaceholder = "Descreva o tipo de produtos que pertencem a esta categoria...",
 }: Props) => {
+
   return (
     <div className="grid gap-6 py-2 md:grid-cols-[240px_1fr]">
       <ImageUploadField
@@ -32,7 +35,7 @@ const CategoryForm = ({
       />
 
       <div className="grid gap-4">
-        <div className="grid gap-2">
+        <div className="flex flex-col gap-2">
           <Label htmlFor="cat-name" className="text-sm font-medium">
             Nome
           </Label>
@@ -45,7 +48,7 @@ const CategoryForm = ({
           />
         </div>
 
-        <div className="grid gap-2">
+        <div className="flex flex-col gap-2">
           <Label htmlFor="cat-description" className="text-sm font-medium">
             Descrição
           </Label>
@@ -55,9 +58,14 @@ const CategoryForm = ({
             value={form.description}
             onChange={(e) => onChange("description", e.target.value)}
             placeholder={descriptionPlaceholder}
-            className="min-h-[160px] resize-y bg-background"
+            className="min-h-[200px] resize-y bg-background"
           />
         </div>
+
+        <HashtagsField
+          value={form.hashtags}
+          onChange={(tags) => onChange("hashtags", tags)}
+        />
       </div>
     </div>
   );

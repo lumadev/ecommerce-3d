@@ -18,7 +18,7 @@ interface Props {
   onCreate: (category: Category) => void;
 }
 
-const emptyForm: CategoryFormState = { name: "", description: "", image: "" };
+const emptyForm: CategoryFormState = { name: "", description: "", image: "", hashtags: [] };
 
 const CreateCategoryDialog = ({ open, onClose, onCreate }: Props) => {
   const [form, setForm] = useState<CategoryFormState>(emptyForm);
@@ -37,7 +37,7 @@ const CreateCategoryDialog = ({ open, onClose, onCreate }: Props) => {
       name: form.name.trim(),
       description: form.description.trim(),
       image: form.image,
-      hashtags: [],
+      hashtags: form.hashtags,
     };
     onCreate(newCategory);
     toast.success(`"${newCategory.name}" cadastrada com sucesso.`);
