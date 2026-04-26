@@ -10,7 +10,9 @@ import {
 import { Button } from "@/shared/components/ui/button/button";
 import { toast } from "sonner";
 import { Category } from "@/data/categories";
-import CategoryForm, { CategoryFormState } from "./CategoryForm";
+import { CategoryFormState } from "@/features/admin/category/types/category-form.types";
+
+import CategoryForm from "./CategoryForm";
 
 interface Props {
   category: Category | null;

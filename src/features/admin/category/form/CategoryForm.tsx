@@ -3,28 +3,15 @@ import { Textarea } from "@/shared/components/ui/textarea";
 import { Label } from "@/shared/components/ui/label";
 
 import { ImageUploadField } from "@/features/file";
+import { CategoryFormProps } from "@/features/admin/category/types/category-form.types";
 import HashtagsField from "../components/HashtagsField";
-
-export interface CategoryFormState {
-  name: string;
-  description: string;
-  image: string;
-  hashtags: string[];
-}
-
-interface Props {
-  form: CategoryFormState;
-  onChange: (field: keyof CategoryFormState, value: string | string[]) => void;
-  namePlaceholder?: string;
-  descriptionPlaceholder?: string;
-}
 
 const CategoryForm = ({
   form,
   onChange,
   namePlaceholder = "Ex: Decoração",
   descriptionPlaceholder = "Descreva o tipo de produtos que pertencem a esta categoria...",
-}: Props) => {
+}: CategoryFormProps) => {
 
   return (
     <div className="grid gap-6 py-2 md:grid-cols-[240px_1fr]">
