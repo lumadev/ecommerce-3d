@@ -2,7 +2,7 @@ export interface Category {
   id: string;
   name: string;
   description: string;
-  image: string;
+  picturePublicId: string;
   hashtags: string[];
 }
 
@@ -16,6 +16,6 @@ export interface CreateCategoryData {
 export interface UpdateCategoryData {
   name?: string;
   description?: string;
-  image?: string;
+  picturePublicId?: string;
   hashtags?: string[];
 }

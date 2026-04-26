@@ -11,15 +11,23 @@ import { Button } from "@/shared/components/ui/button/button";
 import { toast } from "sonner";
 import { Category } from "@/data/categories";
 import { CategoryFormState } from "@/features/admin/category/types/category-form.types";
+import { CreateCategoryData } from "../types/category.types";
+
 import CategoryForm from "./CategoryForm";
 
 interface Props {
   open: boolean;
   onClose: () => void;
-  onCreate: (category: Category) => void;
+  onCreate: (category: CreateCategoryData) => void;
 }
 
-const emptyForm: CategoryFormState = { name: "", description: "", image: "", hashtags: [] };
+const emptyForm: CategoryFormState = {
+  name: "",
+  description: "",
+  url: "",
+  picturePublicId: "",
+  hashtags: [],
+};
 
 const CreateCategoryDialog = ({ open, onClose, onCreate }: Props) => {
   const [form, setForm] = useState<CategoryFormState>(emptyForm);
@@ -29,15 +37,14 @@ const CreateCategoryDialog = ({ open, onClose, onCreate }: Props) => {
       toast.error("Informe o nome da categoria.");
       return;
     }
-    if (!form.image) {
+    if (!form.picturePublicId) {
       toast.error("Adicione uma foto da categoria.");
       return;
     }
-    const newCategory: Category = {
-      id: `new-${Date.now()}`,
+    const newCategory: CreateCategoryData = {
       name: form.name.trim(),
       description: form.description.trim(),
-      image: form.image,
+      picturePublicId: form.picturePublicId,
       hashtags: form.hashtags,
     };
     onCreate(newCategory);

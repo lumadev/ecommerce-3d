@@ -9,7 +9,7 @@ export interface Category {
   id: string;
   name: string;
   description: string;
-  image: string;
+  picturePublicId: string;
   hashtags: string[];
 }
 
@@ -18,42 +18,42 @@ export const categories: Category[] = [
     id: "decoracao",
     name: "Decoração",
     description: "Peças decorativas únicas para transformar ambientes com design moderno e geométrico.",
-    image: catDecoracao,
+    picturePublicId: catDecoracao,
     hashtags: ["Vasos geométricos", "Esculturas", "Quadros 3D", "Porta-retratos"],
   },
   {
     id: "iluminacao",
     name: "Iluminação",
     description: "Luminárias artísticas com designs exclusivos e iluminação LED integrada.",
-    image: catIluminacao,
+    picturePublicId: catIluminacao,
     hashtags: ["Luminária Lunar", "Abajures", "Luminárias de mesa", "Luz noturna"],
   },
   {
     id: "acessorios",
     name: "Acessórios Gamer & Tech",
     description: "Suportes, organizadores e acessórios para seu setup gamer e tecnológico.",
-    image: catAcessorios,
+    picturePublicId: catAcessorios,
     hashtags: ["Suporte para headset", "Dock para controle", "Organizador de cabos"],
   },
   {
     id: "miniaturas",
     name: "Miniaturas & Colecionáveis",
     description: "Figuras detalhadas e articuladas para colecionadores e jogadores de RPG.",
-    image: catMiniaturas,
+    picturePublicId: catMiniaturas,
     hashtags: ["Dragões", "Personagens RPG", "Figuras de ação", "Cenários"],
   },
   {
     id: "escritorio",
     name: "Escritório",
     description: "Organizadores modulares e acessórios práticos para um escritório produtivo.",
-    image: catEscritorio,
+    picturePublicId: catEscritorio,
     hashtags: ["Porta-canetas", "Suporte celular", "Organizador modular"],
   },
   {
     id: "personalizados",
     name: "Personalizados",
     description: "Produtos sob medida com seu nome, logo ou design exclusivo.",
-    image: catPersonalizados,
+    picturePublicId: catPersonalizados,
     hashtags: ["Chaveiros com nome", "Placas personalizadas", "Presentes únicos"],
   },
 ];
