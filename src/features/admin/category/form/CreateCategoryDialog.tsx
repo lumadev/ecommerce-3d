@@ -9,7 +9,6 @@ import {
 } from "@/shared/components/ui/dialog";
 import { Button } from "@/shared/components/ui/button/button";
 import { toast } from "sonner";
-import { Category } from "@/data/categories";
 import { CategoryFormState } from "@/features/admin/category/types/category-form.types";
 import { CreateCategoryData } from "../types/category.types";
 

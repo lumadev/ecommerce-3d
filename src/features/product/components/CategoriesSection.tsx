@@ -31,7 +31,7 @@ const CategoriesSection = () => {
             >
               <div className="aspect-[4/3] overflow-hidden">
                 <img
-                  src={category.image}
+                  src={category.url}
                   alt={category.name}
                   loading="lazy"
                   width={640}

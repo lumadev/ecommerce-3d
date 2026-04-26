@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
 import { categoryRepository } from "../repositories/categoryRepository";
-import { Category, CreateCategoryData } from "../types/category.types";
+import { Category, CreateCategoryData, UpdateCategoryData } from "../types/category.types";
 
 export const useCategories = () => {
   const [categoryList, setCategoryList] = useState<Category[]>([]);

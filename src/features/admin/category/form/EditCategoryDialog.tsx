@@ -20,10 +20,18 @@ interface Props {
   onSave: (category: Category) => void;
 }
 
-const toFormState = (c: Category | null): CategoryFormState => ({
+const emptyForm: CategoryFormState = {
+  name: "",
+  description: "",
+  url: "",
+  picturePublicId: "",
+  hashtags: [],
+};
+
+const toFormState = (c: CategoryFormState | null): CategoryFormState => ({
   name: c?.name ?? "",
   description: c?.description ?? "",
-  image: c?.image ?? "",
+  picturePublicId: c?.picturePublicId ?? "",
   hashtags: c?.hashtags ?? [],
 });
 
@@ -36,19 +44,28 @@ const EditCategoryDialog = ({ category, onClose, onSave }: Props) => {
 
   const handleSave = () => {
     if (!category) return;
+
     if (!form.name.trim()) {
       toast.error("Informe o nome da categoria.");
       return;
     }
+
+    if (!form.picturePublicId) {
+      toast.error("Adicione uma foto da categoria.");
+      return;
+    }
+
     onSave({
       ...category,
       name: form.name.trim(),
       description: form.description.trim(),
-      image: form.image,
+      picturePublicId: form.picturePublicId,
       hashtags: form.hashtags,
     });
+
     toast.success(`"${form.name.trim()}" atualizada com sucesso.`);
     onClose();
+    setForm(emptyForm);
   };
 
   return (
