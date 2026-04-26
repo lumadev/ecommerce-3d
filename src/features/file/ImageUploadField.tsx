@@ -4,18 +4,42 @@ import { Label } from "@/shared/components/ui/label";
 import { Button } from "@/shared/components/ui/button/button";
 import { useImageUpload } from "./hooks/useImageUpload";
 
+interface UploadedImageData {
+  url: string;
+  picturePublicId: string;
+}
+
 interface Props {
   label: string;
   value: string;
   onChange: (value: string) => void;
+  onUploadComplete?: (data: UploadedImageData) => void;
+  onRemove?: () => void;
 }
 
-export function ImageUploadField({ label, value, onChange }: Props) {
-  const { fileInputRef, handleImageChange, handleRemoveImage, openFilePicker } =
-    useImageUpload({
-      onUpload: onChange,
-      onRemove: () => onChange(""),
-    });
+export function ImageUploadField({
+  label,
+  value,
+  onChange,
+  onUploadComplete,
+  onRemove,
+}: Props) {
+  const {
+    fileInputRef,
+    handleImageChange,
+    handleRemoveImage,
+    openFilePicker,
+    isUploading,
+  } = useImageUpload({
+    onUpload: (data) => {
+      onChange(data.url);
+      onUploadComplete?.(data);
+    },
+    onRemove: () => {
+      onChange("");
+      onRemove?.();
+    },
+  });
 
   return (
     <div className="flex flex-col gap-3">
@@ -32,6 +56,7 @@ export function ImageUploadField({ label, value, onChange }: Props) {
             <button
               type="button"
               onClick={handleRemoveImage}
+              disabled={isUploading}
               className="absolute right-2 top-2 rounded-full bg-background/90 p-1.5 text-foreground shadow-md backdrop-blur transition-colors hover:bg-background"
               aria-label="Remover imagem"
             >
@@ -60,9 +85,14 @@ export function ImageUploadField({ label, value, onChange }: Props) {
         size="sm"
         className="gap-2"
         onClick={openFilePicker}
+        disabled={isUploading}
       >
         <Upload size={14} />
-        {value ? "Trocar foto" : "Enviar foto"}
+        {isUploading
+          ? "Enviando..."
+          : value
+            ? "Trocar foto"
+            : "Enviar foto"}
       </Button>
 
       <p className="text-xs text-muted-foreground">PNG ou JPG, até 5MB.</p>

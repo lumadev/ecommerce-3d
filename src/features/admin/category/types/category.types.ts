@@ -9,7 +9,7 @@ export interface Category {
 export interface CreateCategoryData {
   name: string;
   description: string;
-  image: string;
+  picturePublicId: string;
   hashtags?: string[];
 }
 

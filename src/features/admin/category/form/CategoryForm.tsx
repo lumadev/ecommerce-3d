@@ -17,8 +17,10 @@ const CategoryForm = ({
     <div className="grid gap-6 py-2 md:grid-cols-[240px_1fr]">
       <ImageUploadField
         label="Foto da categoria"
-        value={form.image}
-        onChange={(v) => onChange("image", v)}
+        value={form.url}
+        onChange={(v) => onChange("url", v)}
+        onUploadComplete={(data) => onChange("picturePublicId", data.picturePublicId)}
+        onRemove={() => onChange("picturePublicId", "")}
       />
 
       <div className="grid gap-4">

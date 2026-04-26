@@ -1,7 +1,8 @@
 export interface CategoryFormState {
   name: string;
   description: string;
-  image: string;
+  url: string;
+  picturePublicId: string;
   hashtags: string[];
 }
 

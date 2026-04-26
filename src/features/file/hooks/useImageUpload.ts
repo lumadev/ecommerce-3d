@@ -1,15 +1,22 @@
-import { useRef } from "react";
+import { useRef, useState } from "react";
 import { toast } from "sonner";
+import { imageUploadRepository } from "../repositories/imageUploadRepository";
+
+interface UploadResult {
+  url: string;
+  picturePublicId: string;
+}
 
 interface UseImageUploadOptions {
-  onUpload: (base64: string) => void;
+  onUpload: (result: UploadResult) => void;
   onRemove: () => void;
 }
 
 export function useImageUpload({ onUpload, onRemove }: UseImageUploadOptions) {
   const fileInputRef = useRef<HTMLInputElement>(null);
+  const [isUploading, setIsUploading] = useState(false);
 
-  const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleImageChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (!file) return;
 
@@ -23,9 +30,23 @@ export function useImageUpload({ onUpload, onRemove }: UseImageUploadOptions) {
       return;
     }
 
-    const reader = new FileReader();
-    reader.onload = () => onUpload(reader.result as string);
-    reader.readAsDataURL(file);
+    setIsUploading(true);
+
+    try {
+      const result = await imageUploadRepository.upload(file);
+      onUpload({
+        url: result.url,
+        picturePublicId: result.public_id,
+      });
+
+      toast.success("Imagem enviada com sucesso.");
+    } catch(e) {
+      console.error("Erro ao enviar imagem:", e);
+      toast.error("Não foi possível enviar a imagem. Tente novamente.");
+    } finally {
+      setIsUploading(false);
+      if (fileInputRef.current) fileInputRef.current.value = "";
+    }
   };
 
   const handleRemoveImage = () => {
@@ -35,5 +56,11 @@ export function useImageUpload({ onUpload, onRemove }: UseImageUploadOptions) {
 
   const openFilePicker = () => fileInputRef.current?.click();
 
-  return { fileInputRef, handleImageChange, handleRemoveImage, openFilePicker };
+  return {
+    fileInputRef,
+    handleImageChange,
+    handleRemoveImage,
+    openFilePicker,
+    isUploading,
+  };
 }
