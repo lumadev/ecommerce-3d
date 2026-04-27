@@ -8,11 +8,16 @@ interface UploadResult {
 }
 
 interface UseImageUploadOptions {
+  picturePublicId?: string;
   onUpload: (result: UploadResult) => void;
   onRemove: () => void;
 }
 
-export function useImageUpload({ onUpload, onRemove }: UseImageUploadOptions) {
+export function useImageUpload({
+  picturePublicId,
+  onUpload,
+  onRemove,
+}: UseImageUploadOptions) {
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [isUploading, setIsUploading] = useState(false);
 
@@ -33,6 +38,15 @@ export function useImageUpload({ onUpload, onRemove }: UseImageUploadOptions) {
     setIsUploading(true);
 
     try {
+      // remove imagem antiga antes de subir nova
+      if (picturePublicId) {
+        try {
+          await imageUploadRepository.delete(picturePublicId);
+        } catch (err) {
+          console.warn("Erro ao remover imagem antiga:", err);
+        }
+      }
+
       const result = await imageUploadRepository.upload(file);
       onUpload({
         url: result.url,
@@ -49,9 +63,22 @@ export function useImageUpload({ onUpload, onRemove }: UseImageUploadOptions) {
     }
   };
 
-  const handleRemoveImage = () => {
-    onRemove();
-    if (fileInputRef.current) fileInputRef.current.value = "";
+  const handleRemoveImage = async () => {
+    setIsUploading(true);
+
+    try {
+      if (picturePublicId) {
+        await imageUploadRepository.delete(picturePublicId);
+      }
+
+      onRemove();
+      toast.success("Imagem removida com sucesso.");
+    } catch (e) {
+      toast.error("Não foi possível remover a imagem. Tente novamente.");
+    } finally {
+      setIsUploading(false);
+      if (fileInputRef.current) fileInputRef.current.value = "";
+    }
   };
 
   const openFilePicker = () => fileInputRef.current?.click();

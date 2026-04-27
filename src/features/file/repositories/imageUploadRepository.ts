@@ -17,4 +17,9 @@ export const imageUploadRepository = {
 
     return response.data;
   },
+  delete: async (publicId: string): Promise<void> => {
+    await httpClientAuth.delete("/upload", {
+      data: { public_id: publicId },
+    });
+  }
 };

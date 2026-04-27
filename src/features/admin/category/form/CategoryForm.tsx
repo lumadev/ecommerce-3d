@@ -18,6 +18,7 @@ const CategoryForm = ({
       <ImageUploadField
         label="Foto da categoria"
         value={form.url}
+        picturePublicId={form.picturePublicId}
         onChange={(v) => onChange("url", v)}
         onUploadComplete={(data) => onChange("picturePublicId", data.picturePublicId)}
         onRemove={() => onChange("picturePublicId", "")}

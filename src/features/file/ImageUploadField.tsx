@@ -12,6 +12,7 @@ interface UploadedImageData {
 interface Props {
   label: string;
   value: string;
+  picturePublicId?: string;
   onChange: (value: string) => void;
   onUploadComplete?: (data: UploadedImageData) => void;
   onRemove?: () => void;
@@ -20,26 +21,33 @@ interface Props {
 export function ImageUploadField({
   label,
   value,
+  picturePublicId,
   onChange,
   onUploadComplete,
   onRemove,
 }: Props) {
+  
+  const uploadConfig = {
+    picturePublicId,
+
+    onUpload: (data) => {
+      onChange(data.url);
+      onUploadComplete?.(data);
+    },
+
+    onRemove: () => {
+      onChange("");
+      onRemove?.();
+    },
+  };
+
   const {
     fileInputRef,
     handleImageChange,
     handleRemoveImage,
     openFilePicker,
     isUploading,
-  } = useImageUpload({
-    onUpload: (data) => {
-      onChange(data.url);
-      onUploadComplete?.(data);
-    },
-    onRemove: () => {
-      onChange("");
-      onRemove?.();
-    },
-  });
+  } = useImageUpload(uploadConfig);
 
   return (
     <div className="flex flex-col gap-3">
