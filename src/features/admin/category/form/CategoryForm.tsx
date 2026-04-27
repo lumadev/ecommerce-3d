@@ -2,9 +2,9 @@ import { Input } from "@/shared/components/ui/input";
 import { Textarea } from "@/shared/components/ui/textarea";
 import { Label } from "@/shared/components/ui/label";
 
-import { ImageUploadField } from "@/features/file";
 import { CategoryFormProps } from "@/features/admin/category/types/category-form.types";
 import HashtagsField from "../components/HashtagsField";
+import CategoryImageUploadField from "./CategoryImageUploadField";
 
 const CategoryForm = ({
   form,
@@ -14,11 +14,14 @@ const CategoryForm = ({
 }: CategoryFormProps) => {
 
   return (
-    <div className="grid gap-6 py-2 md:grid-cols-[240px_1fr]">
-      <ImageUploadField
+    <div className="grid gap-6 py-2 md:grid-cols-[340px_1fr] lg:grid-cols-[380px_1fr]">
+      <CategoryImageUploadField
         label="Foto da categoria"
         value={form.url}
         picturePublicId={form.picturePublicId}
+        name={form.name}
+        description={form.description}
+        hashtags={form.hashtags}
         onChange={(v) => onChange("url", v)}
         onUploadComplete={(data) => onChange("picturePublicId", data.picturePublicId)}
         onRemove={() => onChange("picturePublicId", "")}

@@ -89,7 +89,7 @@ const CreateCategoryDialog = ({ open, onClose, onCreate }: Props) => {
 
   return (
     <Dialog open={open} onOpenChange={onClose}>
-      <DialogContent className="max-h-[90vh] overflow-y-auto border-border bg-card text-card-foreground sm:max-w-[820px]">
+      <DialogContent className="max-h-[90vh] overflow-y-auto border-border bg-card text-card-foreground sm:max-w-[980px]">
         <DialogHeader className="border-b border-border pb-4">
           <DialogTitle className="text-xl">Nova Categoria</DialogTitle>
           <DialogDescription className="text-muted-foreground">
