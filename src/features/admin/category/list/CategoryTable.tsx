@@ -21,6 +21,7 @@ const CategoryTable = ({ categories, onEdit }: Props) => {
           <TableRow className="hover:bg-transparent">
             <TableHead>Nome</TableHead>
             <TableHead>Descrição</TableHead>
+            <TableHead>Hashtags</TableHead>
             <TableHead className="w-16 text-center">Ações</TableHead>
           </TableRow>
         </TableHeader>

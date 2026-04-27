@@ -1,5 +1,6 @@
 import { motion } from "framer-motion";
 import { Pencil } from "lucide-react";
+import { Badge } from "@/shared/components/ui/badge";
 import { TableCell } from "@/shared/components/ui/table";
 import { Category } from "@/data/categories";
 
@@ -32,6 +33,26 @@ const CategoryRow = ({ category, index, onEdit }: Props) => {
         <span className="line-clamp-2 text-sm text-muted-foreground">
           {category.description}
         </span>
+      </TableCell>
+
+      <TableCell className="max-w-[300px]">
+        <div className="flex flex-wrap gap-1.5">
+          {category.hashtags.slice(0, 3).map((tag) => (
+            <Badge
+              key={tag}
+              variant="secondary"
+              className="max-w-[180px] truncate text-[11px]"
+            >
+              {tag.startsWith("#") ? tag : `#${tag}`}
+            </Badge>
+          ))}
+
+          {category.hashtags.length > 3 && (
+            <Badge variant="outline" className="text-[11px]">
+              +{category.hashtags.length - 3}
+            </Badge>
+          )}
+        </div>
       </TableCell>
 
       <TableCell className="text-center">
