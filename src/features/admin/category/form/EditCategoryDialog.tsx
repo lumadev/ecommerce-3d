@@ -18,7 +18,7 @@ import CategoryForm from "./CategoryForm";
 interface Props {
   category: Category | null;
   onClose: () => void;
-  onSave: (category: UpdateCategoryData) => void;
+  onSave: (id: string, category: UpdateCategoryData) => Promise<unknown> | void;
 }
 
 const emptyForm: CategoryFormState = {
@@ -44,7 +44,7 @@ const EditCategoryDialog = ({ category, onClose, onSave }: Props) => {
     setForm(toFormState(category));
   }, [category]);
 
-  const handleSave = () => {
+  const handleSave = async () => {
     if (!category) return;
 
     if (!form.name.trim()) {
@@ -57,16 +57,19 @@ const EditCategoryDialog = ({ category, onClose, onSave }: Props) => {
       return;
     }
 
-    onSave({
-      name: form.name.trim(),
-      description: form.description.trim(),
-      picturePublicId: form.picturePublicId,
-      hashtags: form.hashtags,
-    });
+    try {
+      await onSave(category.id, {
+        name: form.name.trim(),
+        description: form.description.trim(),
+        picturePublicId: form.picturePublicId,
+        hashtags: form.hashtags,
+      });
 
-    toast.success(`"${form.name.trim()}" atualizada com sucesso.`);
-    onClose();
-    setForm(emptyForm);
+      onClose();
+      setForm(emptyForm);
+    } catch {
+      // Errors are handled by the hook responsible for persistence.
+    }
   };
 
   return (
