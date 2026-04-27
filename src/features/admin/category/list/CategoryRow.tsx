@@ -43,7 +43,7 @@ const CategoryRow = ({ category, index, onEdit }: Props) => {
               variant="secondary"
               className="max-w-[180px] truncate text-[11px]"
             >
-              {tag.startsWith("#") ? tag : `#${tag}`}
+              {tag}
             </Badge>
           ))}
 
