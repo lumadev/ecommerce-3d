@@ -1,4 +1,4 @@
-import { Upload, ImageOff, X } from "lucide-react";
+import { Upload, ImageOff, Loader2, X } from "lucide-react";
 
 import { Label } from "@/shared/components/ui/label";
 import { Button } from "@/shared/components/ui/button/button";
@@ -59,7 +59,9 @@ export function ImageUploadField({
             <img
               src={value}
               alt="Pré-visualização"
-              className="h-full w-full object-cover"
+              className={`h-full w-full object-cover transition-all ${
+                isUploading ? "scale-[1.01] opacity-40 blur-[1px]" : "opacity-100"
+              }`}
             />
             <button
               type="button"
@@ -70,6 +72,15 @@ export function ImageUploadField({
             >
               <X size={14} />
             </button>
+
+            {isUploading && (
+              <div className="absolute inset-0 flex items-center justify-center bg-background/35">
+                <div className="flex items-center gap-2 rounded-full bg-background/90 px-3 py-1.5 text-xs font-medium text-foreground shadow-sm">
+                  <Loader2 size={14} className="animate-spin" />
+                  Enviando imagem...
+                </div>
+              </div>
+            )}
           </>
         ) : (
           <div className="flex h-full w-full flex-col items-center justify-center gap-2 text-muted-foreground">
