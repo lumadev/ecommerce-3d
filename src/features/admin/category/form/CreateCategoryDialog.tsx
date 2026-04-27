@@ -10,6 +10,7 @@ import {
 import { Button } from "@/shared/components/ui/button/button";
 import { toast } from "sonner";
 import { Loader2 } from "lucide-react";
+import { imageUploadRepository } from "@/features/file/repositories/imageUploadRepository";
 
 import { CategoryFormState } from "@/features/admin/category/types/category-form.types";
 import { Category, CreateCategoryData } from "../types/category.types";
@@ -33,6 +34,25 @@ const emptyForm: CategoryFormState = {
 const CreateCategoryDialog = ({ open, onClose, onCreate }: Props) => {
   const [form, setForm] = useState<CategoryFormState>(emptyForm);
   const [isLoading, setIsLoading] = useState(false);
+  const [isClosing, setIsClosing] = useState(false);
+
+  const handleCancel = async () => {
+    try {
+      setIsClosing(true);
+
+      if (form.picturePublicId) {
+        await imageUploadRepository.delete(form.picturePublicId);
+      }
+    } catch (error) {
+      console.error("Erro ao remover imagem no cancelamento:", error);
+    } finally {
+      onClose();
+      setForm(emptyForm);
+      setIsClosing(false);
+    }
+  };
+
+  const isBusy = isLoading || isClosing;
 
   const handleCreate = async () => {
     if (!form.name.trim()) {
@@ -85,11 +105,15 @@ const CreateCategoryDialog = ({ open, onClose, onCreate }: Props) => {
         />
 
         <DialogFooter className="border-t border-border pt-4">
-          <Button variant="outline" onClick={onClose} disabled={isLoading}>
+          <Button
+            variant="outline"
+            onClick={() => void handleCancel()}
+            disabled={isBusy}
+          >
             Cancelar
           </Button>
 
-          <Button onClick={handleCreate} disabled={isLoading}>
+          <Button onClick={handleCreate} disabled={isBusy}>
             {isLoading && (
               <Loader2 className="mr-2 h-4 w-4 animate-spin" />
             )}
