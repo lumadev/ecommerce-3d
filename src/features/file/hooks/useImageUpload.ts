@@ -1,17 +1,24 @@
-import { useRef, useState } from "react";
+import type { ChangeEvent } from "react";
+import { useRef } from "react";
 import { toast } from "sonner";
-import { imageUploadRepository } from "../repositories/imageUploadRepository";
+import type { UseImageUploadOptions } from "./imageUpload.types";
+import { useImageUploadActions } from "./useImageUploadActions";
 
-interface UploadResult {
-  url: string;
-  picturePublicId: string;
-}
+const MAX_IMAGE_SIZE_BYTES = 5 * 1024 * 1024;
 
-interface UseImageUploadOptions {
-  picturePublicId?: string;
-  onUpload: (result: UploadResult) => void;
-  onRemove: () => void;
-}
+const validateImageFile = (file: File) => {
+  if (!file.type.startsWith("image/")) {
+    toast.error("Selecione um arquivo de imagem válido.");
+    return false;
+  }
+
+  if (file.size > MAX_IMAGE_SIZE_BYTES) {
+    toast.error("A imagem deve ter no máximo 5MB.");
+    return false;
+  }
+
+  return true;
+};
 
 export function useImageUpload({
   picturePublicId,
@@ -19,69 +26,39 @@ export function useImageUpload({
   onRemove,
 }: UseImageUploadOptions) {
   const fileInputRef = useRef<HTMLInputElement>(null);
-  const [isUploading, setIsUploading] = useState(false);
 
-  const handleImageChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
+  const openFilePicker = () => {
+    fileInputRef.current?.click();
+  };
+
+  const resetFileInput = () => {
+    if (fileInputRef.current) {
+      fileInputRef.current.value = "";
+    }
+  };
+
+  const { isUploading, uploadImage, removeImage } = useImageUploadActions({
+    picturePublicId,
+    onUpload,
+    onRemove,
+    onFinally: resetFileInput,
+  });
+
+  const handleImageChange = async (e: ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (!file) return;
 
-    if (!file.type.startsWith("image/")) {
-      toast.error("Selecione um arquivo de imagem válido.");
+    if (!validateImageFile(file)) {
+      resetFileInput();
       return;
     }
 
-    if (file.size > 5 * 1024 * 1024) {
-      toast.error("A imagem deve ter no máximo 5MB.");
-      return;
-    }
-
-    setIsUploading(true);
-
-    try {
-      // remove imagem antiga antes de subir nova
-      if (picturePublicId) {
-        try {
-          await imageUploadRepository.delete(picturePublicId);
-        } catch (err) {
-          console.warn("Erro ao remover imagem antiga:", err);
-        }
-      }
-
-      const result = await imageUploadRepository.upload(file);
-      onUpload({
-        url: result.url,
-        picturePublicId: result.public_id,
-      });
-
-      toast.success("Imagem enviada com sucesso.");
-    } catch(e) {
-      console.error("Erro ao enviar imagem:", e);
-      toast.error("Não foi possível enviar a imagem. Tente novamente.");
-    } finally {
-      setIsUploading(false);
-      if (fileInputRef.current) fileInputRef.current.value = "";
-    }
+    await uploadImage(file);
   };
 
   const handleRemoveImage = async () => {
-    setIsUploading(true);
-
-    try {
-      if (picturePublicId) {
-        await imageUploadRepository.delete(picturePublicId);
-      }
-
-      onRemove();
-      toast.success("Imagem removida com sucesso.");
-    } catch (e) {
-      toast.error("Não foi possível remover a imagem. Tente novamente.");
-    } finally {
-      setIsUploading(false);
-      if (fileInputRef.current) fileInputRef.current.value = "";
-    }
+    await removeImage();
   };
-
-  const openFilePicker = () => fileInputRef.current?.click();
 
   return {
     fileInputRef,
