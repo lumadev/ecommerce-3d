@@ -19,14 +19,6 @@ export function useImageUploadActions({
     setIsUploading(true);
 
     try {
-      if (picturePublicId) {
-        try {
-          await imageUploadRepository.delete(picturePublicId);
-        } catch (error) {
-          console.warn("Erro ao remover imagem antiga:", error);
-        }
-      }
-
       const result = await imageUploadRepository.upload(file);
       onUpload({
         url: result.url,
