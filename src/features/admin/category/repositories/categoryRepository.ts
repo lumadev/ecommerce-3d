@@ -13,11 +13,6 @@ export const categoryRepository = {
     return response.data;
   },
 
-  findAll: async (): Promise<Category[]> => {
-    const response = await httpClientAuth.get<Category[]>(BASE_URL);
-    return response.data;
-  },
-
   findOne: async (id: string): Promise<Category> => {
     const response = await httpClientAuth.get<Category>(`${BASE_URL}/${id}`);
     return response.data;

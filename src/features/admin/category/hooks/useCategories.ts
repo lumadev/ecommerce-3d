@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
 import { categoryRepository } from "../repositories/categoryRepository";
+import { categoryRepository as publicCategoryRepository } from "@/features/product/repositories/categoryRepository";
 import { Category, CreateCategoryData, UpdateCategoryData } from "../types/category.types";
 
 export const useCategories = () => {
@@ -14,7 +15,7 @@ export const useCategories = () => {
       setIsLoading(true);
 
       try {
-        const categories = await categoryRepository.findAll();
+        const categories = await publicCategoryRepository.findAll();
         if (isMounted) {
           setCategoryList(categories);
         }
