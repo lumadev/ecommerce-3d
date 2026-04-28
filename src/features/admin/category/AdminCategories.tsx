@@ -11,7 +11,7 @@ import EditCategoryDialog from "./form/EditCategoryDialog";
 import CreateCategoryDialog from "./form/CreateCategoryDialog";
 
 const AdminCategories = () => {
-  const { categoryList, isLoading, updateCategory, createCategory } = useCategories();
+  const { categoryList, isLoading, updateCategory, createCategory, removeCategory } = useCategories();
 
   const [editingCategory, setEditingCategory] = useState<Category | null>(null);
   const [createOpen, setCreateOpen] = useState(false);
@@ -32,7 +32,11 @@ const AdminCategories = () => {
       ) : categoryList.length === 0 ? (
         <p className="text-sm text-muted-foreground">Nenhuma categoria encontrada.</p>
       ) : (
-        <CategoryTable categories={categoryList} onEdit={setEditingCategory} />
+        <CategoryTable 
+          categories={categoryList} 
+          onEdit={setEditingCategory}
+          onRemove={removeCategory}
+        />
       )}
 
       <EditCategoryDialog

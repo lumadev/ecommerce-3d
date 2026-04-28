@@ -1,16 +1,22 @@
 import { motion } from "framer-motion";
-import { Pencil } from "lucide-react";
+import { Pencil, Trash2 } from "lucide-react";
 import { Badge } from "@/shared/components/ui/badge";
 import { TableCell } from "@/shared/components/ui/table";
+import ConfirmActionDialog from "@/shared/components/ConfirmActionDialog";
 import { Category } from "@/data/categories";
 
 interface Props {
   category: Category;
   index: number;
   onEdit: (category: Category) => void;
+  onRemove: (id: string) => Promise<unknown> | void;
 }
 
-const CategoryRow = ({ category, index, onEdit }: Props) => {
+const CategoryRow = ({ category, index, onEdit, onRemove }: Props) => {
+  const handleRemove = () => {
+    void onRemove(category.id);
+  };
+
   return (
     <motion.tr
       initial={{ opacity: 0, y: 10 }}
@@ -56,12 +62,27 @@ const CategoryRow = ({ category, index, onEdit }: Props) => {
       </TableCell>
 
       <TableCell className="text-center">
-        <button
-          onClick={() => onEdit(category)}
-          className="rounded-md p-2 text-muted-foreground transition-colors hover:bg-secondary hover:text-primary"
-        >
-          <Pencil size={16} />
-        </button>
+        <div className="flex items-center justify-center gap-1">
+          <button
+            onClick={() => onEdit(category)}
+            className="rounded-md p-2 text-muted-foreground transition-colors hover:bg-secondary hover:text-primary"
+          >
+            <Pencil size={16} />
+          </button>
+
+          <ConfirmActionDialog
+            trigger={
+              <button className="rounded-md p-2 text-muted-foreground transition-colors hover:bg-secondary hover:text-destructive">
+                <Trash2 size={16} />
+              </button>
+            }
+            title="Excluir categoria?"
+            description={`Tem certeza que deseja deletar a categoria "${category.name}"? Essa ação não pode ser desfeita.`}
+            confirmText="Excluir"
+            cancelText="Cancelar"
+            onConfirm={handleRemove}
+          />
+        </div>
       </TableCell>
     </motion.tr>
   );

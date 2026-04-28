@@ -61,5 +61,23 @@ export const useCategories = () => {
     }
   };
 
-  return { categoryList, isLoading, updateCategory, createCategory };
+  const removeCategory = async (id: string) => {
+    try {
+      await categoryRepository.remove(id);
+      setCategoryList((prev) => prev.filter((c) => c.id !== id));
+
+      toast.success("Categoria removida com sucesso.");
+    } catch (error) {
+      toast.error("Não foi possível remover a categoria.");
+      throw error;
+    }
+  };
+
+  return {
+    categoryList,
+    isLoading,
+    updateCategory,
+    createCategory,
+    removeCategory,
+  };
 };

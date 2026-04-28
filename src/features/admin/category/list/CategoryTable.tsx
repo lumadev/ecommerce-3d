@@ -11,9 +11,10 @@ import CategoryRow from "./CategoryRow";
 interface Props {
   categories: Category[];
   onEdit: (category: Category) => void;
+  onRemove: (id: string) => Promise<unknown> | void;
 }
 
-const CategoryTable = ({ categories, onEdit }: Props) => {
+const CategoryTable = ({ categories, onEdit, onRemove }: Props) => {
   return (
     <div className="rounded-lg border border-border bg-card">
       <Table>
@@ -33,6 +34,7 @@ const CategoryTable = ({ categories, onEdit }: Props) => {
               category={category}
               index={index}
               onEdit={onEdit}
+              onRemove={onRemove}
             />
           ))}
         </TableBody>
