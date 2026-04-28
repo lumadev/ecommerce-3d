@@ -1,10 +1,13 @@
 import { motion } from "framer-motion";
 import { useNavigate } from "react-router-dom";
-import { categories } from "@/data/categories";
 import { ArrowRight } from "lucide-react";
+import { useCategoriesSection } from "../hooks/useCategoriesSection";
 
 const CategoriesSection = () => {
   const navigate = useNavigate();
+  const { categories, isLoading } = useCategoriesSection();
+
+  if (isLoading || categories.length === 0) return null;
 
   return (
     <section id="categorias" className="py-20">
