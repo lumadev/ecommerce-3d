@@ -41,7 +41,7 @@ const ProductCard = ({ product, index }: ProductCardProps) => {
 
       <div className="p-5">
         <p className="mb-1 text-xs font-medium uppercase tracking-wider text-primary">
-          {product.category}
+          {product.categories.join(" • ")}
         </p>
         <h3 className="mb-2 font-display text-lg font-semibold text-foreground">
           {product.name}

@@ -88,8 +88,12 @@ const SearchDialog = ({ open, onOpenChange }: SearchDialogProps) => {
                   className="h-10 w-10 rounded-md object-cover"
                 />
                 <div className="flex flex-col flex-1 min-w-0">
-                  <span className="text-sm font-medium truncate">{product.name}</span>
-                  <span className="text-xs text-muted-foreground group-data-[selected=true]:text-accent-foreground/80">{product.category}</span>
+                  <span className="text-sm font-medium truncate">
+                    {product.name}
+                  </span>
+                  <span className="text-xs text-muted-foreground group-data-[selected=true]:text-accent-foreground/80">
+                    {product.categories.join(" • ")}
+                  </span>
                 </div>
                 <span className="text-sm font-semibold text-primary whitespace-nowrap">
                   R$ {product.price.toFixed(2).replace(".", ",")}

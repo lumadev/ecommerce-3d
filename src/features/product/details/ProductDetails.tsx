@@ -82,9 +82,16 @@ const ProductDetailContent = () => {
               transition={{ duration: 0.5, delay: 0.1 }}
               className="flex flex-col justify-center"
             >
-              <p className="mb-2 text-sm font-medium uppercase tracking-wider text-primary">
-                {product.category}
-              </p>
+              <div className="mb-3 flex flex-wrap gap-2">
+                {product.categories.map((cat) => (
+                  <span
+                    key={cat}
+                    className="inline-flex items-center rounded-full border border-primary/30 bg-primary/10 px-3 py-1 text-xs font-semibold uppercase tracking-wider text-primary"
+                  >
+                    {cat}
+                  </span>
+                ))}
+              </div>
               <h1 className="mb-4 font-display text-3xl font-bold text-foreground sm:text-4xl">
                 {product.name}
               </h1>
