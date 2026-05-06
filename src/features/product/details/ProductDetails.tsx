@@ -7,12 +7,16 @@ import { useState } from "react";
 
 import CartDrawer from "@/features/cart/components/CartDrawer";
 import Footer from "@/layout/components/Footer";
+import MediaCarousel from "./MediaCarousel";
 
 const ProductDetailContent = () => {
   const { id } = useParams<{ id: string }>();
+
   const navigate = useNavigate();
   const { addItem } = useCart();
+
   const [quantity, setQuantity] = useState(1);
+  const [activeMedia, setActiveMedia] = useState(0);
 
   const product = products.find((p) => p.id === id);
 
@@ -55,24 +59,20 @@ const ProductDetailContent = () => {
       <section className="py-8 pb-20">
         <div className="container mx-auto px-4">
           <div className="grid gap-10 lg:grid-cols-2">
-            {/* Image */}
+            {/* Media Carousel */}
             <motion.div
               initial={{ opacity: 0, x: -30 }}
               animate={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.5 }}
-              className="relative overflow-hidden rounded-2xl border border-border"
+              className="flex flex-col gap-3"
             >
-              <img
-                src={product.image}
-                alt={product.name}
-                className="h-full w-full object-cover"
+              <MediaCarousel
+                media={product.media && product.media.length > 0 ? product.media : [{ type: "image", src: product.image, alt: product.name }]}
+                activeIndex={activeMedia}
+                onChange={setActiveMedia}
+                productName={product.name}
+                customizable={product.customizable}
               />
-              {product.customizable && (
-                <div className="absolute top-4 left-4 flex items-center gap-1.5 rounded-full bg-primary/90 px-4 py-1.5 text-sm font-semibold text-primary-foreground">
-                  <Sparkles size={14} />
-                  Personalizável
-                </div>
-              )}
             </motion.div>
 
             {/* Details */}

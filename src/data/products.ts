@@ -5,12 +5,17 @@ import productOrganizador from "@/assets/product-organizador.jpg";
 import productDragao from "@/assets/product-dragao.jpg";
 import productChaveiro from "@/assets/product-chaveiro.jpg";
 
+export type ProductMedia =
+  | { type: "image"; src: string; alt?: string }
+  | { type: "video"; src: string; poster?: string };
+
 export interface Product {
   id: string;
   name: string;
   description: string;
   price: number;
   image: string;
+  media?: ProductMedia[];
   categories: string[];
   customizable: boolean;
 }
@@ -22,6 +27,11 @@ export const products: Product[] = [
     description: "Vaso decorativo com design geométrico moderno, perfeito para suculentas e plantas pequenas.",
     price: 49.90,
     image: productVaso,
+    media: [
+      { type: "image", src: productVaso },
+      { type: "image", src: productOrganizador },
+      { type: "video", src: "https://samplelib.com/preview/mp4/sample-5s.mp4", poster: productVaso },
+    ],
     categories: ["Decoração"],
     customizable: true,
   },
@@ -31,6 +41,10 @@ export const products: Product[] = [
     description: "Luminária em formato de lua com detalhes realistas de crateras. Iluminação LED inclusa.",
     price: 89.90,
     image: productLuminaria,
+    media: [
+      { type: "image", src: productLuminaria },
+      { type: "image", src: productDragao },
+    ],
     categories: ["Iluminação", "Decoração"],
     customizable: true,
   },
