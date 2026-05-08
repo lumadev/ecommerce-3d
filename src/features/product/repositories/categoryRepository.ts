@@ -4,8 +4,8 @@ import { Category } from "@/features/admin/category/types/category.types";
 const BASE_URL = "/categories";
 
 export const categoryRepository = {
-  findAll: async (): Promise<Category[]> => {
-    const response = await httpClientPublic.get<Category[]>(BASE_URL);
+  findAll: async (signal?: AbortSignal): Promise<Category[]> => {
+    const response = await httpClientPublic.get<Category[]>(BASE_URL, { signal });
     return response.data;
   },
 };

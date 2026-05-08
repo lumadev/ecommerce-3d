@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import axios from "axios";
 import { toast } from "sonner";
 import { categoryRepository } from "../repositories/categoryRepository";
 import { categoryRepository as publicCategoryRepository } from "@/features/product/repositories/categoryRepository";
@@ -9,20 +10,22 @@ export const useCategories = () => {
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    let isMounted = true;
+    const controller = new AbortController();
 
     const loadCategories = async () => {
       setIsLoading(true);
 
       try {
-        const categories = await publicCategoryRepository.findAll();
-        if (isMounted) {
-          setCategoryList(categories);
-        }
+        const categories = await publicCategoryRepository.findAll(controller.signal);
+        setCategoryList(categories);
       } catch (error) {
+        if (axios.isCancel(error)) {
+          return;
+        }
+
         toast.error("Nao foi possivel carregar as categorias.");
       } finally {
-        if (isMounted) {
+        if (!controller.signal.aborted) {
           setIsLoading(false);
         }
       }
@@ -31,7 +34,7 @@ export const useCategories = () => {
     loadCategories();
 
     return () => {
-      isMounted = false;
+      controller.abort();
     };
   }, []);
 
