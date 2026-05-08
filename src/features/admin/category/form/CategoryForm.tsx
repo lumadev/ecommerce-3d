@@ -1,10 +1,17 @@
 import { Input } from "@/shared/components/ui/input";
 import { Textarea } from "@/shared/components/ui/textarea";
 import { Label } from "@/shared/components/ui/label";
+import { CategoryFormState } from "@/features/admin/category/types/category-form.types";
 
-import { CategoryFormProps } from "@/features/admin/category/types/category-form.types";
 import HashtagsField from "../components/HashtagsField";
 import CategoryImageUploadField from "./CategoryImageUploadField";
+
+export interface CategoryFormProps {
+  form: CategoryFormState;
+  onChange: (field: keyof CategoryFormState, value: string | string[]) => void;
+  namePlaceholder?: string;
+  descriptionPlaceholder?: string;
+}
 
 const CategoryForm = ({
   form,
