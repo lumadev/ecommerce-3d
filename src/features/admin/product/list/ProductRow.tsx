@@ -1,15 +1,20 @@
 import { motion } from "framer-motion";
 import { Pencil } from "lucide-react";
 import { TableCell } from "@/shared/components/ui/table";
-import { AdminProduct } from "../types";
+import { ProductListItem } from "../types/product.types";
 
 interface Props {
-  product: AdminProduct;
+  product: ProductListItem;
   index: number;
-  onEdit: (product: AdminProduct) => void;
+  onEdit: (product: ProductListItem) => void;
 }
 
 const ProductRow = ({ product, index, onEdit }: Props) => {
+  const numericPrice = Number(product.price);
+  const formattedPrice = Number.isFinite(numericPrice)
+    ? numericPrice.toFixed(2).replace(".", ",")
+    : "0,00";
+
   return (
     <motion.tr
       initial={{ opacity: 0, y: 10 }}
@@ -27,19 +32,19 @@ const ProductRow = ({ product, index, onEdit }: Props) => {
 
       <TableCell>
         <div className="flex flex-wrap gap-1">
-          {product.categories.map((cat) => (
+          {product.categories.map((category) => (
             <span
-              key={cat}
+              key={category.id}
               className="inline-flex items-center rounded-full border border-border bg-secondary px-2.5 py-0.5 text-xs font-medium text-secondary-foreground"
             >
-              {cat}
+              {category.name}
             </span>
           ))}
         </div>
       </TableCell>
 
       <TableCell className="text-right">
-        R$ {product.price.toFixed(2).replace(".", ",")}
+        R$ {formattedPrice}
       </TableCell>
 
       <TableCell className="text-center">
