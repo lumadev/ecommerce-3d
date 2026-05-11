@@ -33,11 +33,11 @@ export function CategoriesSelect({
   placeholder = "Selecione uma ou mais categorias",
   label = "Categorias",
 }: CategoriesSelectProps) {
-  const toggleCategory = (categoryName: string, checked: boolean) => {
+  const toggleCategory = (categoryId: string, checked: boolean) => {
     if (checked) {
-      onChange([...value, categoryName]);
+      onChange([...value, categoryId]);
     } else {
-      onChange(value.filter((c) => c !== categoryName));
+      onChange(value.filter((c) => c !== categoryId));
     }
   };
 
@@ -57,14 +57,17 @@ export function CategoriesSelect({
               <Skeleton className="h-5 w-48" />
             ) : value.length > 0 ? (
               <div className="flex flex-wrap gap-1">
-                {value.map((cat) => (
-                  <span
-                    key={cat}
-                    className="inline-flex items-center rounded-full bg-secondary px-2 py-0.5 text-xs font-medium text-secondary-foreground"
-                  >
-                    {cat}
-                  </span>
-                ))}
+                {value.map((id) => {
+                  const cat = categories.find((c) => c.id === id);
+                  return (
+                    <span
+                      key={id}
+                      className="inline-flex items-center rounded-full bg-secondary px-2 py-0.5 text-xs font-medium text-secondary-foreground"
+                    >
+                      {cat?.name ?? id}
+                    </span>
+                  );
+                })}
               </div>
             ) : (
               <span className="text-muted-foreground">{placeholder}</span>
@@ -100,7 +103,7 @@ export function CategoriesSelect({
             )}
 
             {!isLoading && !hasError && categories.map((cat) => {
-              const checked = value.includes(cat.name);
+              const checked = value.includes(cat.id);
 
               return (
                 <label
@@ -110,7 +113,7 @@ export function CategoriesSelect({
                   <Checkbox
                     checked={checked}
                     onCheckedChange={(val) =>
-                      toggleCategory(cat.name, Boolean(val))
+                      toggleCategory(cat.id, Boolean(val))
                     }
                   />
 

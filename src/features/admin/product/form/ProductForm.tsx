@@ -2,7 +2,7 @@ import { Input } from "@/shared/components/ui/input";
 import { Textarea } from "@/shared/components/ui/textarea";
 import { Label } from "@/shared/components/ui/label";
 
-import { ProductFormState } from "../types";
+import { ProductFormState } from "../types/product-form.types";
 import { CategoriesSelect } from "./CategoriesSelect";
 import { ImageUploadField } from "@/features/file";
 import { useProductCategories } from "../hooks/useProductCategories";
@@ -47,8 +47,8 @@ const ProductForm = ({ form, onChange }: Props) => {
               categories={categories}
               isLoading={isLoading}
               hasError={hasErrorCategories}
-              value={form.categories}
-              onChange={(cats) => onChange("categories", cats)}
+              value={form.categoryIds}
+              onChange={(cats) => onChange("categoryIds", cats)}
             />
           </div>
         </div>

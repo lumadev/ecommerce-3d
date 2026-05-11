@@ -15,7 +15,7 @@ export interface CreateProductData {
   price: number;
   stock: number;
   mediaPublicIds?: string[];
-  categories?: string[];
+  categoryIds: string[];
 }
 
 export interface UpdateProductData {
@@ -24,5 +24,5 @@ export interface UpdateProductData {
   price?: number;
   stock?: number;
   mediaPublicIds?: string[];
-  categories?: string[];
+  categoryIds?: string[];
 }
