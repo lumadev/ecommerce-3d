@@ -8,6 +8,11 @@ import {
 const BASE_URL = "/products";
 
 export const productRepository = {
+  findAll: async (signal?: AbortSignal): Promise<Product[]> => {
+    const response = await httpClientAuth.get<Product[]>(BASE_URL, { signal });
+    return response.data;
+  },
+
   create: async (data: CreateProductData): Promise<Product> => {
     const response = await httpClientAuth.post<Product>(BASE_URL, data);
     return response.data;
