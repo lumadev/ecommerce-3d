@@ -23,7 +23,7 @@ export const useCategories = () => {
           return;
         }
 
-        toast.error("Nao foi possivel carregar as categorias.");
+        toast.error("Nao foi possível carregar as categorias.");
       } finally {
         if (!controller.signal.aborted) {
           setIsLoading(false);

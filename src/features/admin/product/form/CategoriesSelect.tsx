@@ -89,7 +89,7 @@ export function CategoriesSelect({
 
             {!isLoading && hasError && (
               <p className="px-2 py-3 text-sm text-destructive">
-                Nao foi possivel carregar as categorias.
+                Nao foi possível carregar as categorias.
               </p>
             )}
 
