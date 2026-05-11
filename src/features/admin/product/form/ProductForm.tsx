@@ -1,5 +1,3 @@
-import { categories } from "@/data/categories";
-
 import { Input } from "@/shared/components/ui/input";
 import { Textarea } from "@/shared/components/ui/textarea";
 import { Label } from "@/shared/components/ui/label";
@@ -7,11 +5,7 @@ import { Label } from "@/shared/components/ui/label";
 import { ProductFormState } from "../types";
 import { CategoriesSelect } from "./CategoriesSelect";
 import { ImageUploadField } from "@/features/file";
-
-type Category = {
-  id: string;
-  name: string;
-};
+import { useProductCategories } from "../hooks/useProductCategories";
 
 interface Props {
   form: ProductFormState;
@@ -19,6 +13,8 @@ interface Props {
 }
 
 const ProductForm = ({ form, onChange }: Props) => {
+  const { categories, isLoading, hasError: hasErrorCategories } = useProductCategories();
+
   return (
     <div className="grid gap-6 py-2 md:grid-cols-[240px_1fr]">
       {/* IMAGE */}
@@ -49,6 +45,8 @@ const ProductForm = ({ form, onChange }: Props) => {
           <div className="grid gap-2">
             <CategoriesSelect
               categories={categories}
+              isLoading={isLoading}
+              hasError={hasErrorCategories}
               value={form.categories}
               onChange={(cats) => onChange("categories", cats)}
             />

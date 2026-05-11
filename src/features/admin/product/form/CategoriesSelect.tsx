@@ -2,6 +2,7 @@ import { Check, ChevronDown } from "lucide-react";
 
 import { Label } from "@/shared/components/ui/label";
 import { Checkbox } from "@/shared/components/ui/checkbox";
+import { Skeleton } from "@/shared/components/ui/skeleton";
 import {
   Popover,
   PopoverContent,
@@ -17,6 +18,8 @@ type CategoriesSelectProps = {
   value: string[];
   onChange: (categories: string[]) => void;
   categories: Category[];
+  isLoading?: boolean;
+  hasError?: boolean;
   placeholder?: string;
   label?: string;
 };
@@ -25,6 +28,8 @@ export function CategoriesSelect({
   value,
   onChange,
   categories,
+  isLoading = false,
+  hasError = false,
   placeholder = "Selecione uma ou mais categorias",
   label = "Categorias",
 }: CategoriesSelectProps) {
@@ -44,9 +49,13 @@ export function CategoriesSelect({
         <PopoverTrigger asChild>
           <button
             type="button"
-            className="flex min-h-10 w-full items-center justify-between rounded-md border border-input bg-background px-3 py-2 text-left text-sm ring-offset-background focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2"
+            disabled={isLoading}
+            aria-busy={isLoading}
+            className="flex min-h-10 w-full items-center justify-between rounded-md border border-input bg-background px-3 py-2 text-left text-sm ring-offset-background focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-70"
           >
-            {value.length > 0 ? (
+            {isLoading ? (
+              <Skeleton className="h-5 w-48" />
+            ) : value.length > 0 ? (
               <div className="flex flex-wrap gap-1">
                 {value.map((cat) => (
                   <span
@@ -70,7 +79,27 @@ export function CategoriesSelect({
           align="start"
         >
           <div className="max-h-64 overflow-y-auto">
-            {categories.map((cat) => {
+            {isLoading && (
+              <div className="grid gap-2 p-2">
+                <Skeleton className="h-8 w-full" />
+                <Skeleton className="h-8 w-full" />
+                <Skeleton className="h-8 w-full" />
+              </div>
+            )}
+
+            {!isLoading && hasError && (
+              <p className="px-2 py-3 text-sm text-destructive">
+                Nao foi possivel carregar as categorias.
+              </p>
+            )}
+
+            {!isLoading && !hasError && categories.length === 0 && (
+              <p className="px-2 py-3 text-sm text-muted-foreground">
+                Nenhuma categoria encontrada.
+              </p>
+            )}
+
+            {!isLoading && !hasError && categories.map((cat) => {
               const checked = value.includes(cat.name);
 
               return (
