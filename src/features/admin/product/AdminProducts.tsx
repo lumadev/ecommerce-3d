@@ -5,12 +5,13 @@ import { Button } from "@/shared/components/ui/button/button";
 import { useProducts } from "./hooks/useProducts";
 import { AdminProduct } from "./types";
 
+import ProductTableSkeleton from "./list/ProductTableSkeleton";
 import ProductTable from "./list/ProductTable";
 import EditProductDialog from "./form/EditProductDialog";
 import CreateProductDialog from "./form/CreateProductDialog";
 
 const AdminProducts = () => {
-  const { productList, updateProduct, createProduct } = useProducts();
+  const { productList, isLoading, updateProduct, createProduct } = useProducts();
 
   const [editingProduct, setEditingProduct] = useState<AdminProduct | null>(null);
   const [createOpen, setCreateOpen] = useState(false);
@@ -26,7 +27,13 @@ const AdminProducts = () => {
         </Button>
       </div>
 
-      <ProductTable products={productList} onEdit={setEditingProduct} />
+      {isLoading ? (
+        <ProductTableSkeleton />
+      ) : productList.length === 0 ? (
+        <p className="text-sm text-muted-foreground">Nenhum produto encontrado.</p>
+      ) : (
+        <ProductTable products={productList} onEdit={setEditingProduct} />
+      )}
 
       <EditProductDialog
         product={editingProduct}
