@@ -1,7 +1,9 @@
 import { httpClientAuth } from "@/infra/http/httpClient";
 import {
-  Product,
   CreateProductData,
+  Product,
+  ProductCategory,
+  ProductListItem,
   UpdateProductData,
 } from "../types/product.types";
 
@@ -11,15 +13,28 @@ type ApiProduct = Omit<Product, "price"> & {
   price: number | string;
 };
 
+type ApiProductListItem = ApiProduct & {
+  categories?: ProductCategory[];
+};
+
 const normalizeProduct = (product: ApiProduct): Product => ({
   ...product,
   price: Number(product.price),
 });
 
+const normalizeProductListItem = (
+  product: ApiProductListItem
+): ProductListItem => ({
+  ...normalizeProduct(product),
+  categories: product.categories ?? [],
+});
+
 export const productRepository = {
-  findAll: async (signal?: AbortSignal): Promise<Product[]> => {
-    const response = await httpClientAuth.get<ApiProduct[]>(BASE_URL, { signal });
-    return response.data.map(normalizeProduct);
+  findAll: async (signal?: AbortSignal): Promise<ProductListItem[]> => {
+    const response = await httpClientAuth.get<ApiProductListItem[]>(BASE_URL, {
+      signal,
+    });
+    return response.data.map(normalizeProductListItem);
   },
 
   create: async (data: CreateProductData): Promise<Product> => {

@@ -2,36 +2,20 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import { toast } from "sonner";
 import { productRepository } from "../repositories/productRepository";
-import { AdminProduct } from "../types";
-import { CreateProductData, UpdateProductData } from "../types/product.types";
+import {
+  CreateProductData,
+  Product,
+  ProductListItem,
+  UpdateProductData,
+} from "../types/product.types";
 
-type ProductResponse = {
-  id: string;
-  name: string;
-  description: string;
-  price: number;
-  stock: number;
-  categories?: string[];
-  mediaUrls?: string[];
-};
-
-const toAdminProduct = (product: ProductResponse): AdminProduct => {
-  const image = product.mediaUrls?.[0] ?? "";
-
-  return {
-    id: product.id,
-    name: product.name,
-    description: product.description,
-    price: product.price,
-    stock: product.stock,
-    categories: product.categories ?? [],
-    image,
-    customizable: false,
-  };
-};
+const toListItemWithoutCategories = (product: Product): ProductListItem => ({
+  ...product,
+  categories: [],
+});
 
 export const useProducts = () => {
-  const [productList, setProductList] = useState<AdminProduct[]>([]);
+  const [productList, setProductList] = useState<ProductListItem[]>([]);
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
@@ -42,7 +26,7 @@ export const useProducts = () => {
 
       try {
         const products = await productRepository.findAll(controller.signal);
-        setProductList(products.map((product) => toAdminProduct(product)));
+        setProductList(products);
       } catch (error) {
         if (axios.isCancel(error)) {
           return;
@@ -66,9 +50,20 @@ export const useProducts = () => {
   const updateProduct = async (id: string, data: UpdateProductData) => {
     try {
       const updated = await productRepository.update(id, data);
-      const mapped = toAdminProduct(updated);
+      const mapped = toListItemWithoutCategories(updated);
 
-      setProductList((prev) => prev.map((p) => (p.id === id ? mapped : p)));
+      setProductList((prev) =>
+        prev.map((p) => {
+          if (p.id !== id) {
+            return p;
+          }
+
+          return {
+            ...mapped,
+            categories: p.categories,
+          };
+        })
+      );
 
       toast.success("Produto atualizado com sucesso.");
       return mapped;
@@ -81,7 +76,7 @@ export const useProducts = () => {
   const createProduct = async (data: CreateProductData) => {
     try {
       const created = await productRepository.create(data);
-      const mapped = toAdminProduct(created);
+      const mapped = toListItemWithoutCategories(created);
 
       setProductList((prev) => [mapped, ...prev]);
 

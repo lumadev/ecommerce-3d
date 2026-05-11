@@ -5,12 +5,12 @@ import {
   TableHeader,
   TableRow,
 } from "@/shared/components/ui/table";
-import { AdminProduct } from "../types";
+import { ProductListItem } from "../types/product.types";
 import ProductRow from "./ProductRow";
 
 interface Props {
-  products: AdminProduct[];
-  onEdit: (product: AdminProduct) => void;
+  products: ProductListItem[];
+  onEdit: (product: ProductListItem) => void;
 }
 
 const ProductTable = ({ products, onEdit }: Props) => {

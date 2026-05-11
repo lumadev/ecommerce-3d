@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Plus } from "lucide-react";
 import { Button } from "@/shared/components/ui/button/button";
 import { useProducts } from "./hooks/useProducts";
-import { Product } from "./types/product.types";
+import { ProductListItem } from "./types/product.types";
 
 import ProductTableSkeleton from "./list/ProductTableSkeleton";
 import ProductTable from "./list/ProductTable";
@@ -13,7 +13,9 @@ import CreateProductDialog from "./form/CreateProductDialog";
 const AdminProducts = () => {
   const { productList, isLoading, updateProduct, createProduct } = useProducts();
 
-  const [editingProduct, setEditingProduct] = useState<Product | null>(null);
+  const [editingProduct, setEditingProduct] = useState<ProductListItem | null>(
+    null
+  );
   const [createOpen, setCreateOpen] = useState(false);
 
   return (

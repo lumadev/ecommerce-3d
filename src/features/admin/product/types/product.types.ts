@@ -9,6 +9,15 @@ export interface Product {
   updatedAt: Date;
 }
 
+export interface ProductCategory {
+  id: string;
+  name: string;
+}
+
+export interface ProductListItem extends Product {
+  categories: ProductCategory[];
+}
+
 export interface CreateProductData {
   name: string;
   description: string;
