@@ -67,7 +67,7 @@ const AdminSidebar = (_props: AdminSidebarProps) => {
                 <SidebarMenuItem key={item.key}>
                   <SidebarMenuButton
                     isActive={location.pathname.endsWith(item.key)}
-                    onClick={() => navigate(item.key)}
+                    onClick={() => navigate(`/admin/${item.key}`)}
                     tooltip={item.title}
                     size="default"
                     className="h-9 text-sm md:pr-30"
