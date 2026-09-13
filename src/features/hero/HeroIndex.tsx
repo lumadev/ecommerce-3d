@@ -1,4 +1,5 @@
 import { motion } from "framer-motion";
+import { ChevronDown } from "lucide-react";
 import { products } from "@/data/products";
 import HeroContent from "./HeroContent";
 import HeroCarousel from "./HeroCarousel";
@@ -14,8 +15,8 @@ const HeroSection = () => {
         backgroundSize: "60px 60px",
       }} />
 
-      <div className="relative z-10 container mx-auto flex min-h-screen items-center px-4 py-20">
-        <div className="grid w-full items-center gap-12 lg:grid-cols-2 lg:gap-16">
+      <div className="relative z-10 container mx-auto flex min-h-[calc(100svh-4rem)] items-start px-6 py-12 sm:px-8 sm:py-16 lg:items-center lg:px-10 lg:py-20">
+        <div className="grid w-full items-center gap-10 lg:grid-cols-2 lg:items-start lg:gap-16 xl:gap-20">
           <HeroContent />
           <HeroCarousel products={featuredProducts} />
         </div>
@@ -26,9 +27,10 @@ const HeroSection = () => {
         <motion.div
           animate={{ y: [0, 8, 0] }}
           transition={{ duration: 2, repeat: Infinity }}
-          className="h-8 w-5 rounded-full border-2 border-primary/40 flex items-start justify-center pt-1"
+          className="flex flex-col items-center gap-1"
         >
-          <div className="h-2 w-1 rounded-full bg-primary animate-pulse-glow" />
+          <ChevronDown className="h-6 w-6 text-primary/70" />
+          <ChevronDown className="-mt-4 h-6 w-6 text-primary/30" />
         </motion.div>
       </div>
     </section>
