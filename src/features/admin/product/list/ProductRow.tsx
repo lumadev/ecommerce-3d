@@ -28,7 +28,18 @@ const ProductRow = ({ product, index, onEdit, onRemove }: Props) => {
       transition={{ duration: 0.3, delay: index * 0.05 }}
       className="border-b transition-colors hover:bg-muted/50"
     >
-      <TableCell className="font-medium">{product.name}</TableCell>
+      <TableCell className="font-medium">
+        <div className="flex items-center gap-3">
+          {product.mediaUrls?.[0] && (
+            <img
+              src={product.mediaUrls[0]}
+              alt={product.name}
+              className="h-10 w-10 rounded-md border border-border object-cover"
+            />
+          )}
+          <span>{product.name}</span>
+        </div>
+      </TableCell>
 
       <TableCell className="max-w-[300px]">
         <span className="line-clamp-2 text-sm text-muted-foreground">

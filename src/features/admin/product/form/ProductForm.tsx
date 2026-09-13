@@ -4,7 +4,7 @@ import { Label } from "@/shared/components/ui/label";
 
 import { ProductFormState } from "../types/product-form.types";
 import { CategoriesSelect } from "./CategoriesSelect";
-import { ImageUploadField } from "@/features/file";
+import ProductImageUploadField from "./ProductImageUploadField";
 import { useProductCategories } from "../hooks/useProductCategories";
 
 interface Props {
@@ -16,12 +16,23 @@ const ProductForm = ({ form, onChange }: Props) => {
   const { categories, isLoading, hasError: hasErrorCategories } = useProductCategories();
 
   return (
-    <div className="grid gap-6 py-2 md:grid-cols-[240px_1fr]">
+    <div className="grid gap-6 py-2 md:grid-cols-[280px_minmax(0,1fr)]">
       {/* IMAGE */}
-      <ImageUploadField
+      <ProductImageUploadField
         label="Foto do produto"
-        value={form.image}
+        value={form.image ?? ""}
+        picturePublicId={form.mediaPublicIds[0]}
+        name={form.name}
+        description={form.description}
+        price={form.price}
+        categories={
+          categories
+            ?.filter((category) => form.categoryIds.includes(category.id))
+            .map((category) => category.name) ?? []
+        }
         onChange={(v) => onChange("image", v)}
+        onUploadComplete={(data) => onChange("mediaPublicIds", [data.picturePublicId])}
+        onRemove={() => onChange("mediaPublicIds", [])}
       />
 
       {/* FIELDS */}

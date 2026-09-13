@@ -4,5 +4,6 @@ export interface ProductFormState {
   price: string;
   stock: string;
   image?: string;
+  mediaPublicIds: string[];
   categoryIds: string[];
 }
