@@ -1,19 +1,25 @@
 import { motion } from "framer-motion";
-import { Pencil } from "lucide-react";
+import { Pencil, Trash2 } from "lucide-react";
 import { TableCell } from "@/shared/components/ui/table";
 import { ProductListItem } from "../types/product.types";
+import ConfirmActionDialog from "@/shared/components/ConfirmActionDialog";
 
 interface Props {
   product: ProductListItem;
   index: number;
   onEdit: (product: ProductListItem) => void;
+  onRemove: (id: string) => Promise<void>;
 }
 
-const ProductRow = ({ product, index, onEdit }: Props) => {
+const ProductRow = ({ product, index, onEdit, onRemove }: Props) => {
   const numericPrice = Number(product.price);
   const formattedPrice = Number.isFinite(numericPrice)
     ? numericPrice.toFixed(2).replace(".", ",")
     : "0,00";
+
+  const handleRemove = () => {
+    void onRemove(product.id);
+  };
 
   return (
     <motion.tr
@@ -58,12 +64,27 @@ const ProductRow = ({ product, index, onEdit }: Props) => {
       </TableCell>
 
       <TableCell className="text-center">
-        <button
-          onClick={() => onEdit(product)}
-          className="rounded-md p-2 hover:bg-secondary"
-        >
-          <Pencil size={16} />
-        </button>
+        <div className="flex items-center justify-center gap-1">
+          <button
+            onClick={() => onEdit(product)}
+            className="rounded-md p-2 hover:bg-secondary"
+          >
+            <Pencil size={16} />
+          </button>
+
+          <ConfirmActionDialog
+            trigger={
+              <button className="rounded-md p-2 text-muted-foreground transition-colors hover:bg-secondary hover:text-destructive">
+                <Trash2 size={16} />
+              </button>
+            }
+            title="Excluir produto?"
+            description={`Tem certeza que deseja excluir o produto "${product.name}"? Essa ação não pode ser desfeita.`}
+            confirmText="Excluir"
+            cancelText="Cancelar"
+            onConfirm={handleRemove}
+          />
+        </div>
       </TableCell>
     </motion.tr>
   );

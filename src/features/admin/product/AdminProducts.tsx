@@ -11,7 +11,7 @@ import EditProductDialog from "./form/EditProductDialog";
 import CreateProductDialog from "./form/CreateProductDialog";
 
 const AdminProducts = () => {
-  const { productList, isLoading, updateProduct, createProduct } = useProducts();
+  const { productList, isLoading, updateProduct, createProduct, removeProduct } = useProducts();
 
   const [editingProduct, setEditingProduct] = useState<ProductListItem | null>(
     null
@@ -34,7 +34,11 @@ const AdminProducts = () => {
       ) : productList.length === 0 ? (
         <p className="text-sm text-muted-foreground">Nenhum produto encontrado.</p>
       ) : (
-        <ProductTable products={productList} onEdit={setEditingProduct} />
+        <ProductTable 
+          products={productList} 
+          onEdit={setEditingProduct}
+          onRemove={removeProduct}
+        />
       )}
 
       <EditProductDialog

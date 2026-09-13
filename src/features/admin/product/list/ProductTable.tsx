@@ -11,9 +11,10 @@ import ProductRow from "./ProductRow";
 interface Props {
   products: ProductListItem[];
   onEdit: (product: ProductListItem) => void;
+  onRemove: (id: string) => Promise<void>;
 }
 
-const ProductTable = ({ products, onEdit }: Props) => {
+const ProductTable = ({ products, onEdit, onRemove }: Props) => {
   return (
     <div className="rounded-lg border bg-card">
       <Table>
@@ -24,7 +25,7 @@ const ProductTable = ({ products, onEdit }: Props) => {
             <TableHead>Categoria</TableHead>
             <TableHead className="text-right">Preço</TableHead>
             <TableHead className="text-center">Estoque</TableHead>
-            <TableHead className="text-center">Ações</TableHead>
+            <TableHead className="w-16 text-center">Ações</TableHead>
           </TableRow>
         </TableHeader>
 
@@ -35,6 +36,7 @@ const ProductTable = ({ products, onEdit }: Props) => {
               product={product}
               index={index}
               onEdit={onEdit}
+              onRemove={onRemove}
             />
           ))}
         </TableBody>

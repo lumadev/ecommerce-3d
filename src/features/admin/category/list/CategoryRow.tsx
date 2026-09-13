@@ -79,7 +79,7 @@ const CategoryRow = ({ category, index, onEdit, onRemove }: Props) => {
               </button>
             }
             title="Excluir categoria?"
-            description={`Tem certeza que deseja deletar a categoria "${category.name}"? Essa ação não pode ser desfeita.`}
+            description={`Tem certeza que deseja excluir a categoria "${category.name}"? Essa ação não pode ser desfeita.`}
             confirmText="Excluir"
             cancelText="Cancelar"
             onConfirm={handleRemove}
