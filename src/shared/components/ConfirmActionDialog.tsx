@@ -17,7 +17,7 @@ interface ConfirmActionDialogProps {
   description: ReactNode;
   confirmText?: string;
   cancelText?: string;
-  onConfirm: () => void | Promise<unknown>;
+  onConfirm: () => void | Promise<void>;
 }
 
 const ConfirmActionDialog = ({

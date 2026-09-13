@@ -16,7 +16,7 @@ import ProductForm from "./ProductForm";
 interface Props {
   product: ProductListItem | null;
   onClose: () => void;
-  onSave: (id: string, data: UpdateProductData) => Promise<unknown>;
+  onSave: (id: string, data: UpdateProductData) => Promise<void>;
 }
 
 const toFormState = (p: ProductListItem | null): ProductFormState => ({

@@ -9,7 +9,7 @@ interface Props {
   category: Category;
   index: number;
   onEdit: (category: Category) => void;
-  onRemove: (id: string) => Promise<unknown> | void;
+  onRemove: (id: string) => Promise<void> | void;
 }
 
 const CategoryRow = ({ category, index, onEdit, onRemove }: Props) => {

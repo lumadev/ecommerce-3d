@@ -54,7 +54,7 @@ const CreateCategoryDialog = ({ open, onClose, onCreate }: Props) => {
 
   const isBusy = isLoading || isClosing;
 
-  const handleCreate = async () => {
+  const onSaveCreate = async () => {
     if (!form.name.trim()) {
       toast.error("Informe o nome da categoria.");
       return;
@@ -67,9 +67,9 @@ const CreateCategoryDialog = ({ open, onClose, onCreate }: Props) => {
       hashtags: form.hashtags,
     };
 
-    try {
-      setIsLoading(true);
+    setIsLoading(true);
 
+    try {
       await onCreate(newCategory);
 
       toast.success(`Categoria "${newCategory.name}" cadastrada com sucesso.`);
@@ -108,7 +108,7 @@ const CreateCategoryDialog = ({ open, onClose, onCreate }: Props) => {
             Cancelar
           </Button>
 
-          <Button onClick={handleCreate} disabled={isBusy}>
+          <Button onClick={onSaveCreate} disabled={isBusy}>
             {isLoading && (
               <Loader2 className="mr-2 h-4 w-4 animate-spin" />
             )}

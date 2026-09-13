@@ -11,7 +11,7 @@ import CategoryRow from "./CategoryRow";
 interface Props {
   categories: Category[];
   onEdit: (category: Category) => void;
-  onRemove: (id: string) => Promise<unknown> | void;
+  onRemove: (id: string) => Promise<void> | void;
 }
 
 const CategoryTable = ({ categories, onEdit, onRemove }: Props) => {

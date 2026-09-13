@@ -38,16 +38,18 @@ export const useCategories = () => {
     };
   }, []);
 
-  const updateCategory = async (id: string, data: UpdateCategoryData) => {
+  const updateCategory = async (
+    id: string,
+    data: UpdateCategoryData
+  ): Promise<boolean> => {
     try {
       const updated = await categoryRepository.update(id, data);
       setCategoryList((prev) => prev.map((c) => (c.id === id ? updated : c)));
       
       toast.success("Categoria atualizada com sucesso.");
-      return updated;
     } catch (error) {
       toast.error("Não foi possível atualizar a categoria.");
-      throw error;
+      return false;
     }
   };
 

@@ -19,7 +19,7 @@ import CategoryForm from "./CategoryForm";
 interface Props {
   category: Category | null;
   onClose: () => void;
-  onSave: (id: string, category: UpdateCategoryData) => Promise<unknown> | void;
+  onSave: (id: string, category: UpdateCategoryData) => Promise<void>;
 }
 
 const emptyForm: CategoryFormState = {
@@ -53,7 +53,7 @@ const EditCategoryDialog = ({ category, onClose, onSave }: Props) => {
     setForm(emptyForm);
   };
 
-  const handleSave = async () => {
+  const onSaveEdit = async () => {
     if (!category) return;
 
     if (!form.name.trim()) {
@@ -68,15 +68,12 @@ const EditCategoryDialog = ({ category, onClose, onSave }: Props) => {
       hashtags: form.hashtags,
     };
 
+    setIsLoading(true);
+
     try {
-      setIsLoading(true);
-
       await onSave(category.id, updatedCategory);
-
       onClose();
       setForm(emptyForm);
-    } catch {
-      // Errors are handled by the hook responsible for persistence.
     } finally {
       setIsLoading(false);
     }
@@ -101,7 +98,7 @@ const EditCategoryDialog = ({ category, onClose, onSave }: Props) => {
           <Button variant="outline" onClick={handleCancel} disabled={isBusy}>
             Cancelar
           </Button>
-          <Button onClick={handleSave} disabled={isBusy}>
+          <Button onClick={onSaveEdit} disabled={isBusy}>
             {isLoading && (
               <Loader2 className="mr-2 h-4 w-4 animate-spin" />
             )}
