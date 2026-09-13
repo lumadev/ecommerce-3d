@@ -6,7 +6,7 @@ import { useState } from "react";
 import SearchDialog from "../../features/search/SearchDialog";
 import LoginModal from "../../features/auth/LoginModal";
 import NavbarSearch from "./NavbarSearch";
-import NavbarInstagramBtn from "./NavbarInstagramBtn";
+// import NavbarInstagramBtn from "./NavbarInstagramBtn";
 import NavbarShoppingBtn from "./NavbarShoppingBtn";
 import NavbarUserMenu from "./NavbarUserMenu";
 
@@ -41,7 +41,7 @@ const Navbar = () => {
               onLoginClick={() => setLoginOpen(true)}
             />
 
-            <NavbarInstagramBtn />
+            {/* <NavbarInstagramBtn /> */}
 
             <NavbarShoppingBtn 
               onOpen={() => setIsOpen(true)} 
