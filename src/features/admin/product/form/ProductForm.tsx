@@ -16,7 +16,7 @@ const ProductForm = ({ form, onChange }: Props) => {
   const { categories, isLoading, hasError: hasErrorCategories } = useProductCategories();
 
   return (
-    <div className="grid gap-6 py-2 md:grid-cols-[280px_minmax(0,1fr)]">
+    <div className="grid items-start gap-6 py-2 md:grid-cols-[280px_minmax(0,1fr)]">
       {/* IMAGE */}
       <ProductImageUploadField
         label="Foto do produto"
@@ -36,10 +36,10 @@ const ProductForm = ({ form, onChange }: Props) => {
       />
 
       {/* FIELDS */}
-      <div className="grid gap-4">
-        <div className="grid grid-cols-2 gap-4">
+      <div className="grid content-start gap-4">
+        <div className="grid grid-cols-2 items-start gap-4">
           {/* NAME */}
-          <div className="grid gap-2">
+          <div className="grid content-start gap-2">
             <Label htmlFor="name" className="text-sm font-medium">
               Nome
             </Label>
@@ -53,7 +53,7 @@ const ProductForm = ({ form, onChange }: Props) => {
           </div>
 
           {/* CATEGORIES */}
-          <div className="grid gap-2">
+          <div className="grid content-start gap-2">
             {categories?.length > 0 && (
               <CategoriesSelect
                 categories={categories}
@@ -67,23 +67,23 @@ const ProductForm = ({ form, onChange }: Props) => {
         </div>
 
         {/* DESCRIPTION */}
-        <div className="grid gap-2">
+        <div className="grid content-start gap-2">
           <Label htmlFor="description" className="text-sm font-medium">
             Descrição
           </Label>
           <Textarea
             id="description"
-            rows={6}
+            rows={10}
             value={form.description}
             onChange={(e) => onChange("description", e.target.value)}
             placeholder="Descreva o produto..."
-            className="min-h-[160px] resize-y bg-background"
+            className="min-h-[260px] resize-y bg-background"
           />
         </div>
 
         {/* PRICE + STOCK */}
-        <div className="grid grid-cols-2 gap-4">
-          <div className="grid gap-2">
+        <div className="grid grid-cols-2 items-start gap-4">
+          <div className="grid content-start gap-2">
             <Label htmlFor="price" className="text-sm font-medium">
               Preço (R$)
             </Label>
@@ -99,7 +99,7 @@ const ProductForm = ({ form, onChange }: Props) => {
             />
           </div>
 
-          <div className="grid gap-2">
+          <div className="grid content-start gap-2">
             <Label htmlFor="stock" className="text-sm font-medium">
               Estoque
             </Label>
