@@ -47,12 +47,15 @@ export const productRepository = {
     return normalizeProduct(response.data);
   },
 
-  update: async (id: string, data: UpdateProductData): Promise<Product> => {
-    const response = await httpClientAuth.patch<ApiProduct>(
+  update: async (
+    id: string,
+    data: UpdateProductData
+  ): Promise<ProductListItem> => {
+    const response = await httpClientAuth.patch<ApiProductListItem>(
       `${BASE_URL}/${id}`,
       data
     );
-    return normalizeProduct(response.data);
+    return normalizeProductListItem(response.data);
   },
 
   remove: async (id: string): Promise<void> => {

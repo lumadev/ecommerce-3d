@@ -4,15 +4,9 @@ import { toast } from "sonner";
 import { productRepository } from "../repositories/productRepository";
 import {
   CreateProductData,
-  Product,
   ProductListItem,
   UpdateProductData,
 } from "../types/product.types";
-
-const toListItemWithoutCategories = (product: Product): ProductListItem => ({
-  ...product,
-  categories: [],
-});
 
 export const useProducts = () => {
   const [productList, setProductList] = useState<ProductListItem[]>([]);
@@ -50,23 +44,18 @@ export const useProducts = () => {
   const updateProduct = async (id: string, data: UpdateProductData) => {
     try {
       const updated = await productRepository.update(id, data);
-      const mapped = toListItemWithoutCategories(updated);
 
       setProductList((prev) =>
         prev.map((p) => {
           if (p.id !== id) {
             return p;
           }
-
-          return {
-            ...mapped,
-            categories: p.categories,
-          };
+          return updated;
         })
       );
 
       toast.success("Produto atualizado com sucesso.");
-      return mapped;
+      return updated;
     } catch (error) {
       toast.error("Não foi possível atualizar o produto.");
       throw error;
@@ -76,12 +65,15 @@ export const useProducts = () => {
   const createProduct = async (data: CreateProductData) => {
     try {
       const created = await productRepository.create(data);
-      const mapped = toListItemWithoutCategories(created);
+      const createdProduct: ProductListItem = {
+        ...created,
+        categories: [],
+      };
 
-      setProductList((prev) => [mapped, ...prev]);
+      setProductList((prev) => [createdProduct, ...prev]);
 
       toast.success("Produto criado com sucesso.");
-      return mapped;
+      return createdProduct;
     } catch (error) {
       toast.error("Não foi possível criar o produto.");
       throw error;

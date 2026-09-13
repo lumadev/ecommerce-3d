@@ -10,7 +10,7 @@ const Footer = () => {
         <p className="max-w-md text-sm text-muted-foreground">
           Transformando ideias em realidade, camada por camada.
         </p>
-        <a
+        {/* <a
           href="https://instagram.com"
           target="_blank"
           rel="noopener noreferrer"
@@ -18,7 +18,7 @@ const Footer = () => {
         >
           <Instagram size={16} />
           Siga-nos no Instagram
-        </a>
+        </a> */}
         <p className="text-xs text-muted-foreground/60">
           © 2026 Print3D. Todos os direitos reservados.
         </p>

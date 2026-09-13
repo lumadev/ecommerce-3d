@@ -16,7 +16,7 @@ import ProductForm from "./ProductForm";
 interface Props {
   product: ProductListItem | null;
   onClose: () => void;
-  onSave: (id: string, data: UpdateProductData) => Promise<void>;
+  onSave: (id: string, data: UpdateProductData) => Promise<ProductListItem>;
 }
 
 const toFormState = (p: ProductListItem | null): ProductFormState => ({
@@ -24,6 +24,8 @@ const toFormState = (p: ProductListItem | null): ProductFormState => ({
   description: p?.description ?? "",
   price: p?.price != null ? p.price.toString() : "",
   stock: p?.stock != null ? p.stock.toString() : "",
+  image: p?.mediaUrls?.[0] ?? "",
+  mediaPublicIds: [],
   categoryIds: p?.categories ? p.categories.map((c) => c.id) : [],
 });
 
@@ -65,6 +67,7 @@ const EditProductDialog = ({ product, onClose, onSave }: Props) => {
       description: form.description.trim(),
       price,
       stock,
+      mediaPublicIds: form.mediaPublicIds,
       categoryIds: form.categoryIds,
     };
 
@@ -81,7 +84,7 @@ const EditProductDialog = ({ product, onClose, onSave }: Props) => {
 
   return (
     <Dialog open={!!product} onOpenChange={onClose}>
-      <DialogContent className="max-h-[90vh] overflow-y-auto border-border bg-card text-card-foreground sm:max-w-[890px]">
+      <DialogContent className="max-h-[90vh] overflow-y-auto border-border bg-card text-card-foreground sm:max-w-[960px]">
         <DialogHeader className="border-b border-border pb-4">
           <DialogTitle className="text-xl">Editar Produto</DialogTitle>
         </DialogHeader>
