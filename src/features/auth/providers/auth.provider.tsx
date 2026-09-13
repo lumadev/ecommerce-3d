@@ -9,22 +9,6 @@ import {
   ClientAuthContext,
 } from "../auth.context";
 
-function getStorageKey(type: AuthType) {
-  return `auth:${type}:userId`;
-}
-
-function getStoredUserId(type: AuthType) {
-  return window.localStorage.getItem(getStorageKey(type));
-}
-
-function persistUserId(userId: string, type: AuthType) {
-  window.localStorage.setItem(getStorageKey(type), userId);
-}
-
-function clearPersistedUserId(type: AuthType) {
-  window.localStorage.removeItem(getStorageKey(type));
-}
-
 function assertRole(user: SessionUser, expectedRole: AuthType) {
   return user.role === expectedRole;
 }
@@ -38,19 +22,10 @@ export function createAuthProvider<R extends AuthType>(
     const [isCheckingSession, setIsCheckingSession] = useState(true);
 
     const refreshSession = async () => {
-      const userId = getStoredUserId(role);
-
-      if (!userId) {
-        setUser(null);
-        setIsCheckingSession(false);
-        return null;
-      }
-
       try {
         const sessionUser = await authRepository.checkSession();
 
         if (!assertRole(sessionUser, role)) {
-          clearPersistedUserId(role);
           setUser(null);
           return null;
         }
@@ -58,7 +33,6 @@ export function createAuthProvider<R extends AuthType>(
         setUser(sessionUser);
         return sessionUser;
       } catch {
-        clearPersistedUserId(role);
         setUser(null);
         return null;
       } finally {
@@ -74,14 +48,11 @@ export function createAuthProvider<R extends AuthType>(
     };
 
     const login = async (credentials: CredentialsByRole<R>) => {
-      const authResponse = await loginByRole[role](credentials);
-
-      persistUserId(authResponse.id, role);
+      await loginByRole[role](credentials);
 
       const sessionUser = await authRepository.checkSession();
 
       if (!assertRole(sessionUser, role)) {
-        clearPersistedUserId(role);
         setUser(null);
         return null;
       }
@@ -91,9 +62,14 @@ export function createAuthProvider<R extends AuthType>(
       return sessionUser;
     };
 
-    const logout = () => {
-      clearPersistedUserId(role);
-      setUser(null);
+    const logout = async () => {
+      try {
+        await authRepository.logout();
+      } catch {
+        // Ignora erros caso a chamada de logout falhe
+      } finally {
+        setUser(null);
+      }
     };
 
     useEffect(() => {
