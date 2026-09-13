@@ -8,6 +8,13 @@ import {
 const BASE_URL = "/categories";
 
 export const categoryRepository = {
+  findAll: async (signal?: AbortSignal): Promise<Category[]> => {
+    const response = await httpClientAuth.get<Category[]>(BASE_URL, {
+      signal,
+    });
+    return response.data;
+  },
+    
   create: async (data: CreateCategoryData): Promise<Category> => {
     const response = await httpClientAuth.post<Category>(BASE_URL, data);
     return response.data;

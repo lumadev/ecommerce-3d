@@ -43,13 +43,15 @@ const ProductForm = ({ form, onChange }: Props) => {
 
           {/* CATEGORIES */}
           <div className="grid gap-2">
-            <CategoriesSelect
-              categories={categories}
-              isLoading={isLoading}
-              hasError={hasErrorCategories}
-              value={form.categoryIds}
-              onChange={(cats) => onChange("categoryIds", cats)}
-            />
+            {categories?.length > 0 && (
+              <CategoriesSelect
+                categories={categories}
+                isLoading={isLoading}
+                hasError={hasErrorCategories}
+                value={form.categoryIds}
+                onChange={(cats) => onChange("categoryIds", cats)}
+              />
+            )}
           </div>
         </div>
 
