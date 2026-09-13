@@ -1,4 +1,3 @@
-import { httpClientPublic } from "@/infra/http/httpClient";
 import { httpClientAuth } from "@/infra/http/httpClient";
 import {
   RegisterData,
@@ -12,7 +11,7 @@ const BASE_URL = "/auth";
 
 export const authRepository = {
   register: async (data: RegisterData): Promise<AuthResponse> => {
-    const response = await httpClientPublic.post(`${BASE_URL}/register`, {
+    const response = await httpClientAuth.post(`${BASE_URL}/register`, {
       name: data.name,
       email: data.email,
       password: data.password,
@@ -40,5 +39,9 @@ export const authRepository = {
     const response = await httpClientAuth.get(`${BASE_URL}/me`);
 
     return response.data;
+  },
+
+  logout: async (): Promise<void> => {
+    await httpClientAuth.post(`${BASE_URL}/logout`);
   },
 };
