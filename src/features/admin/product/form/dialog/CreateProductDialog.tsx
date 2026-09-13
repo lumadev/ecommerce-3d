@@ -11,11 +11,10 @@ import { Button } from "@/shared/components/ui/button/button";
 import { toast } from "sonner";
 import { Loader2 } from "lucide-react";
 import { imageUploadRepository } from "@/features/file/repositories/imageUploadRepository";
-import { ProductFormState } from "../types/product-form.types";
-
-import { Product, CreateProductData } from "../types/product.types";
-
-import ProductForm from "./ProductForm";
+import { ProductFormState } from "../../types/product-form.types";
+import { Product, CreateProductData } from "../../types/product.types";
+import ProductForm from "../ProductForm";
+import { validateProductForm } from "../../helpers/product-form.helpers";
 
 interface Props {
   open: boolean;
@@ -50,36 +49,14 @@ const CreateProductDialog = ({ open, onClose, onCreate }: Props) => {
     }
   };
 
-  const handleCreate = async () => {
-    if (!form.name.trim()) {
-      toast.error("Informe o nome do produto.");
-      return;
-    }
-
-    const price = parseFloat(form.price);
-    if (isNaN(price) || price <= 0) {
-      toast.error("Informe um preço válido.");
-      return;
-    }
-
-    const stock = parseInt(form.stock);
-    if (isNaN(stock) || stock < 0) {
-      toast.error("Informe um estoque válido.");
-      return;
-    }
-
-    if (!form.categoryIds.length) {
-      toast.error("Selecione ao menos uma categoria.");
+  const onSaveCreate = async () => {
+    const validatedForm = validateProductForm(form);
+    if (!validatedForm) {
       return;
     }
 
     const newProduct: CreateProductData = {
-      name: form.name.trim(),
-      description: form.description.trim(),
-      price,
-      stock,
-      mediaPublicIds: form.mediaPublicIds,
-      categoryIds: form.categoryIds,
+      ...validatedForm,
     };
 
     try {
@@ -116,7 +93,7 @@ const CreateProductDialog = ({ open, onClose, onCreate }: Props) => {
           <Button variant="outline" onClick={handleCancel} disabled={isLoading}>
             Cancelar
           </Button>
-          <Button onClick={handleCreate} disabled={isLoading}>
+          <Button onClick={onSaveCreate} disabled={isLoading}>
             {isLoading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
             {isLoading ? "Salvando..." : "Criar"}
           </Button>

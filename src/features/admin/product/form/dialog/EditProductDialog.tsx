@@ -7,11 +7,11 @@ import {
   DialogFooter,
 } from "@/shared/components/ui/dialog";
 import { Button } from "@/shared/components/ui/button/button";
-import { toast } from "sonner";
 import { Loader2 } from "lucide-react";
-import { ProductListItem, UpdateProductData } from "../types/product.types";
-import { ProductFormState } from "../types/product-form.types";
-import ProductForm from "./ProductForm";
+import { ProductListItem, UpdateProductData } from "../../types/product.types";
+import { ProductFormState } from "../../types/product-form.types";
+import ProductForm from "../ProductForm";
+import { validateProductForm } from "../../helpers/product-form.helpers";
 
 interface Props {
   product: ProductListItem | null;
@@ -37,38 +37,16 @@ const EditProductDialog = ({ product, onClose, onSave }: Props) => {
     setForm(toFormState(product));
   }, [product]);
 
-  const handleSave = async () => {
+  const onSaveEdit = async () => {
     if (!product) return;
 
-    if (!form.name.trim()) {
-      toast.error("Informe o nome do produto.");
-      return;
-    }
-
-    const price = parseFloat(form.price);
-    if (isNaN(price) || price <= 0) {
-      toast.error("Informe um preço válido.");
-      return;
-    }
-
-    const stock = parseInt(form.stock);
-    if (isNaN(stock) || stock < 0) {
-      toast.error("Informe um estoque válido.");
-      return;
-    }
-
-    if (!form.categoryIds.length) {
-      toast.error("Selecione ao menos uma categoria.");
+    const validatedForm = validateProductForm(form);
+    if (!validatedForm) {
       return;
     }
 
     const updateData: UpdateProductData = {
-      name: form.name.trim(),
-      description: form.description.trim(),
-      price,
-      stock,
-      mediaPublicIds: form.mediaPublicIds,
-      categoryIds: form.categoryIds,
+      ...validatedForm,
     };
 
     try {
@@ -98,7 +76,7 @@ const EditProductDialog = ({ product, onClose, onSave }: Props) => {
           <Button variant="outline" onClick={onClose} disabled={isLoading}>
             Cancelar
           </Button>
-          <Button onClick={handleSave} disabled={isLoading}>
+          <Button onClick={onSaveEdit} disabled={isLoading}>
             {isLoading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
             {isLoading ? "Salvando..." : "Salvar"}
           </Button>

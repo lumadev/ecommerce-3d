@@ -7,8 +7,8 @@ import { ProductListItem } from "./types/product.types";
 import ProductTableSkeleton from "./list/ProductTableSkeleton";
 import ProductTable from "./list/ProductTable";
 
-import EditProductDialog from "./form/EditProductDialog";
-import CreateProductDialog from "./form/CreateProductDialog";
+import EditProductDialog from "./form/dialog/EditProductDialog";
+import CreateProductDialog from "./form/dialog/CreateProductDialog";
 
 const AdminProducts = () => {
   const { productList, isLoading, updateProduct, createProduct, removeProduct } = useProducts();
