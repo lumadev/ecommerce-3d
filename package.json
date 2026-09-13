@@ -12,7 +12,9 @@
     "lint": "eslint .",
     "preview": "vite preview",
     "test": "vitest run",
-    "test:watch": "vitest"
+    "test:watch": "vitest",
+    "install-safe": "pnpm install --ignore-scripts",
+    "update:libs": "node scripts/update-libs.js"
   },
   "dependencies": {
     "@hookform/resolvers": "^3.10.0",
