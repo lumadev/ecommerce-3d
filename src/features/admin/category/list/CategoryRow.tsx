@@ -26,11 +26,13 @@ const CategoryRow = ({ category, index, onEdit, onRemove }: Props) => {
     >
       <TableCell className="font-medium text-foreground">
         <div className="flex items-center gap-3">
-          <img
-            src={category.url}
-            alt={category.name}
-            className="h-10 w-10 rounded-md border border-border object-cover"
-          />
+          {category.url && (
+            <img
+              src={category.url}
+              alt={category.name}
+              className="h-10 w-10 rounded-md border border-border object-cover"
+            />
+          )}
           <span>{category.name}</span>
         </div>
       </TableCell>

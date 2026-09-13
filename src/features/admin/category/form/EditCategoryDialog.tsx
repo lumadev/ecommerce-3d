@@ -9,6 +9,7 @@ import {
 } from "@/shared/components/ui/dialog";
 import { Button } from "@/shared/components/ui/button/button";
 import { toast } from "sonner";
+import { Loader2 } from "lucide-react";
 import { Category } from "@/data/categories";
 import { CategoryFormState } from "@/features/admin/category/types/category-form.types";
 import { UpdateCategoryData } from "@/features/admin/category/types/category.types";
@@ -39,10 +40,18 @@ const toFormState = (c: Category | null): CategoryFormState => ({
 
 const EditCategoryDialog = ({ category, onClose, onSave }: Props) => {
   const [form, setForm] = useState<CategoryFormState>(() => toFormState(category));
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
     setForm(toFormState(category));
   }, [category]);
+
+  const isBusy = isLoading;
+
+  const handleCancel = () => {
+    onClose();
+    setForm(emptyForm);
+  };
 
   const handleSave = async () => {
     if (!category) return;
@@ -52,23 +61,24 @@ const EditCategoryDialog = ({ category, onClose, onSave }: Props) => {
       return;
     }
 
-    if (!form.picturePublicId) {
-      toast.error("Adicione uma foto da categoria.");
-      return;
-    }
+    const updatedCategory: UpdateCategoryData = {
+      name: form.name.trim(),
+      description: form.description.trim(),
+      picturePublicId: form.picturePublicId,
+      hashtags: form.hashtags,
+    };
 
     try {
-      await onSave(category.id, {
-        name: form.name.trim(),
-        description: form.description.trim(),
-        picturePublicId: form.picturePublicId,
-        hashtags: form.hashtags,
-      });
+      setIsLoading(true);
+
+      await onSave(category.id, updatedCategory);
 
       onClose();
       setForm(emptyForm);
     } catch {
       // Errors are handled by the hook responsible for persistence.
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -88,10 +98,15 @@ const EditCategoryDialog = ({ category, onClose, onSave }: Props) => {
         />
 
         <DialogFooter className="border-t border-border pt-4">
-          <Button variant="outline" onClick={onClose}>
+          <Button variant="outline" onClick={handleCancel} disabled={isBusy}>
             Cancelar
           </Button>
-          <Button onClick={handleSave}>Salvar Alterações</Button>
+          <Button onClick={handleSave} disabled={isBusy}>
+            {isLoading && (
+              <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+            )}
+            {isLoading ? "Salvando..." : "Salvar Alterações"}
+          </Button>
         </DialogFooter>
       </DialogContent>
     </Dialog>

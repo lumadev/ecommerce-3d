@@ -29,7 +29,6 @@ export const products: Product[] = [
     image: productVaso,
     media: [
       { type: "image", src: productVaso },
-      { type: "image", src: productOrganizador },
       { type: "video", src: "https://samplelib.com/preview/mp4/sample-5s.mp4", poster: productVaso },
     ],
     categories: ["Decoração"],
@@ -41,10 +40,6 @@ export const products: Product[] = [
     description: "Luminária em formato de lua com detalhes realistas de crateras. Iluminação LED inclusa.",
     price: 89.90,
     image: productLuminaria,
-    media: [
-      { type: "image", src: productLuminaria },
-      { type: "image", src: productDragao },
-    ],
     categories: ["Iluminação", "Decoração"],
     customizable: true,
   },

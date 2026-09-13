@@ -60,11 +60,6 @@ const CreateCategoryDialog = ({ open, onClose, onCreate }: Props) => {
       return;
     }
 
-    if (!form.picturePublicId) {
-      toast.error("Adicione uma foto da categoria.");
-      return;
-    }
-
     const newCategory: CreateCategoryData = {
       name: form.name.trim(),
       description: form.description.trim(),
@@ -107,7 +102,7 @@ const CreateCategoryDialog = ({ open, onClose, onCreate }: Props) => {
         <DialogFooter className="border-t border-border pt-4">
           <Button
             variant="outline"
-            onClick={() => void handleCancel()}
+            onClick={handleCancel}
             disabled={isBusy}
           >
             Cancelar

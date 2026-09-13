@@ -18,7 +18,8 @@ export const categories: Category[] = [
   {
     id: "decoracao",
     name: "Decoração",
-    description: "Peças decorativas únicas para transformar ambientes com design moderno e geométrico.",
+    description: "Peças decorativas únicas para transformar ambientes com design " +
+    "moderno e geométrico.",
     picturePublicId: catDecoracao,
     url: catDecoracao,
     hashtags: ["Vasos geométricos", "Esculturas", "Quadros 3D", "Porta-retratos"],
