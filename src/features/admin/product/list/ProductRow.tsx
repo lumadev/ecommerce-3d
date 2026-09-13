@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import { Pencil, Trash2 } from "lucide-react";
+import { PackageCheck, Pencil, Trash2 } from "lucide-react";
 import { TableCell } from "@/shared/components/ui/table";
 import { ProductListItem } from "../types/product.types";
 import ConfirmActionDialog from "@/shared/components/ConfirmActionDialog";
@@ -65,13 +65,16 @@ const ProductRow = ({ product, index, onEdit, onRemove }: Props) => {
       </TableCell>
 
       <TableCell className="text-center">
-        <span
-          className={
-            product.stock <= 10 ? "text-destructive" : "text-foreground"
-          }
-        >
-          {product.stock}
-        </span>
+        {product.stock === 0 ? (
+          <span className="inline-flex items-center gap-1 rounded-full bg-destructive/10 px-2.5 py-1 text-xs font-medium text-destructive">
+            Sem Estoque
+          </span>
+        ) : (
+          <span className="inline-flex items-center gap-1 rounded-full bg-secondary px-2.5 py-1 text-xs font-medium text-secondary-foreground">
+            <PackageCheck size={14} aria-hidden="true" />
+            {product.stock} {product.stock === 1 ? "unidade" : "unidades"}
+          </span>
+        )}
       </TableCell>
 
       <TableCell className="text-center">
