@@ -36,6 +36,7 @@ const ProductImageUploadField = ({
 }: Props) => {
   const uploadConfig = {
     picturePublicId,
+    folder: "products" as const,
     onUpload: (data: UploadedImageData) => {
       onChange(data.url);
       onUploadComplete?.(data);

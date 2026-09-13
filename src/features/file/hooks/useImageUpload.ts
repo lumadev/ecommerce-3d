@@ -22,6 +22,7 @@ const validateImageFile = (file: File) => {
 
 export function useImageUpload({
   picturePublicId,
+  folder,
   onUpload,
   onRemove,
 }: UseImageUploadOptions) {
@@ -39,6 +40,7 @@ export function useImageUpload({
 
   const { isUploading, uploadImage, removeImage } = useImageUploadActions({
     picturePublicId,
+    folder,
     onUpload,
     onRemove,
     onFinally: resetFileInput,

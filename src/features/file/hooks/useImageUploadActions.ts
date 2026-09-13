@@ -9,6 +9,7 @@ interface UseImageUploadActionsOptions extends UseImageUploadOptions {
 
 export function useImageUploadActions({
   picturePublicId,
+  folder,
   onUpload,
   onRemove,
   onFinally,
@@ -19,7 +20,7 @@ export function useImageUploadActions({
     setIsUploading(true);
 
     try {
-      const result = await imageUploadRepository.upload(file);
+      const result = await imageUploadRepository.upload(file, folder);
       onUpload({
         url: result.url,
         picturePublicId: result.public_id,

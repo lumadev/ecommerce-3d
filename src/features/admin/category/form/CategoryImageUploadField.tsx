@@ -41,6 +41,7 @@ const CategoryImageUploadField = ({
 }: Props) => {
   const uploadConfig = {
     picturePublicId,
+    folder: "categories" as const,
 
     onUpload: (data: UploadedImageData) => {
       onChange(data.url);

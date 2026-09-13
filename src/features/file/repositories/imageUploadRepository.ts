@@ -5,10 +5,16 @@ interface UploadImageResponse {
   public_id: string;
 }
 
+type UploadFolder = "categories" | "products";
+
 export const imageUploadRepository = {
-  upload: async (file: File): Promise<UploadImageResponse> => {
+  upload: async (
+    file: File,
+    folder: UploadFolder
+  ): Promise<UploadImageResponse> => {
     const formData = new FormData();
     formData.append("file", file);
+    formData.append("folder", folder);
 
     const response = await httpClientAuth.post<UploadImageResponse>(
       "/upload",
