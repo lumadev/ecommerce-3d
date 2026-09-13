@@ -10,8 +10,16 @@ if (!apiBaseUrl) {
   );
 }
 
-if (import.meta.env.PROD && !apiBaseUrl.startsWith("https://")) {
-  throw new Error("VITE_API_URL must use HTTPS in production.");
+const isRelativeUrl = apiBaseUrl.startsWith("/");
+
+if (
+  import.meta.env.PROD &&
+  !isRelativeUrl &&
+  !apiBaseUrl.startsWith("https://")
+) {
+  throw new Error(
+    "VITE_API_URL must use HTTPS (or be a relative path) in production.",
+  );
 }
 
 export const httpClientAuth = axios.create({
