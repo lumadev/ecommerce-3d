@@ -90,11 +90,23 @@ const ProductForm = ({ form, onChange }: Props) => {
             <Input
               id="price"
               type="number"
+              inputMode="decimal"
               step="0.01"
               min="0"
               placeholder="0,00"
               value={form.price}
-              onChange={(e) => onChange("price", e.target.value)}
+              onChange={(e) => {
+                const value = e.target.value;
+
+                if (/^\d*(?:\.\d{0,2})?$/.test(value)) {
+                  onChange("price", value);
+                }
+              }}
+              onBlur={() => {
+                if (form.price !== "") {
+                  onChange("price", Number(form.price).toFixed(2));
+                }
+              }}
               className="bg-background"
             />
           </div>
