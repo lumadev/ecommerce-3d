@@ -33,7 +33,7 @@ const SearchDialog = ({ open, onOpenChange }: SearchDialogProps) => {
     return products.filter(
         (p) =>
           p.name.toLowerCase().includes(normalizedSearch) ||
-          p.category.toLowerCase().includes(normalizedSearch) ||
+          p.categories.some((category) => category.toLowerCase().includes(normalizedSearch)) ||
           p.description.toLowerCase().includes(normalizedSearch)
       );
   }, [search]);
