@@ -5,7 +5,7 @@ const Footer = () => {
     <footer className="border-t border-border py-10">
       <div className="container mx-auto flex flex-col items-center gap-4 px-4 text-center">
         <a href="/" className="font-display text-lg font-bold tracking-wider text-primary">
-          PRINT<span className="text-foreground">3D</span>
+          JOANES<span className="text-foreground">3D</span>
         </a>
         <p className="max-w-md text-sm text-muted-foreground">
           Transformando ideias em realidade, camada por camada.
@@ -20,7 +20,7 @@ const Footer = () => {
           Siga-nos no Instagram
         </a> */}
         <p className="text-xs text-muted-foreground/60">
-          © 2026 Print3D. Todos os direitos reservados.
+          © 2026 Joanes3D. Todos os direitos reservados.
         </p>
       </div>
     </footer>

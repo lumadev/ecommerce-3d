@@ -38,7 +38,7 @@ const LoginModal = ({ open, onOpenChange }: LoginModalProps) => {
 
             <div className="mb-6 text-center">
               <h2 className="text-2xl font-bold text-primary">
-                PRINT<span className="text-foreground">3D</span>
+                JOANES<span className="text-foreground">3D</span>
               </h2>
 
               <p className="text-sm text-muted-foreground mt-2">
