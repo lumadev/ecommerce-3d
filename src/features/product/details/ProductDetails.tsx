@@ -8,6 +8,7 @@ import CartDrawer from "@/features/cart/components/CartDrawer";
 import Footer from "@/layout/components/Footer";
 import MediaCarousel from "./MediaCarousel";
 import ProductBackLink from "./ProductBackLink";
+import ProductDetailsSkeleton from "./ProductDetailsSkeleton";
 import { useProduct } from "@/features/product/hooks/useProduct";
 
 const ProductDetailContent = () => {
@@ -22,7 +23,7 @@ const ProductDetailContent = () => {
   const { product, isLoading } = useProduct(id);
 
   if (isLoading) {
-    return <div className="min-h-screen bg-background pt-16" />;
+    return <ProductDetailsSkeleton />;
   }
 
   if (!product) {
