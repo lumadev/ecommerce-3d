@@ -19,7 +19,8 @@ const ProductCard = ({ product, index }: ProductCardProps) => {
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: "-50px" }}
       transition={{ duration: 0.5, delay: index * 0.1 }}
-      className="group relative overflow-hidden rounded-xl border border-border bg-gradient-card transition-all duration-300 hover:border-primary/40 hover:shadow-glow"
+      onClick={() => navigate(`/produto/${product.id}`)}
+      className="group relative cursor-pointer overflow-hidden rounded-xl border border-border bg-gradient-card transition-all duration-300 hover:border-primary/40 hover:shadow-glow"
     >
       <div className="relative aspect-square overflow-hidden">
         <img
@@ -55,14 +56,20 @@ const ProductCard = ({ product, index }: ProductCardProps) => {
           </span>
           <div className="flex items-center gap-2">
             <button
-              onClick={() => navigate(`/produto/${product.id}`)}
+              onClick={(e) => {
+                e.stopPropagation();
+                navigate(`/produto/${product.id}`);
+              }}
               className="flex items-center gap-1.5 rounded-lg border border-primary/30 px-3 py-2 text-sm font-semibold text-primary transition-all hover:border-primary hover:shadow-glow"
             >
               <Eye size={16} />
               Visualizar
             </button>
             <button
-              onClick={() => addItem(product)}
+              onClick={(e) => {
+                e.stopPropagation();
+                addItem(product);
+              }}
               className="flex items-center gap-1.5 rounded-lg bg-gradient-cta px-3 py-2 text-sm font-semibold text-primary-foreground transition-all hover:shadow-glow hover:scale-105"
             >
               <ShoppingCart size={16} />
