@@ -2,7 +2,7 @@ import { Route, Routes } from "react-router-dom";
 
 import Navbar from "@/layout/navbar/Navbar";
 import Index from "@/pages/Index";
-import Products from "@/features/product/Products";
+import Products from "@/features/product/ProductsIndex";
 import ProductDetails from "@/features/product/details/ProductDetails";
 import MyOrders from "@/features/order/MyOrders";
 import NotFound from "@/pages/NotFound";
