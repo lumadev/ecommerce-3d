@@ -3,6 +3,7 @@ import { ShoppingCart, Sparkles, Eye } from "lucide-react";
 import { Product } from "@/data/products";
 import { useCartContext as useCart } from "@/features/cart/useCart";
 import { useNavigate } from "react-router-dom";
+import { ProductDetailsLocationState } from "@/features/product/details/productDetailsLocationState";
 
 interface ProductCardProps {
   product: Product;
@@ -13,13 +14,18 @@ const ProductCard = ({ product, index }: ProductCardProps) => {
   const { addItem } = useCart();
   const navigate = useNavigate();
 
+  const goToProductDetails = () =>
+    navigate(`/produto/${product.id}`, {
+      state: { product } satisfies ProductDetailsLocationState,
+    });
+
   return (
     <motion.div
       initial={{ opacity: 0, y: 30 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: "-50px" }}
       transition={{ duration: 0.5, delay: index * 0.1 }}
-      onClick={() => navigate(`/produto/${product.id}`)}
+      onClick={goToProductDetails}
       className="group relative cursor-pointer overflow-hidden rounded-xl border border-border bg-gradient-card transition-all duration-300 hover:border-primary/40 hover:shadow-glow"
     >
       <div className="relative aspect-square overflow-hidden">
@@ -58,7 +64,7 @@ const ProductCard = ({ product, index }: ProductCardProps) => {
             <button
               onClick={(e) => {
                 e.stopPropagation();
-                navigate(`/produto/${product.id}`);
+                goToProductDetails();
               }}
               className="flex items-center gap-1.5 rounded-lg border border-primary/30 px-3 py-2 text-sm font-semibold text-primary transition-all hover:border-primary hover:shadow-glow"
             >

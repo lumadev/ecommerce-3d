@@ -5,14 +5,23 @@ import { productRepository } from "../repositories/productRepository";
 import { Product } from "@/data/products";
 import { toProduct } from "../mappers/toProduct";
 
-export const useProduct = (id?: string) => {
+export const useProduct = (id?: string, cachedProduct?: Product) => {
   const { toast } = useToast();
-  const [product, setProduct] = useState<Product | null>(null);
-  const [isLoading, setIsLoading] = useState(true);
+  const hasValidCache = !!cachedProduct && cachedProduct.id === id;
+  const [product, setProduct] = useState<Product | null>(
+    hasValidCache ? cachedProduct : null
+  );
+  const [isLoading, setIsLoading] = useState(!hasValidCache);
 
   useEffect(() => {
     if (!id) {
       setProduct(null);
+      setIsLoading(false);
+      return;
+    }
+
+    if (cachedProduct && cachedProduct.id === id) {
+      setProduct(cachedProduct);
       setIsLoading(false);
       return;
     }
@@ -43,7 +52,7 @@ export const useProduct = (id?: string) => {
     return () => {
       controller.abort();
     };
-  }, [id]);
+  }, [id, cachedProduct]);
 
   return {
     product,

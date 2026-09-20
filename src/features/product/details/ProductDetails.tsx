@@ -1,5 +1,5 @@
 import { ArrowLeft, ShoppingCart, Sparkles, Package, Ruler, Layers } from "lucide-react";
-import { useNavigate, useParams } from "react-router-dom";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { useCartContext as useCart } from "@/features/cart/useCart";
 import { motion } from "framer-motion";
 import { useState } from "react";
@@ -10,9 +10,11 @@ import MediaCarousel from "./MediaCarousel";
 import ProductNotFound from "./ProductNotFound";
 import ProductDetailsSkeleton from "./ProductDetailsSkeleton";
 import { useProduct } from "@/features/product/hooks/useProduct";
+import { ProductDetailsLocationState } from "./productDetailsLocationState";
 
 const ProductDetailContent = () => {
   const { id } = useParams<{ id: string }>();
+  const location = useLocation();
 
   const navigate = useNavigate();
   const { addItem } = useCart();
@@ -20,7 +22,9 @@ const ProductDetailContent = () => {
   const [quantity, setQuantity] = useState(1);
   const [activeMedia, setActiveMedia] = useState(0);
 
-  const { product, isLoading } = useProduct(id);
+  const cachedProduct = (location.state as ProductDetailsLocationState | null)
+    ?.product;
+  const { product, isLoading } = useProduct(id, cachedProduct);
 
   if (isLoading) {
     return <ProductDetailsSkeleton />;
