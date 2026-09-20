@@ -19,7 +19,7 @@ import CategoryForm from "./CategoryForm";
 interface Props {
   category: Category | null;
   onClose: () => void;
-  onSave: (id: string, category: UpdateCategoryData) => Promise<void>;
+  onSave: (id: string, category: UpdateCategoryData) => Promise<UpdateCategoryData>;
 }
 
 const emptyForm: CategoryFormState = {

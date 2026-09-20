@@ -31,7 +31,6 @@ export const useProduct = (id?: string) => {
         }
 
         setProduct(null);
-        toast({ description: "Não foi possível carregar o produto." });
       } finally {
         if (!controller.signal.aborted) {
           setIsLoading(false);

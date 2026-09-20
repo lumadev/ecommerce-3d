@@ -7,7 +7,7 @@ import { useState } from "react";
 import CartDrawer from "@/features/cart/components/CartDrawer";
 import Footer from "@/layout/components/Footer";
 import MediaCarousel from "./MediaCarousel";
-import ProductBackLink from "./ProductBackLink";
+import ProductNotFound from "./ProductNotFound";
 import ProductDetailsSkeleton from "./ProductDetailsSkeleton";
 import { useProduct } from "@/features/product/hooks/useProduct";
 
@@ -27,7 +27,7 @@ const ProductDetailContent = () => {
   }
 
   if (!product) {
-    return <ProductBackLink />;
+    return <ProductNotFound />;
   }
 
   const handleAddToCart = () => {
