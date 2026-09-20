@@ -3,6 +3,7 @@ import { Navigate, Route, Routes, useLocation } from "react-router-dom";
 import { AdminAuthProvider } from "@/features/auth/providers/admin-auth.provider";
 import { useAdminAuth } from "@/features/auth/hooks/useAdminAuth";
 import { AdminLayout } from "@/features/admin/AdminLayout";
+import { AdminLoadingScreen } from "@/features/admin/components/AdminLoadingScreen";
 import AdminLogin from "@/features/admin/login/AdminLogin";
 import OrderPage from "@/features/admin/order/OrderPage";
 import AdminProducts from "@/features/admin/product/AdminProducts";
@@ -13,7 +14,7 @@ const RequireAdmin = () => {
   const location = useLocation();
 
   if (isCheckingSession) {
-    return null;
+    return <AdminLoadingScreen />;
   }
 
   if (!isAuthenticated) {
@@ -33,7 +34,7 @@ const RedirectIfAuthenticated = () => {
   const { isAuthenticated, isCheckingSession } = useAdminAuth();
 
   if (isCheckingSession) {
-    return null;
+    return <AdminLoadingScreen />;
   }
 
   if (isAuthenticated) {
