@@ -8,9 +8,9 @@ import {
   DialogFooter,
 } from "@/shared/components/ui/dialog";
 import { Button } from "@/shared/components/ui/button/button";
-import { toast } from "sonner";
 import { Loader2 } from "lucide-react";
 import { imageUploadRepository } from "@/features/file/repositories/imageUploadRepository";
+import { useToast } from "@/hooks/use-toast";
 
 import { CategoryFormState } from "@/features/admin/category/types/category-form.types";
 import { Category, CreateCategoryData } from "../types/category.types";
@@ -32,6 +32,7 @@ const emptyForm: CategoryFormState = {
 };
 
 const CreateCategoryDialog = ({ open, onClose, onCreate }: Props) => {
+  const { toast } = useToast();
   const [form, setForm] = useState<CategoryFormState>(emptyForm);
   const [isLoading, setIsLoading] = useState(false);
   const [isClosing, setIsClosing] = useState(false);
@@ -56,7 +57,9 @@ const CreateCategoryDialog = ({ open, onClose, onCreate }: Props) => {
 
   const onSaveCreate = async () => {
     if (!form.name.trim()) {
-      toast.error("Informe o nome da categoria.");
+      toast({
+        description: "Informe o nome da categoria.",
+      });
       return;
     }
 
@@ -72,11 +75,15 @@ const CreateCategoryDialog = ({ open, onClose, onCreate }: Props) => {
     try {
       await onCreate(newCategory);
 
-      toast.success(`Categoria "${newCategory.name}" cadastrada com sucesso.`);
+      toast({
+        description: `Categoria "${newCategory.name}" cadastrada com sucesso.`,
+      });
       onClose();
       setForm(emptyForm);
     } catch (error) {
-      toast.error("Erro ao cadastrar categoria.");
+      toast({
+        description: "Erro ao cadastrar categoria.",
+      });
     } finally {
       setIsLoading(false);
     }

@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { toast } from "sonner";
+import { useToast } from "@/hooks/use-toast";
 import { imageUploadRepository } from "../repositories/imageUploadRepository";
 import type { UseImageUploadOptions } from "./imageUpload.types";
 
@@ -14,6 +14,7 @@ export function useImageUploadActions({
   onRemove,
   onFinally,
 }: UseImageUploadActionsOptions) {
+  const { toast } = useToast();
   const [isUploading, setIsUploading] = useState(false);
 
   const uploadImage = async (file: File) => {
@@ -26,10 +27,10 @@ export function useImageUploadActions({
         picturePublicId: result.public_id,
       });
 
-      toast.success("Imagem enviada com sucesso.");
+      toast({ description: "Imagem enviada com sucesso." });
     } catch (error) {
       console.error("Erro ao enviar imagem:", error);
-      toast.error("Não foi possível enviar a imagem. Tente novamente.");
+      toast({ description: "Não foi possível enviar a imagem. Tente novamente." });
     } finally {
       setIsUploading(false);
       onFinally?.();
@@ -45,10 +46,10 @@ export function useImageUploadActions({
       }
 
       onRemove();
-      toast.success("Imagem removida com sucesso.");
+      toast({ description: "Imagem removida com sucesso." });
     } catch (error) {
       console.error("Erro ao remover imagem:", error);
-      toast.error("Não foi possível remover a imagem. Tente novamente.");
+      toast({ description: "Não foi possível remover a imagem. Tente novamente." });
     } finally {
       setIsUploading(false);
       onFinally?.();

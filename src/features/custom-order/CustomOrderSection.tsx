@@ -1,11 +1,12 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
 import { Send, Sparkles } from "lucide-react";
-import { toast } from "sonner";
 
 import { customOrderRepository } from "@/features/custom-order/repositories/customOrderRepository";
+import { useToast } from "@/hooks/use-toast";
 
 const CustomOrderSection = () => {
+  const { toast } = useToast();
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [description, setDescription] = useState("");
@@ -19,13 +20,15 @@ const CustomOrderSection = () => {
     try {
       await customOrderRepository.send({ name, email, description });
 
-      toast.success("Encomenda enviada com sucesso! Entraremos em contato em breve.");
+      toast({
+        description: "Encomenda enviada com sucesso! Entraremos em contato em breve.",
+      });
 
       setName("");
       setEmail("");
       setDescription("");
     } catch {
-      toast.error("Ocorreu um erro ao enviar a sua encomenda");
+      toast({ description: "Ocorreu um erro ao enviar a sua encomenda" });
     } finally {
       setIsLoading(false);
     }

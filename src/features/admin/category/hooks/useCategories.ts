@@ -1,11 +1,12 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
-import { toast } from "sonner";
+import { useToast } from "@/hooks/use-toast";
 import { categoryRepository } from "../repositories/categoryRepository";
 import { categoryRepository as publicCategoryRepository } from "@/features/product/repositories/categoryRepository";
 import { Category, CreateCategoryData, UpdateCategoryData } from "../types/category.types";
 
 export const useCategories = () => {
+  const { toast } = useToast();
   const [categoryList, setCategoryList] = useState<Category[]>([]);
   const [isLoading, setIsLoading] = useState(true);
 
@@ -23,7 +24,7 @@ export const useCategories = () => {
           return;
         }
 
-        toast.error("Nao foi possível carregar as categorias.");
+        toast({ description: "Nao foi possível carregar as categorias." });
       } finally {
         if (!controller.signal.aborted) {
           setIsLoading(false);
@@ -46,9 +47,9 @@ export const useCategories = () => {
       const updated = await categoryRepository.update(id, data);
       setCategoryList((prev) => prev.map((c) => (c.id === id ? updated : c)));
       
-      toast.success("Categoria atualizada com sucesso.");
+      toast({ description: "Categoria atualizada com sucesso." });
     } catch (error) {
-      toast.error("Não foi possível atualizar a categoria.");
+      toast({ description: "Não foi possível atualizar a categoria." });
       return false;
     }
   };
@@ -58,10 +59,10 @@ export const useCategories = () => {
       const created = await categoryRepository.create(data);
       setCategoryList((prev) => [created, ...prev]);
       
-      toast.success("Categoria criada com sucesso.");
+      toast({ description: "Categoria criada com sucesso." });
       return created;
     } catch (error) {
-      toast.error("Não foi possível criar a categoria.");
+      toast({ description: "Não foi possível criar a categoria." });
       throw error;
     }
   };
@@ -71,9 +72,9 @@ export const useCategories = () => {
       await categoryRepository.remove(id);
       setCategoryList((prev) => prev.filter((c) => c.id !== id));
 
-      toast.success("Categoria removida com sucesso.");
+      toast({ description: "Categoria removida com sucesso." });
     } catch (error) {
-      toast.error("Não foi possível remover a categoria.");
+      toast({ description: "Não foi possível remover a categoria." });
       throw error;
     }
   };

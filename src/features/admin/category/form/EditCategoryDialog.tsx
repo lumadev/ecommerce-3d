@@ -8,8 +8,8 @@ import {
   DialogFooter,
 } from "@/shared/components/ui/dialog";
 import { Button } from "@/shared/components/ui/button/button";
-import { toast } from "sonner";
 import { Loader2 } from "lucide-react";
+import { useToast } from "@/hooks/use-toast";
 import { Category } from "@/data/categories";
 import { CategoryFormState } from "@/features/admin/category/types/category-form.types";
 import { UpdateCategoryData } from "@/features/admin/category/types/category.types";
@@ -39,6 +39,7 @@ const toFormState = (c: Category | null): CategoryFormState => ({
 });
 
 const EditCategoryDialog = ({ category, onClose, onSave }: Props) => {
+  const { toast } = useToast();
   const [form, setForm] = useState<CategoryFormState>(() => toFormState(category));
   const [isLoading, setIsLoading] = useState(false);
 
@@ -57,7 +58,7 @@ const EditCategoryDialog = ({ category, onClose, onSave }: Props) => {
     if (!category) return;
 
     if (!form.name.trim()) {
-      toast.error("Informe o nome da categoria.");
+      toast({ description: "Informe o nome da categoria." });
       return;
     }
 

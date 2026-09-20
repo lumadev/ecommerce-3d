@@ -8,9 +8,9 @@ import {
   DialogFooter,
 } from "@/shared/components/ui/dialog";
 import { Button } from "@/shared/components/ui/button/button";
-import { toast } from "sonner";
 import { Loader2 } from "lucide-react";
 import { imageUploadRepository } from "@/features/file/repositories/imageUploadRepository";
+import { useToast } from "@/hooks/use-toast";
 import { ProductFormState } from "../../types/product-form.types";
 import { Product, CreateProductData } from "../../types/product.types";
 import ProductForm from "../ProductForm";
@@ -33,6 +33,7 @@ const emptyForm: ProductFormState = {
 };
 
 const CreateProductDialog = ({ open, onClose, onCreate }: Props) => {
+  const { toast } = useToast();
   const [form, setForm] = useState<ProductFormState>(emptyForm);
   const [isLoading, setIsLoading] = useState(false);
 
@@ -50,7 +51,9 @@ const CreateProductDialog = ({ open, onClose, onCreate }: Props) => {
   };
 
   const onSaveCreate = async () => {
-    const validatedForm = validateProductForm(form);
+    const validatedForm = validateProductForm(form, (description) =>
+      toast({ description }),
+    );
     if (!validatedForm) {
       return;
     }
@@ -64,11 +67,13 @@ const CreateProductDialog = ({ open, onClose, onCreate }: Props) => {
 
       await onCreate(newProduct);
 
-      toast.success(`Produto "${newProduct.name}" cadastrado com sucesso.`);
+      toast({
+        description: `Produto "${newProduct.name}" cadastrado com sucesso.`,
+      });
       onClose();
       setForm(emptyForm);
     } catch (error) {
-      toast.error("Erro ao cadastrar produto.");
+      toast({ description: "Erro ao cadastrar produto." });
     } finally {
       setIsLoading(false);
     }

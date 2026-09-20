@@ -6,9 +6,10 @@ import {
   OrderStatus,
   OrderStatusLabel,
 } from "@/data/orders";
-import { toast } from "sonner";
+import { useToast } from "@/hooks/use-toast";
 
 export const useOrders = () => {
+  const { toast } = useToast();
   const [orders, setOrders] = useState<Order[]>(mockOrders);
 
   const updateStatus = (orderId: string, newStatus: OrderStatus) => {
@@ -26,9 +27,9 @@ export const useOrders = () => {
       )
     );
 
-    toast.success(
-      `Pedido ${orderId} atualizado para "${OrderStatusLabel[newStatus]}"`
-    );
+    toast({
+      description: `Pedido ${orderId} atualizado para "${OrderStatusLabel[newStatus]}"`,
+    });
   };
 
   return {

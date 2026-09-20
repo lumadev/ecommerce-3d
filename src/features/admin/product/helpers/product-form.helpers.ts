@@ -1,4 +1,3 @@
-import { toast } from "sonner";
 import { ProductFormState } from "../types/product-form.types";
 
 export interface ValidatedProductForm {
@@ -11,28 +10,29 @@ export interface ValidatedProductForm {
 }
 
 export const validateProductForm = (
-  form: ProductFormState
+  form: ProductFormState,
+  notify: (description: string) => void,
 ): ValidatedProductForm | null => {
   const name = form.name.trim();
   if (!name) {
-    toast.error("Informe o nome do produto.");
+    notify("Informe o nome do produto.");
     return null;
   }
 
   const price = parseFloat(form.price);
   if (isNaN(price) || price <= 0) {
-    toast.error("Informe um preço válido.");
+    notify("Informe um preço válido.");
     return null;
   }
 
   const stock = parseInt(form.stock, 10);
   if (isNaN(stock) || stock < 0) {
-    toast.error("Informe um estoque válido.");
+    notify("Informe um estoque válido.");
     return null;
   }
 
   if (!form.categoryIds.length) {
-    toast.error("Selecione ao menos uma categoria.");
+    notify("Selecione ao menos uma categoria.");
     return null;
   }
 

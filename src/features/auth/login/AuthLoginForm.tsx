@@ -1,8 +1,8 @@
 import { useState } from "react";
 import { Loader2, Mail } from "lucide-react";
-import { toast } from "sonner";
 
 import { getErrorMessage } from "@/infra/http/httpError";
+import { useToast } from "@/hooks/use-toast";
 import { useAuth } from "../hooks/useAuth";
 import { InputField } from "../components/InputField";
 import { PasswordField } from "../components/PasswordField";
@@ -20,6 +20,7 @@ export const AuthLoginForm = ({ onToggleMode, onLoginSucess }: AuthLoginFormProp
 
   const [isLoading, setIsLoading] = useState(false);
   const { login } = useAuth();
+  const { toast } = useToast();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -31,11 +32,11 @@ export const AuthLoginForm = ({ onToggleMode, onLoginSucess }: AuthLoginFormProp
         password: formData.password,
       });
 
-      toast.success("Login realizado com sucesso.");
+      toast({ description: "Login realizado com sucesso." });
 
       onLoginSucess(); // closes modal
     } catch (error) {
-      toast.error(getErrorMessage(error));
+      toast({ description: getErrorMessage(error) });
     } finally {
       setIsLoading(false);
     }

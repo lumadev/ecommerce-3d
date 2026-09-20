@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Mail, User, Loader2 } from "lucide-react";
-import { toast } from "sonner";
 import { getErrorMessage } from "@/infra/http/httpError";
+import { useToast } from "@/hooks/use-toast";
 
 import { InputField } from "../components/InputField";
 import { PasswordField } from "../components/PasswordField";
@@ -24,12 +24,13 @@ export const AuthSignupForm = ({ onToggleMode, onLoginSucess }: AuthSignupFormPr
 
   const [isLoading, setIsLoading] = useState(false);
   const { login } = useAuth();
+  const { toast } = useToast();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
     if (formData.password !== formData.confirmPassword) {
-      toast.error("As senhas informadas precisam ser iguais.");
+      toast({ description: "As senhas informadas precisam ser iguais." });
       return;
     }
 
@@ -47,10 +48,10 @@ export const AuthSignupForm = ({ onToggleMode, onLoginSucess }: AuthSignupFormPr
         password: formData.password,
       });
 
-      toast.success("Registro feito com sucesso.");
+      toast({ description: "Registro feito com sucesso." });
       onLoginSucess(); // closes modal
     } catch (error) {
-      toast.error(getErrorMessage(error));
+      toast({ description: getErrorMessage(error) });
     } finally {
       setIsLoading(false);
     }

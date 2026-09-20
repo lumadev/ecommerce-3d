@@ -1,19 +1,19 @@
 import type { ChangeEvent } from "react";
 import { useRef } from "react";
-import { toast } from "sonner";
+import { useToast } from "@/hooks/use-toast";
 import type { UseImageUploadOptions } from "./imageUpload.types";
 import { useImageUploadActions } from "./useImageUploadActions";
 
 const MAX_IMAGE_SIZE_BYTES = 5 * 1024 * 1024;
 
-const validateImageFile = (file: File) => {
+const validateImageFile = (file: File, notify: (description: string) => void) => {
   if (!file.type.startsWith("image/")) {
-    toast.error("Selecione um arquivo de imagem válido.");
+    notify("Selecione um arquivo de imagem válido.");
     return false;
   }
 
   if (file.size > MAX_IMAGE_SIZE_BYTES) {
-    toast.error("A imagem deve ter no máximo 5MB.");
+    notify("A imagem deve ter no máximo 5MB.");
     return false;
   }
 
@@ -26,6 +26,7 @@ export function useImageUpload({
   onUpload,
   onRemove,
 }: UseImageUploadOptions) {
+  const { toast } = useToast();
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   const openFilePicker = () => {
@@ -50,7 +51,7 @@ export function useImageUpload({
     const file = e.target.files?.[0];
     if (!file) return;
 
-    if (!validateImageFile(file)) {
+    if (!validateImageFile(file, (description) => toast({ description }))) {
       resetFileInput();
       return;
     }

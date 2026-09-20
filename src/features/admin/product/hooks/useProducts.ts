@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
-import { toast } from "sonner";
+import { useToast } from "@/hooks/use-toast";
 import { productRepository } from "../repositories/productRepository";
 import {
   CreateProductData,
@@ -9,6 +9,7 @@ import {
 } from "../types/product.types";
 
 export const useProducts = () => {
+  const { toast } = useToast();
   const [productList, setProductList] = useState<ProductListItem[]>([]);
   const [isLoading, setIsLoading] = useState(true);
 
@@ -26,7 +27,7 @@ export const useProducts = () => {
           return;
         }
 
-        toast.error("Nao foi possível carregar os produtos.");
+        toast({ description: "Nao foi possível carregar os produtos." });
       } finally {
         if (!controller.signal.aborted) {
           setIsLoading(false);
@@ -54,10 +55,10 @@ export const useProducts = () => {
         })
       );
 
-      toast.success("Produto atualizado com sucesso.");
+      toast({ description: "Produto atualizado com sucesso." });
       return updated;
     } catch (error) {
-      toast.error("Não foi possível atualizar o produto.");
+      toast({ description: "Não foi possível atualizar o produto." });
       throw error;
     }
   };
@@ -72,10 +73,10 @@ export const useProducts = () => {
 
       setProductList((prev) => [createdProduct, ...prev]);
 
-      toast.success("Produto criado com sucesso.");
+      toast({ description: "Produto criado com sucesso." });
       return createdProduct;
     } catch (error) {
-      toast.error("Não foi possível criar o produto.");
+      toast({ description: "Não foi possível criar o produto." });
       throw error;
     }
   };
@@ -85,9 +86,9 @@ export const useProducts = () => {
       await productRepository.remove(id);
       setProductList((prev) => prev.filter((p) => p.id !== id));
 
-      toast.success("Produto removido com sucesso.");
+      toast({ description: "Produto removido com sucesso." });
     } catch (error) {
-      toast.error("Não foi possível remover o produto.");
+      toast({ description: "Não foi possível remover o produto." });
       throw error;
     }
   };

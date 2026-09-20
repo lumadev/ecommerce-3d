@@ -8,6 +8,7 @@ import {
 } from "@/shared/components/ui/dialog";
 import { Button } from "@/shared/components/ui/button/button";
 import { Loader2 } from "lucide-react";
+import { useToast } from "@/hooks/use-toast";
 import { ProductListItem, UpdateProductData } from "../../types/product.types";
 import { ProductFormState } from "../../types/product-form.types";
 import ProductForm from "../ProductForm";
@@ -30,6 +31,7 @@ const toFormState = (p: ProductListItem | null): ProductFormState => ({
 });
 
 const EditProductDialog = ({ product, onClose, onSave }: Props) => {
+  const { toast } = useToast();
   const [form, setForm] = useState<ProductFormState>(() => toFormState(product));
   const [isLoading, setIsLoading] = useState(false);
 
@@ -40,7 +42,9 @@ const EditProductDialog = ({ product, onClose, onSave }: Props) => {
   const onSaveEdit = async () => {
     if (!product) return;
 
-    const validatedForm = validateProductForm(form);
+    const validatedForm = validateProductForm(form, (description) =>
+      toast({ description }),
+    );
     if (!validatedForm) {
       return;
     }
