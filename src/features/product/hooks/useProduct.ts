@@ -5,26 +5,33 @@ import { productRepository } from "../repositories/productRepository";
 import { Product } from "@/data/products";
 import { toProduct } from "../mappers/toProduct";
 
-export const useProducts = () => {
+export const useProduct = (id?: string) => {
   const { toast } = useToast();
-  const [productList, setProductList] = useState<Product[]>([]);
+  const [product, setProduct] = useState<Product | null>(null);
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
+    if (!id) {
+      setProduct(null);
+      setIsLoading(false);
+      return;
+    }
+
     const controller = new AbortController();
 
-    const loadProducts = async () => {
+    const loadProduct = async () => {
       setIsLoading(true);
 
       try {
-        const products = await productRepository.findAll(controller.signal);
-        setProductList(products.map(toProduct));
+        const found = await productRepository.findOne(id, controller.signal);
+        setProduct(toProduct(found));
       } catch (error) {
         if (axios.isCancel(error)) {
           return;
         }
 
-        toast({ description: "Não foi possível carregar os produtos." });
+        setProduct(null);
+        toast({ description: "Não foi possível carregar o produto." });
       } finally {
         if (!controller.signal.aborted) {
           setIsLoading(false);
@@ -32,15 +39,15 @@ export const useProducts = () => {
       }
     };
 
-    void loadProducts();
+    void loadProduct();
 
     return () => {
       controller.abort();
     };
-  }, []);
+  }, [id]);
 
   return {
-    productList,
+    product,
     isLoading,
   };
 };

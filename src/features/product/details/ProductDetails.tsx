@@ -1,6 +1,5 @@
 import { ArrowLeft, ShoppingCart, Sparkles, Package, Ruler, Layers } from "lucide-react";
 import { useNavigate, useParams } from "react-router-dom";
-import { products } from "@/data/products";
 import { useCartContext as useCart } from "@/features/cart/useCart";
 import { motion } from "framer-motion";
 import { useState } from "react";
@@ -8,6 +7,8 @@ import { useState } from "react";
 import CartDrawer from "@/features/cart/components/CartDrawer";
 import Footer from "@/layout/components/Footer";
 import MediaCarousel from "./MediaCarousel";
+import ProductBackLink from "./ProductBackLink";
+import { useProduct } from "@/features/product/hooks/useProduct";
 
 const ProductDetailContent = () => {
   const { id } = useParams<{ id: string }>();
@@ -18,24 +19,14 @@ const ProductDetailContent = () => {
   const [quantity, setQuantity] = useState(1);
   const [activeMedia, setActiveMedia] = useState(0);
 
-  const product = products.find((p) => p.id === id);
+  const { product, isLoading } = useProduct(id);
+
+  if (isLoading) {
+    return <div className="min-h-screen bg-background pt-16" />;
+  }
 
   if (!product) {
-    return (
-      <div className="min-h-screen bg-background pt-16">
-        <div className="container mx-auto px-4 pt-12 text-center">
-          <p className="text-xl text-muted-foreground">Produto não encontrado.</p>
-          <button
-            onClick={() => navigate("/produtos")}
-            className="mt-4 inline-flex items-center gap-2 rounded-lg border border-primary/30 px-4 py-2 font-display text-sm font-medium text-primary transition-all hover:border-primary hover:shadow-glow"
-          >
-            <ArrowLeft className="h-4 w-4" />
-            Voltar aos Produtos
-          </button>
-        </div>
-        <Footer />
-      </div>
-    );
+    return <ProductBackLink />;
   }
 
   const handleAddToCart = () => {
@@ -100,7 +91,7 @@ const ProductDetailContent = () => {
               </p>
 
               {/* Specs */}
-              <div className="mb-8 grid grid-cols-3 gap-4">
+              {/* <div className="mb-8 grid grid-cols-3 gap-4">
                 <div className="flex flex-col items-center gap-2 rounded-xl border border-border bg-card p-4">
                   <Package size={20} className="text-primary" />
                   <span className="text-xs text-muted-foreground">Material</span>
@@ -116,7 +107,7 @@ const ProductDetailContent = () => {
                   <span className="text-xs text-muted-foreground">Acabamento</span>
                   <span className="text-sm font-semibold text-foreground">Premium</span>
                 </div>
-              </div>
+              </div> */}
 
               {/* Price & Add */}
               <div className="flex flex-col gap-4 rounded-xl border border-border bg-card p-6">

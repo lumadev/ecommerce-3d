@@ -30,4 +30,15 @@ export const productRepository = {
     });
     return response.data.map(normalizeProductListItem);
   },
+
+  findOne: async (
+    id: string,
+    signal?: AbortSignal
+  ): Promise<ProductListItem> => {
+    const response = await httpClientPublic.get<ApiProductListItem>(
+      `${BASE_URL}/${id}`,
+      { signal }
+    );
+    return normalizeProductListItem(response.data);
+  },
 };
