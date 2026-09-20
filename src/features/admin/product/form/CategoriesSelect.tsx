@@ -104,29 +104,36 @@ export function CategoriesSelect({
               </p>
             )}
 
-            {!isLoading && !hasError && categories.map((cat) => {
-              const checked = value.includes(cat.id);
+            {!isLoading &&
+              !hasError &&
+              categories.map((cat) => {
+                const checked = value.includes(cat.id);
 
-              return (
-                <label
-                  key={cat.id}
-                  className="flex cursor-pointer items-center gap-2 rounded-sm px-2 py-2 text-sm hover:bg-accent hover:text-accent-foreground"
-                >
-                  <Checkbox
-                    checked={checked}
-                    onCheckedChange={(val) =>
-                      toggleCategory(cat.id, Boolean(val))
-                    }
-                  />
+                return (
+                  <div
+                    key={cat.id}
+                    role="option"
+                    aria-selected={checked}
+                    className="flex cursor-pointer items-center gap-2 rounded-sm px-2 py-2 text-sm hover:bg-accent hover:text-accent-foreground"
+                    onClick={() => toggleCategory(cat.id, !checked)}
+                  >
+                    <Checkbox
+                      aria-label={cat.name}
+                      checked={checked}
+                      onClick={(event) => event.stopPropagation()}
+                      onCheckedChange={(val) =>
+                        toggleCategory(cat.id, Boolean(val))
+                      }
+                    />
 
-                  <span>{cat.name}</span>
+                    <span>{cat.name}</span>
 
-                  {checked && (
-                    <Check size={14} className="ml-auto text-primary" />
-                  )}
-                </label>
-              );
-            })}
+                    {checked && (
+                      <Check size={14} className="ml-auto text-primary" />
+                    )}
+                  </div>
+                );
+              })}
           </div>
         </PopoverContent>
       </Popover>
