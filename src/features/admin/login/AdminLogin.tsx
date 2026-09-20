@@ -52,7 +52,7 @@ const AdminLogin = () => {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-background p-4 bg-gradient-hero">
+    <div className="min-h-dvh flex items-center justify-center bg-background p-4 py-8 bg-gradient-hero">
       <motion.div
         initial={{ opacity: 0, y: 20, scale: 0.97 }}
         animate={{ opacity: 1, y: 0, scale: 1 }}
