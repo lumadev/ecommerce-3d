@@ -8,7 +8,7 @@ const Index = () => {
   return (
     <div className="min-h-screen bg-background pt-16">
         <HeroIndex />
-        <CategoriesSection />
+        {/* <CategoriesSection /> */}
         <CustomOrderSection />
         <Footer />
         <CartDrawer />
