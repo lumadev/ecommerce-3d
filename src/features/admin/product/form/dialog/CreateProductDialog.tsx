@@ -81,8 +81,8 @@ const CreateProductDialog = ({ open, onClose, onCreate }: Props) => {
 
   return (
     <Dialog open={open} onOpenChange={(isOpen) => !isOpen && void handleCancel()}>
-      <DialogContent className="max-h-[90vh] overflow-y-auto border-border bg-card text-card-foreground sm:max-w-[960px]">
-        <DialogHeader className="border-b border-border pb-4">
+      <DialogContent className="flex h-fit max-h-[calc(100vh-2rem)] flex-col overflow-hidden border-border bg-card text-card-foreground sm:max-w-[960px]">
+        <DialogHeader className="shrink-0 border-b border-border pb-4">
           <DialogTitle className="text-xl">Novo Produto</DialogTitle>
           <DialogDescription className="text-muted-foreground">
             Preencha os dados e visualize a foto antes de confirmar o cadastro.
@@ -94,7 +94,7 @@ const CreateProductDialog = ({ open, onClose, onCreate }: Props) => {
           onChange={(f, v) => setForm((s) => ({ ...s, [f]: v }))}
         />
 
-        <DialogFooter className="border-t border-border pt-4">
+        <DialogFooter className="shrink-0 border-t border-border pt-4">
           <Button variant="outline" onClick={handleCancel} disabled={isLoading}>
             Cancelar
           </Button>

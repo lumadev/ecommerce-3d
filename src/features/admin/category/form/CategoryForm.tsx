@@ -21,7 +21,7 @@ const CategoryForm = ({
 }: CategoryFormProps) => {
 
   return (
-    <div className="grid gap-6 py-2 md:grid-cols-[340px_1fr] lg:grid-cols-[380px_1fr]">
+    <div className="grid gap-5 py-1 md:grid-cols-[300px_1fr] lg:grid-cols-[320px_1fr]">
       <CategoryImageUploadField
         label="Foto da categoria"
         value={form.url}
@@ -34,7 +34,7 @@ const CategoryForm = ({
         onRemove={() => onChange("picturePublicId", "")}
       />
 
-      <div className="grid gap-4">
+      <div className="grid gap-3">
         <div className="flex flex-col gap-2">
           <Label htmlFor="cat-name" className="text-sm font-medium">
             Nome
@@ -54,11 +54,11 @@ const CategoryForm = ({
           </Label>
           <Textarea
             id="cat-description"
-            rows={6}
+            rows={4}
             value={form.description}
             onChange={(e) => onChange("description", e.target.value)}
             placeholder={descriptionPlaceholder}
-            className="min-h-[200px] resize-y bg-background"
+            className="min-h-[140px] resize-y bg-background"
           />
         </div>
 

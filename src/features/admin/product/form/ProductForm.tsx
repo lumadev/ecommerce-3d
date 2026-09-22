@@ -16,7 +16,7 @@ const ProductForm = ({ form, onChange }: Props) => {
   const { categories, isLoading, hasError: hasErrorCategories } = useProductCategories();
 
   return (
-    <div className="grid items-start gap-6 py-2 md:grid-cols-[280px_minmax(0,1fr)]">
+    <div className="grid min-h-0 items-start gap-5 py-1 md:grid-cols-[240px_minmax(0,1fr)]">
       {/* IMAGE */}
       <ProductImageUploadField
         label="Foto do produto"
@@ -36,8 +36,8 @@ const ProductForm = ({ form, onChange }: Props) => {
       />
 
       {/* FIELDS */}
-      <div className="grid content-start gap-4">
-        <div className="grid grid-cols-2 items-start gap-4">
+      <div className="grid content-start gap-3">
+        <div className="grid grid-cols-2 items-start gap-3">
           {/* NAME */}
           <div className="grid content-start gap-2">
             <Label htmlFor="name" className="text-sm font-medium">
@@ -73,16 +73,16 @@ const ProductForm = ({ form, onChange }: Props) => {
           </Label>
           <Textarea
             id="description"
-            rows={10}
+            rows={6}
             value={form.description}
             onChange={(e) => onChange("description", e.target.value)}
             placeholder="Descreva o produto..."
-            className="min-h-[260px] resize-y bg-background"
+            className="min-h-[180px] resize-y bg-background"
           />
         </div>
 
         {/* PRICE + STOCK */}
-        <div className="grid grid-cols-2 items-start gap-4">
+        <div className="grid grid-cols-2 items-start gap-3">
           <div className="grid content-start gap-2">
             <Label htmlFor="price" className="text-sm font-medium">
               Preço (R$)

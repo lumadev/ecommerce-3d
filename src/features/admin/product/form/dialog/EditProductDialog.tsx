@@ -66,8 +66,8 @@ const EditProductDialog = ({ product, onClose, onSave }: Props) => {
 
   return (
     <Dialog open={!!product} onOpenChange={onClose}>
-      <DialogContent className="max-h-[90vh] overflow-y-auto border-border bg-card text-card-foreground sm:max-w-[960px]">
-        <DialogHeader className="border-b border-border pb-4">
+      <DialogContent className="flex h-fit max-h-[calc(100vh-2rem)] flex-col overflow-hidden border-border bg-card text-card-foreground sm:max-w-[960px]">
+        <DialogHeader className="shrink-0 border-b border-border pb-4">
           <DialogTitle className="text-xl">Editar Produto</DialogTitle>
         </DialogHeader>
 
@@ -76,7 +76,7 @@ const EditProductDialog = ({ product, onClose, onSave }: Props) => {
           onChange={(f, v) => setForm((s) => ({ ...s, [f]: v }))} 
         />
 
-        <DialogFooter className="border-t border-border pt-4">
+        <DialogFooter className="shrink-0 border-t border-border pt-4">
           <Button variant="outline" onClick={onClose} disabled={isLoading}>
             Cancelar
           </Button>
