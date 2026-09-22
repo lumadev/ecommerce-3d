@@ -69,7 +69,7 @@ const ProductImageUploadField = ({
       <Label className="text-sm font-medium">{label}</Label>
 
       <div className="group relative overflow-hidden rounded-xl border border-border bg-gradient-card">
-        <div className="aspect-square overflow-hidden">
+        <div className="aspect-[4/3] overflow-hidden">
           {value ? (
             <img
               src={value}

@@ -82,7 +82,7 @@ const EditCategoryDialog = ({ category, onClose, onSave }: Props) => {
 
   return (
     <Dialog open={!!category} onOpenChange={(open) => !open && onClose()}>
-      <DialogContent className="max-h-[90vh] overflow-y-auto border-border bg-card text-card-foreground sm:max-w-[980px]">
+      <DialogContent className="max-h-[calc(100vh-2rem)] overflow-hidden border-border bg-card text-card-foreground sm:max-w-[980px]">
         <DialogHeader className="border-b border-border pb-4">
           <DialogTitle className="text-xl">Editar Categoria</DialogTitle>
           <DialogDescription className="text-muted-foreground">
