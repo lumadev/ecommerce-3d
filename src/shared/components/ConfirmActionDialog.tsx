@@ -1,4 +1,4 @@
-import { ReactNode } from "react";
+import { ReactNode, useState } from "react";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -28,15 +28,17 @@ const ConfirmActionDialog = ({
   cancelText = "Cancelar",
   onConfirm,
 }: ConfirmActionDialogProps) => {
+  const [open, setOpen] = useState(false);
+
   const handleConfirm = () => {
     void onConfirm();
   };
 
   return (
-    <AlertDialog>
+    <AlertDialog open={open} onOpenChange={setOpen}>
       <AlertDialogTrigger asChild>{trigger}</AlertDialogTrigger>
 
-      <AlertDialogContent>
+      <AlertDialogContent onDismiss={() => setOpen(false)}>
         <AlertDialogHeader>
           <AlertDialogTitle>{title}</AlertDialogTitle>
           <AlertDialogDescription>{description}</AlertDialogDescription>
