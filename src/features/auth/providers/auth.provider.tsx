@@ -9,6 +9,8 @@ import {
   ClientAuthContext,
 } from "../auth.context";
 
+const AUTHENTICATED_SESSION_KEY = "auth:authenticated";
+
 function assertRole(user: SessionUser, expectedRole: AuthType) {
   return user.role === expectedRole;
 }
@@ -26,6 +28,7 @@ export function createAuthProvider<R extends AuthType>(
         const sessionUser = await authRepository.checkSession();
 
         if (!assertRole(sessionUser, role)) {
+          window.localStorage.removeItem(AUTHENTICATED_SESSION_KEY);
           setUser(null);
           return null;
         }
@@ -33,6 +36,7 @@ export function createAuthProvider<R extends AuthType>(
         setUser(sessionUser);
         return sessionUser;
       } catch {
+        window.localStorage.removeItem(AUTHENTICATED_SESSION_KEY);
         setUser(null);
         return null;
       } finally {
@@ -53,10 +57,12 @@ export function createAuthProvider<R extends AuthType>(
       const sessionUser = await authRepository.checkSession();
 
       if (!assertRole(sessionUser, role)) {
+        window.localStorage.removeItem(AUTHENTICATED_SESSION_KEY);
         setUser(null);
         return null;
       }
 
+      window.localStorage.setItem(AUTHENTICATED_SESSION_KEY, "true");
       setUser(sessionUser);
 
       return sessionUser;
@@ -68,11 +74,19 @@ export function createAuthProvider<R extends AuthType>(
       } catch {
         // Ignora erros caso a chamada de logout falhe
       } finally {
+        window.localStorage.removeItem(AUTHENTICATED_SESSION_KEY);
         setUser(null);
       }
     };
 
     useEffect(() => {
+      if (
+        window.localStorage.getItem(AUTHENTICATED_SESSION_KEY) !== "true"
+      ) {
+        setIsCheckingSession(false);
+        return;
+      }
+
       void refreshSession();
     }, []);
 
