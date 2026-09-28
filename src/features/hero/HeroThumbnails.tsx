@@ -11,7 +11,19 @@ const HeroThumbnails = ({ products, activeIndex, onSelect }) => {
               : "border-transparent opacity-50 hover:opacity-80"
           }`}
         >
-          <img src={p.image} alt={p.name} className="h-full w-full object-cover" />
+          {p.media?.[0]?.type === "video" ? (
+            <img
+              src={p.media[0].poster ?? p.image}
+              alt={p.name}
+              className="h-full w-full object-cover"
+            />
+          ) : (
+            <img
+              src={p.media?.[0]?.src ?? p.image}
+              alt={p.name}
+              className="h-full w-full object-cover"
+            />
+          )}
         </button>
       ))}
     </div>

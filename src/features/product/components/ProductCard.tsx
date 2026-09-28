@@ -29,14 +29,25 @@ const ProductCard = ({ product, index }: ProductCardProps) => {
       className="group relative cursor-pointer overflow-hidden rounded-xl border border-border bg-gradient-card transition-all duration-300 hover:border-primary/40 hover:shadow-glow"
     >
       <div className="relative aspect-square overflow-hidden">
-        <img
-          src={product.image}
-          alt={product.name}
-          loading="lazy"
-          width={512}
-          height={512}
-          className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-110"
-        />
+        {product.media?.[0]?.type === "video" ? (
+          <img
+            src={product.media[0].poster ?? product.image}
+            alt={product.name}
+            loading="lazy"
+            width={512}
+            height={512}
+            className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-110"
+          />
+        ) : (
+          <img
+            src={product.media?.[0]?.src ?? product.image}
+            alt={product.name}
+            loading="lazy"
+            width={512}
+            height={512}
+            className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-110"
+          />
+        )}
         {product.customizable && (
           <div className="absolute top-3 left-3 flex items-center gap-1 rounded-full bg-primary/90 px-3 py-1 text-xs font-semibold text-primary-foreground">
             <Sparkles size={12} />

@@ -17,11 +17,19 @@ const HeroSlide = ({ product, isActive, onAdd }) => {
       }}
       transition={{ duration: 0.7 }}
     >
-      <img
-        src={product.image}
-        alt={product.name}
-        className="h-full w-full object-cover"
-      />
+      {product.media?.[0]?.type === "video" ? (
+        <img
+          src={product.media[0].poster ?? product.image}
+          alt={product.name}
+          className="h-full w-full object-cover"
+        />
+      ) : (
+        <img
+          src={product.media?.[0]?.src ?? product.image}
+          alt={product.name}
+          className="h-full w-full object-cover"
+        />
+      )}
       <div className="absolute inset-0 bg-gradient-to-t from-background/90 via-background/20 to-transparent" />
 
       <motion.div

@@ -95,9 +95,12 @@ const MediaCarousel = ({ media, activeIndex, onChange, productName, customizable
                 <img src={m.src} alt="" className="h-full w-full object-cover" />
               ) : (
                 <>
-                  <img
-                    src={m.poster ?? ""}
-                    alt=""
+                  <video
+                    src={m.src}
+                    poster={m.poster}
+                    muted
+                    playsInline
+                    preload="metadata"
                     className="h-full w-full object-cover bg-black"
                   />
                   <span className="absolute inset-0 flex items-center justify-center bg-black/40">

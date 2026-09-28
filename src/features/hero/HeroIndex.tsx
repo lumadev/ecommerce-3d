@@ -5,6 +5,7 @@ import { useHighlights } from "@/features/admin/highlight/hooks/useHighlights";
 import HeroContent from "./HeroContent";
 import HeroCarousel from "./HeroCarousel";
 import HeroCarouselSkeleton from "./HeroCarouselSkeleton";
+import { toProductMedia } from "@/features/product/mappers/toProduct";
 
 const HeroSection = () => {
   const { highlightList, isLoading } = useHighlights();
@@ -13,8 +14,8 @@ const HeroSection = () => {
     name: product.name,
     description: product.description,
     price: product.price,
-    image: product.mediaUrls[0] ?? "",
-    media: product.mediaUrls.map((src) => ({ type: "image", src })),
+    image: toProductMedia(product)[0]?.src ?? "",
+    media: toProductMedia(product),
     categories: [],
     customizable: false,
   }));
