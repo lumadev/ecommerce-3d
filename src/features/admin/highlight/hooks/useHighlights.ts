@@ -61,17 +61,17 @@ export const useHighlights = () => {
       await highlightRepository.remove(id);
 
       setHighlightList((prev) => {
-        const removed = prev.find((h) => h.id === id);
+        const removed = prev.find((highlight) => highlight.id === id);
         if (!removed) {
           return prev;
         }
 
         return prev
-          .filter((h) => h.id !== id)
-          .map((h) =>
-            h.position > removed.position
-              ? { ...h, position: h.position - 1 }
-              : h
+          .filter((highlight) => highlight.id !== id)
+          .map((highlight) =>
+            highlight.position > removed.position
+              ? { ...highlight, position: highlight.position - 1 }
+              : highlight
           );
       });
 
@@ -87,7 +87,7 @@ export const useHighlights = () => {
       await highlightRepository.increase(id);
 
       setHighlightList((prev) => {
-        const index = prev.findIndex((h) => h.id === id);
+        const index = prev.findIndex((highlight) => highlight.id === id);
         if (index <= 0) {
           return prev;
         }
@@ -112,7 +112,7 @@ export const useHighlights = () => {
       await highlightRepository.decrease(id);
 
       setHighlightList((prev) => {
-        const index = prev.findIndex((h) => h.id === id);
+        const index = prev.findIndex((highlight) => highlight.id === id);
         if (index === -1 || index >= prev.length - 1) {
           return prev;
         }

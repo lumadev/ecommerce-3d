@@ -16,7 +16,6 @@ const AdminHighlights = () => {
     increaseHighlight,
     decreaseHighlight,
   } = useHighlights();
-
   const [addOpen, setAddOpen] = useState(false);
 
   return (
