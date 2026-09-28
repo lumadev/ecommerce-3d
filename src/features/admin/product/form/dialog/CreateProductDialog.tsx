@@ -9,7 +9,7 @@ import {
 } from "@/shared/components/ui/dialog";
 import { Button } from "@/shared/components/ui/button/button";
 import { Loader2 } from "lucide-react";
-import { imageUploadRepository } from "@/features/file/repositories/imageUploadRepository";
+import { mediaUploadRepository } from "@/features/file/repositories/imageUploadRepository";
 import { useToast } from "@/hooks/use-toast";
 import { ProductFormState } from "../../types/product-form.types";
 import { Product, CreateProductData } from "../../types/product.types";
@@ -27,8 +27,7 @@ const emptyForm: ProductFormState = {
   description: "",
   price: "",
   stock: "",
-  image: "",
-  mediaPublicIds: [],
+  media: [],
   categoryIds: [],
 };
 
@@ -36,18 +35,35 @@ const CreateProductDialog = ({ open, onClose, onCreate }: Props) => {
   const { toast } = useToast();
   const [form, setForm] = useState<ProductFormState>(emptyForm);
   const [isLoading, setIsLoading] = useState(false);
+  const [isMediaUploading, setIsMediaUploading] = useState(false);
+  const [isCanceling, setIsCanceling] = useState(false);
+
+  const handleFormChange = <K extends keyof ProductFormState>(
+    field: K,
+    value: ProductFormState[K],
+  ) => {
+    setForm((state) => ({ ...state, [field]: value }));
+  };
 
   const handleCancel = async () => {
+    if (isLoading || isMediaUploading || isCanceling) return;
+    setIsCanceling(true);
     try {
-      if (form.mediaPublicIds.length) {
-        await imageUploadRepository.delete(form.mediaPublicIds[0]);
+      for (const media of form.media.filter((item) => !item.persisted)) {
+        await mediaUploadRepository.delete(media.publicId, media.type);
       }
     } catch (error) {
-      console.error("Erro ao remover imagem no cancelamento:", error);
-    } finally {
-      onClose();
-      setForm(emptyForm);
+      console.error("Erro ao remover mídias temporárias no cancelamento:", error);
+      toast({
+        description: "Não foi possível limpar todas as mídias enviadas. Tente cancelar novamente.",
+      });
+      setIsCanceling(false);
+      return;
     }
+
+    onClose();
+    setForm(emptyForm);
+    setIsCanceling(false);
   };
 
   const onSaveCreate = async () => {
@@ -80,25 +96,36 @@ const CreateProductDialog = ({ open, onClose, onCreate }: Props) => {
   };
 
   return (
-    <Dialog open={open} onOpenChange={(isOpen) => !isOpen && void handleCancel()}>
+    <Dialog
+      open={open}
+      onOpenChange={(isOpen) => !isOpen && void handleCancel()}
+    >
       <DialogContent className="flex h-fit max-h-[calc(100vh-2rem)] flex-col overflow-hidden border-border bg-card text-card-foreground sm:max-w-[960px]">
         <DialogHeader className="shrink-0 border-b border-border pb-4">
           <DialogTitle className="text-xl">Novo Produto</DialogTitle>
           <DialogDescription className="text-muted-foreground">
-            Preencha os dados e visualize a foto antes de confirmar o cadastro.
+            Preencha os dados do produto e adicione as fotos ou vídeos da vitrine.
           </DialogDescription>
         </DialogHeader>
 
         <ProductForm
           form={form}
-          onChange={(f, v) => setForm((s) => ({ ...s, [f]: v }))}
+          onChange={handleFormChange}
+          onMediaUploadingChange={setIsMediaUploading}
         />
 
         <DialogFooter className="shrink-0 border-t border-border pt-4">
-          <Button variant="outline" onClick={handleCancel} disabled={isLoading}>
-            Cancelar
+          <Button
+            variant="outline"
+            onClick={handleCancel}
+            disabled={isLoading || isMediaUploading || isCanceling}
+          >
+            {isCanceling ? "Limpando..." : "Cancelar"}
           </Button>
-          <Button onClick={onSaveCreate} disabled={isLoading}>
+          <Button
+            onClick={onSaveCreate}
+            disabled={isLoading || isMediaUploading || isCanceling}
+          >
             {isLoading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
             {isLoading ? "Salvando..." : "Criar"}
           </Button>

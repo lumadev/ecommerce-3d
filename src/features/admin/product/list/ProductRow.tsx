@@ -30,12 +30,20 @@ const ProductRow = ({ product, index, onEdit, onRemove }: Props) => {
     >
       <TableCell className="font-medium">
         <div className="flex items-center gap-3">
-          {product.mediaUrls?.[0] && (
+          {product.media?.[0]?.type === "video" ? (
             <img
-              src={product.mediaUrls[0]}
+              src={product.media[0].poster ?? product.mediaUrls[0]}
               alt={product.name}
               className="h-10 w-10 rounded-md border border-border object-cover"
             />
+          ) : (
+            product.mediaUrls?.[0] && (
+              <img
+                src={product.media?.[0]?.src ?? product.mediaUrls[0]}
+                alt={product.name}
+                className="h-10 w-10 rounded-md border border-border object-cover"
+              />
+            )
           )}
           <span>{product.name}</span>
         </div>

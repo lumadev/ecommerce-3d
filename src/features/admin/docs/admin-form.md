@@ -77,6 +77,20 @@ O produto já está alinhado ao padrão de categoria: possui um componente de
 formulário compartilhado entre criação e edição, diálogos independentes, tipo
 de estado próprio e componentes auxiliares para campos específicos.
 
+O formulário do produto organiza os campos em abas de **Dados do produto** e
+**Fotos e vídeos**. A galeria permite múltiplos arquivos e reordenação; a
+primeira mídia é a capa. Cada arquivo mantém tipo e identificador no estado do
+formulário, e o backend persiste os itens em uma tabela relacionada ao produto
+com uma posição própria. Vídeos aceitam até 100 MB e 60 segundos; imagens
+mantêm o limite de 5 MB.
+
+O formulário do produto organiza os campos em abas de **Dados do produto** e
+**Fotos e vídeos**. A galeria permite múltiplos arquivos e reordenação; a
+primeira mídia é a capa. Cada arquivo mantém tipo e identificador no estado do
+formulário, e o backend persiste os itens em uma tabela relacionada ao produto
+com uma posição própria. Vídeos aceitam até 100 MB e 60 segundos; imagens
+mantêm o limite de 5 MB.
+
 ## Regras de implementação
 
 1. Use imports absolutos `@/` para módulos compartilhados ou de outra

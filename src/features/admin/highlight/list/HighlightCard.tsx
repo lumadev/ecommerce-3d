@@ -41,9 +41,15 @@ const HighlightCard = ({
         {highlight.position}
       </span>
 
-      {product.mediaUrls?.[0] ? (
+      {product.media?.[0]?.type === "video" ? (
         <img
-          src={product.mediaUrls[0]}
+          src={product.media[0].poster ?? product.mediaUrls[0]}
+          alt={product.name}
+          className="h-14 w-14 shrink-0 rounded-md border border-border object-cover"
+        />
+      ) : product.mediaUrls?.[0] ? (
+        <img
+          src={product.media?.[0]?.src ?? product.mediaUrls[0]}
           alt={product.name}
           className="h-14 w-14 shrink-0 rounded-md border border-border object-cover"
         />

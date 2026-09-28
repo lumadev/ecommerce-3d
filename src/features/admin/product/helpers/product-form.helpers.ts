@@ -5,7 +5,11 @@ export interface ValidatedProductForm {
   description: string;
   price: number;
   stock: number;
-  mediaPublicIds: string[];
+  media: {
+    publicId: string;
+    type: ProductFormState["media"][number]["type"];
+    format?: string;
+  }[];
   categoryIds: string[];
 }
 
@@ -41,7 +45,11 @@ export const validateProductForm = (
     description: form.description.trim(),
     price,
     stock,
-    mediaPublicIds: form.mediaPublicIds,
+    media: form.media.map(({ publicId, type, format }) => ({
+      publicId,
+      type,
+      format,
+    })),
     categoryIds: form.categoryIds,
   };
 };
