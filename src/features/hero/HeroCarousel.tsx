@@ -5,8 +5,14 @@ import HeroSlide from "./HeroSlide";
 import HeroControls from "./HeroControls";
 import HeroDots from "./HeroDots";
 import HeroThumbnails from "./HeroThumbnails";
+import { Product } from "@/data/products";
 
-const HeroCarousel = ({ products }) => {
+interface HeroCarouselProps {
+  products: Product[];
+}
+
+const HeroCarousel = ({ products }: HeroCarouselProps) => {
+  const hasMultipleProducts = products.length > 1;
   const { addItem } = useCart();
   const { activeIndex, setActiveIndex, next, prev } =
     useHeroCarousel(products.length);
@@ -28,20 +34,26 @@ const HeroCarousel = ({ products }) => {
           />
         ))}
 
-        <HeroControls onNext={next} onPrev={prev} />
+        {hasMultipleProducts && (
+          <HeroControls onNext={next} onPrev={prev} />
+        )}
       </div>
 
-      <HeroDots
-        total={products.length}
-        activeIndex={activeIndex}
-        onSelect={setActiveIndex}
-      />
+      {hasMultipleProducts && (
+        <>
+          <HeroDots
+            total={products.length}
+            activeIndex={activeIndex}
+            onSelect={setActiveIndex}
+          />
 
-      <HeroThumbnails
-        products={products}
-        activeIndex={activeIndex}
-        onSelect={setActiveIndex}
-      />
+          <HeroThumbnails
+            products={products}
+            activeIndex={activeIndex}
+            onSelect={setActiveIndex}
+          />
+        </>
+      )}
     </motion.div>
   );
 };

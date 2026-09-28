@@ -33,9 +33,11 @@ const HeroSlide = ({ product, isActive, onAdd }) => {
         }}
         transition={{ duration: 0.5, delay: 0.2 }}
       >
-        <span className="mb-2 inline-block rounded-full bg-primary/20 px-3 py-1 font-display text-xs uppercase tracking-wider text-primary">
-          {product.categories.join(" • ")}
-        </span>
+        {product.categories.length > 0 && (
+          <span className="mb-2 inline-block rounded-full bg-primary/20 px-3 py-1 font-display text-xs uppercase tracking-wider text-primary">
+            {product.categories.join(" • ")}
+          </span>
+        )}
         <h3 className="mb-1 font-display text-xl font-bold text-foreground">
           {product.name}
         </h3>

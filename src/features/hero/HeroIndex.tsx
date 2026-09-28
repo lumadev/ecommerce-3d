@@ -1,12 +1,24 @@
 import { motion } from "framer-motion";
 import { ChevronDown } from "lucide-react";
-import { products } from "@/data/products";
+import { Product } from "@/data/products";
+import { useHighlights } from "@/features/admin/highlight/hooks/useHighlights";
 import HeroContent from "./HeroContent";
 import HeroCarousel from "./HeroCarousel";
-
-const featuredProducts = products.slice(0, 4);
+import HeroCarouselSkeleton from "./HeroCarouselSkeleton";
 
 const HeroSection = () => {
+  const { highlightList, isLoading } = useHighlights();
+  const featuredProducts = highlightList.map(({ product }): Product => ({
+    id: product.id,
+    name: product.name,
+    description: product.description,
+    price: product.price,
+    image: product.mediaUrls[0] ?? "",
+    media: product.mediaUrls.map((src) => ({ type: "image", src })),
+    categories: [],
+    customizable: false,
+  }));
+
   return (
     <section className="relative min-h-screen overflow-hidden bg-background">
       <div className="absolute inset-0 opacity-[0.03]" style={{
@@ -16,9 +28,15 @@ const HeroSection = () => {
       }} />
 
       <div className="relative z-10 container mx-auto flex min-h-[calc(100svh-4rem)] items-start px-6 py-12 sm:px-8 sm:py-16 lg:items-center lg:px-10 lg:py-20">
-        <div className="grid w-full items-center gap-10 lg:grid-cols-2 lg:items-start lg:gap-16 xl:gap-20">
+        <div className={`grid w-full items-center gap-10 ${isLoading || featuredProducts.length > 0 ? "lg:grid-cols-2" : "lg:grid-cols-1"} lg:items-start lg:gap-16 xl:gap-20`}>
           <HeroContent />
-          <HeroCarousel products={featuredProducts} />
+          {isLoading ? (
+            <HeroCarouselSkeleton />
+          ) : (
+            featuredProducts.length > 0 && (
+              <HeroCarousel products={featuredProducts} />
+            )
+          )}
         </div>
       </div>
 
