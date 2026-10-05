@@ -5,28 +5,82 @@ import { Send, Sparkles } from "lucide-react";
 import { customOrderRepository } from "@/features/contact/repositories/customOrderRepository";
 import { useToast } from "@/hooks/use-toast";
 
+const contactFields = [
+  { id: "name", label: "Nome", type: "text", placeholder: "Seu nome" },
+  { id: "email", label: "E-mail", type: "email", placeholder: "seu@email.com" },
+  {
+    id: "description",
+    label: "Descreva sua ideia",
+    type: "textarea",
+    placeholder:
+      "Descreva o produto que você gostaria de encomendar, incluindo tamanho, cor, formato...",
+  },
+] as const;
+
+type ContactField = (typeof contactFields)[number]["id"];
+type ContactValues = Record<ContactField, string>;
+type ContactErrors = Partial<Record<ContactField, string>>;
+
+const initialValues: ContactValues = { name: "", email: "", description: "" };
+
+const validateField = (field: ContactField, value: string) => {
+  const normalizedValue = value.trim();
+
+  if (!normalizedValue) {
+    return "Este campo é obrigatório.";
+  }
+
+  if (field === "email" && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(normalizedValue)) {
+    return "Informe um e-mail válido.";
+  }
+
+  return undefined;
+};
+
 const CustomOrderSection = () => {
   const { toast } = useToast();
-  const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
-  const [description, setDescription] = useState("");
+  const [values, setValues] = useState<ContactValues>(initialValues);
+  const [errors, setErrors] = useState<ContactErrors>({});
   const [isLoading, setIsLoading] = useState(false);
+
+  const handleFieldChange = (field: ContactField, value: string) => {
+    setValues((current) => ({ ...current, [field]: value }));
+    setErrors((current) =>
+      current[field] ? { ...current, [field]: validateField(field, value) } : current,
+    );
+  };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
+    const nextErrors = contactFields.reduce<ContactErrors>(
+      (current, { id }) => ({
+        ...current,
+        [id]: validateField(id, values[id]),
+      }),
+      {},
+    );
+
+    setErrors(nextErrors);
+    if (Object.values(nextErrors).some(Boolean)) {
+      return;
+    }
+
     setIsLoading(true);
 
     try {
-      await customOrderRepository.send({ name, email, description });
+      await customOrderRepository.send({
+        name: values.name.trim(),
+        email: values.email.trim(),
+        description: values.description.trim(),
+      });
 
       toast({
         description: "Encomenda enviada com sucesso! Entraremos em contato em breve.",
       });
 
-      setName("");
-      setEmail("");
-      setDescription("");
+      setValues({ ...initialValues });
+      setErrors({});
     } catch {
       toast({ description: "Ocorreu um erro ao enviar a sua encomenda" });
     } finally {
@@ -57,49 +111,50 @@ const CustomOrderSection = () => {
             </p>
           </div>
 
-          <form onSubmit={handleSubmit} className="space-y-5">
-            <div>
-              <label htmlFor="name" className="mb-2 block text-sm font-medium text-foreground">
-                Nome
-              </label>
-              <input
-                id="name"
-                type="text"
-                required
-                value={name}
-                onChange={(e) => setName(e.target.value)}
-                className="w-full rounded-lg border border-border bg-secondary px-4 py-3 text-foreground placeholder:text-muted-foreground focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary transition-colors"
-                placeholder="Seu nome"
-              />
-            </div>
-            <div>
-              <label htmlFor="email" className="mb-2 block text-sm font-medium text-foreground">
-                E-mail
-              </label>
-              <input
-                id="email"
-                type="email"
-                required
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                className="w-full rounded-lg border border-border bg-secondary px-4 py-3 text-foreground placeholder:text-muted-foreground focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary transition-colors"
-                placeholder="seu@email.com"
-              />
-            </div>
-            <div>
-              <label htmlFor="description" className="mb-2 block text-sm font-medium text-foreground">
-                Descreva sua ideia
-              </label>
-              <textarea
-                id="description"
-                required
-                rows={4}
-                value={description}
-                onChange={(e) => setDescription(e.target.value)}
-                className="w-full rounded-lg border border-border bg-secondary px-4 py-3 text-foreground placeholder:text-muted-foreground focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary transition-colors resize-none"
-                placeholder="Descreva o produto que você gostaria de encomendar, incluindo tamanho, cor, formato..."
-              />
-            </div>
+          <form onSubmit={handleSubmit} className="space-y-5" noValidate>
+            {contactFields.map((field) => {
+              const error = errors[field.id];
+              const inputClassName =
+                "w-full rounded-lg border border-border bg-secondary px-4 py-3 text-foreground placeholder:text-muted-foreground focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary transition-colors";
+              const inputProps = {
+                id: field.id,
+                value: values[field.id],
+                onChange: (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) =>
+                  handleFieldChange(field.id, event.target.value),
+                "aria-invalid": Boolean(error),
+                "aria-describedby": error ? `${field.id}-error` : undefined,
+                className:
+                  field.id === "description"
+                    ? `${inputClassName} resize-none`
+                    : inputClassName,
+                placeholder: field.placeholder,
+              };
+
+              return (
+                <div key={field.id}>
+                  <label
+                    htmlFor={field.id}
+                    className="mb-2 block text-sm font-medium text-foreground"
+                  >
+                    {field.label}
+                  </label>
+                  {field.id === "description" ? (
+                    <textarea {...inputProps} rows={4} />
+                  ) : (
+                    <input {...inputProps} type={field.type} />
+                  )}
+                  {error && (
+                    <p
+                      id={`${field.id}-error`}
+                      role="alert"
+                      className="mt-1 text-sm text-destructive"
+                    >
+                      {error}
+                    </p>
+                  )}
+                </div>
+              );
+            })}
             <button
               type="submit"
               disabled={isLoading}
