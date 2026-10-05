@@ -41,9 +41,9 @@ const ProductDetailContent = () => {
       ? undefined
       : Math.max(0, product.stock - quantityInCart);
   const isOutOfStock = availableStock === 0;
+  const quantityToAdd = Math.min(quantity, availableStock ?? quantity);
 
   const handleAddToCart = () => {
-    const quantityToAdd = Math.min(quantity, availableStock ?? quantity);
     for (let i = 0; i < quantityToAdd; i++) {
       addItem(product);
     }
@@ -141,7 +141,7 @@ const ProductDetailContent = () => {
                       −
                     </button>
                     <span className="min-w-[2.5rem] text-center font-display text-lg font-bold text-foreground">
-                      {quantity}
+                      {quantityToAdd}
                     </span>
                     <button
                       onClick={() =>
@@ -165,7 +165,9 @@ const ProductDetailContent = () => {
                     className="flex flex-1 items-center justify-center gap-2 rounded-lg bg-gradient-cta px-6 py-3 font-display text-sm font-semibold text-primary-foreground transition-all hover:shadow-glow hover:scale-105 disabled:cursor-not-allowed disabled:opacity-50"
                   >
                     <ShoppingCart size={18} />
-                    {isOutOfStock ? "Sem estoque disponível" : "Adicionar ao Carrinho"}
+                    {isOutOfStock
+                      ? "Sem estoque disponível"
+                      : "Adicionar ao Carrinho"}
                   </button>
                 </div>
               </div>
