@@ -17,7 +17,7 @@ const ProductDetailContent = () => {
   const location = useLocation();
 
   const navigate = useNavigate();
-  const { addItem } = useCart();
+  const { addItem, items } = useCart();
 
   const [quantity, setQuantity] = useState(1);
   const [activeMedia, setActiveMedia] = useState(0);
@@ -34,8 +34,17 @@ const ProductDetailContent = () => {
     return <ProductNotFound />;
   }
 
+  const quantityInCart =
+    items.find((item) => item.product.id === product.id)?.quantity ?? 0;
+  const availableStock =
+    product.stock === undefined
+      ? undefined
+      : Math.max(0, product.stock - quantityInCart);
+  const isOutOfStock = availableStock === 0;
+
   const handleAddToCart = () => {
-    for (let i = 0; i < quantity; i++) {
+    const quantityToAdd = Math.min(quantity, availableStock ?? quantity);
+    for (let i = 0; i < quantityToAdd; i++) {
       addItem(product);
     }
   };
@@ -126,6 +135,7 @@ const ProductDetailContent = () => {
                   <div className="flex items-center rounded-lg border border-border">
                     <button
                       onClick={() => setQuantity((q) => Math.max(1, q - 1))}
+                      disabled={quantity <= 1}
                       className="px-3 py-2 text-lg font-semibold text-muted-foreground transition-colors hover:text-foreground"
                     >
                       −
@@ -134,7 +144,15 @@ const ProductDetailContent = () => {
                       {quantity}
                     </span>
                     <button
-                      onClick={() => setQuantity((q) => q + 1)}
+                      onClick={() =>
+                        setQuantity((q) =>
+                          Math.min(availableStock ?? Infinity, q + 1)
+                        )
+                      }
+                      disabled={
+                        availableStock !== undefined &&
+                        quantity >= availableStock
+                      }
                       className="px-3 py-2 text-lg font-semibold text-muted-foreground transition-colors hover:text-foreground"
                     >
                       +
@@ -143,10 +161,11 @@ const ProductDetailContent = () => {
 
                   <button
                     onClick={handleAddToCart}
-                    className="flex flex-1 items-center justify-center gap-2 rounded-lg bg-gradient-cta px-6 py-3 font-display text-sm font-semibold text-primary-foreground transition-all hover:shadow-glow hover:scale-105"
+                    disabled={isOutOfStock}
+                    className="flex flex-1 items-center justify-center gap-2 rounded-lg bg-gradient-cta px-6 py-3 font-display text-sm font-semibold text-primary-foreground transition-all hover:shadow-glow hover:scale-105 disabled:cursor-not-allowed disabled:opacity-50"
                   >
                     <ShoppingCart size={18} />
-                    Adicionar ao Carrinho
+                    {isOutOfStock ? "Sem estoque disponível" : "Adicionar ao Carrinho"}
                   </button>
                 </div>
               </div>

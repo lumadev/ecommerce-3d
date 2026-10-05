@@ -32,6 +32,7 @@ export const toProduct = (product: ProductListItem): Product => ({
   name: product.name,
   description: product.description,
   price: product.price,
+  stock: product.stock,
   image: toProductMedia(product)[0]?.src ?? "",
   media: toProductMedia(product),
   categories: product.categories.map((category) => category.name),

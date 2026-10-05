@@ -87,7 +87,8 @@ const ProductCard = ({ product, index }: ProductCardProps) => {
                 e.stopPropagation();
                 addItem(product);
               }}
-              className="flex items-center gap-1.5 rounded-lg bg-gradient-cta px-3 py-2 text-sm font-semibold text-primary-foreground transition-all hover:shadow-glow hover:scale-105"
+              disabled={product.stock !== undefined && product.stock <= 0}
+              className="flex items-center gap-1.5 rounded-lg bg-gradient-cta px-3 py-2 text-sm font-semibold text-primary-foreground transition-all hover:shadow-glow hover:scale-105 disabled:cursor-not-allowed disabled:opacity-50"
             >
               <ShoppingCart size={16} />
             </button>
