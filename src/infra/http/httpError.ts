@@ -25,17 +25,39 @@ function getHttpStatusMessage(status?: number): string {
   }
 }
 
+function getServerMessage(data: unknown): string | undefined {
+  if (!data || typeof data !== "object" || !("message" in data)) {
+    return undefined;
+  }
+
+  const { message } = data as { message: unknown };
+
+  if (typeof message === "string" && message.trim()) {
+    return message;
+  }
+
+  if (Array.isArray(message) && typeof message[0] === "string") {
+    return message[0];
+  }
+
+  return undefined;
+}
+
 export function getErrorMessage(error: unknown): string {
   if (axios.isAxiosError(error)) {
-    if (error.code === "ERR_NETWORK" || !error.response) {
-      return "Não foi possível conectar ao servidor. Verifique sua internet e tente novamente.";
+    if (error.response) {
+      return getServerMessage(error.response.data) ?? getHttpStatusMessage(error.response.status);
     }
 
-    if (error.code === "ECONNABORTED") {
+    if (error.code === "ECONNABORTED" || error.code === "ETIMEDOUT") {
       return "A solicitação demorou mais do que o esperado. Tente novamente.";
     }
 
-    return getHttpStatusMessage(error.response.status);
+    if (typeof navigator !== "undefined" && !navigator.onLine) {
+      return "Você está sem conexão com a internet. Verifique sua rede e tente novamente.";
+    }
+
+    return "Não foi possível conectar ao servidor. Tente novamente em instantes.";
   }
 
   if (error instanceof Error) {
