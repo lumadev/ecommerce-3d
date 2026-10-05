@@ -21,7 +21,7 @@ const HeroSection = () => {
   }));
 
   return (
-    <section className="relative min-h-screen overflow-hidden bg-background">
+    <section className="relative min-h-[calc(100svh-4rem)] overflow-hidden bg-background">
       <div className="absolute inset-0 opacity-[0.03]" style={{
         backgroundImage:
           "linear-gradient(hsl(var(--primary)) 1px, transparent 1px), linear-gradient(90deg, hsl(var(--primary)) 1px, transparent 1px)",

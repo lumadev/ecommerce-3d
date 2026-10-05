@@ -26,7 +26,7 @@ const ProductCard = ({ product, index }: ProductCardProps) => {
       viewport={{ once: true, margin: "-50px" }}
       transition={{ duration: 0.5, delay: index * 0.1 }}
       onClick={goToProductDetails}
-      className="group relative cursor-pointer overflow-hidden rounded-xl border border-border bg-gradient-card transition-all duration-300 hover:border-primary/40 hover:shadow-glow"
+      className="group relative flex h-full cursor-pointer flex-col overflow-hidden rounded-xl border border-border bg-gradient-card transition-all duration-300 hover:border-primary/40 hover:shadow-glow"
     >
       <div className="relative aspect-square overflow-hidden">
         {product.media?.[0]?.type === "video" ? (
@@ -57,7 +57,7 @@ const ProductCard = ({ product, index }: ProductCardProps) => {
         <div className="absolute inset-0 bg-gradient-to-t from-background/90 via-transparent to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
       </div>
 
-      <div className="p-5">
+      <div className="flex flex-1 flex-col p-5">
         <p className="mb-1 text-xs font-medium uppercase tracking-wider text-primary">
           {product.categories.join(" • ")}
         </p>
@@ -67,7 +67,7 @@ const ProductCard = ({ product, index }: ProductCardProps) => {
         <p className="mb-4 text-sm leading-relaxed text-muted-foreground line-clamp-2">
           {product.description}
         </p>
-        <div className="flex items-center justify-between">
+        <div className="mt-auto flex flex-wrap items-center justify-between gap-2">
           <span className="font-display text-xl font-bold text-primary">
             R$ {product.price.toFixed(2).replace(".", ",")}
           </span>
