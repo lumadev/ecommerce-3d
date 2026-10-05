@@ -77,6 +77,10 @@ const CartDrawer = () => {
                             </span>
                             <button
                               onClick={() => updateQuantity(item.product.id, item.quantity + 1)}
+                              disabled={
+                                item.product.stock !== undefined &&
+                                item.quantity >= item.product.stock
+                              }
                               className="flex h-7 w-7 items-center justify-center rounded border border-border text-muted-foreground hover:text-foreground transition-colors"
                             >
                               <Plus size={14} />
