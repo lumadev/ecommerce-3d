@@ -2,7 +2,7 @@ import { useState } from "react";
 import { motion } from "framer-motion";
 import { Send, Sparkles } from "lucide-react";
 
-import { customOrderRepository } from "@/features/custom-order/repositories/customOrderRepository";
+import { customOrderRepository } from "@/features/contact/repositories/customOrderRepository";
 import { useToast } from "@/hooks/use-toast";
 
 const CustomOrderSection = () => {
