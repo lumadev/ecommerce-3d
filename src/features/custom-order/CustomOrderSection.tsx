@@ -47,7 +47,7 @@ const CustomOrderSection = () => {
           <div className="mb-8 text-center">
             <div className="mb-4 inline-flex items-center gap-2 rounded-full border border-primary/30 bg-primary/10 px-4 py-1.5 text-sm font-medium text-primary">
               <Sparkles size={14} />
-              Encomenda Personalizada
+              Entre em Contato
             </div>
             <h2 className="mb-3 font-display text-3xl font-bold text-foreground">
               Crie Algo <span className="text-gradient-primary">Único</span>

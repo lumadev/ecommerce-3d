@@ -58,7 +58,7 @@ const HeroSection = () => {
                 onClick={() => document.getElementById("encomenda")?.scrollIntoView({ behavior: "smooth" })}
                 className="rounded-lg border border-primary/30 px-8 py-3 font-display text-sm font-semibold uppercase tracking-wider text-primary transition-all hover:border-primary hover:shadow-glow"
               >
-                Encomenda Personalizada
+                Entre em Contato
               </button>
             </div>
           </motion.div>
