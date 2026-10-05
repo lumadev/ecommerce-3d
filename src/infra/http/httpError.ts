@@ -46,7 +46,8 @@ function getServerMessage(data: unknown): string | undefined {
 export function getErrorMessage(error: unknown): string {
   if (axios.isAxiosError(error)) {
     if (error.response) {
-      return getServerMessage(error.response.data) ?? getHttpStatusMessage(error.response.status);
+      const { status, data } = error.response;
+      return (status < 500 ? getServerMessage(data) : undefined) ?? getHttpStatusMessage(status);
     }
 
     if (error.code === "ECONNABORTED" || error.code === "ETIMEDOUT") {
