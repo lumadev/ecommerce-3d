@@ -63,13 +63,13 @@ const ProductDetailContent = () => {
 
       <section className="py-8 pb-20">
         <div className="container mx-auto px-4">
-          <div className="grid gap-10 lg:grid-cols-2">
+          <div className="grid items-start gap-8 lg:grid-cols-[minmax(0,30rem)_minmax(0,1fr)]">
             {/* Media Carousel */}
             <motion.div
               initial={{ opacity: 0, x: -30 }}
               animate={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.5 }}
-              className="flex flex-col gap-3"
+              className="mx-auto flex w-full max-w-[30rem] flex-col gap-3 lg:mx-0"
             >
               <MediaCarousel
                 media={product.media && product.media.length > 0 ? product.media : [{ type: "image", src: product.image, alt: product.name }]}
@@ -85,7 +85,7 @@ const ProductDetailContent = () => {
               initial={{ opacity: 0, x: 30 }}
               animate={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.5, delay: 0.1 }}
-              className="flex flex-col justify-center"
+              className="flex flex-col justify-start"
             >
               <div className="mb-3 flex flex-wrap gap-2">
                 {product.categories.map((cat) => (
