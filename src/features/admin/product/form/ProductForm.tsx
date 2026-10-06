@@ -37,7 +37,10 @@ const ProductForm = ({ form, onChange, onMediaUploadingChange }: Props) => {
         </TabsTrigger>
       </TabsList>
 
-      <TabsContent value="data" className="mt-0 min-h-0 flex-1 overflow-y-auto">
+      <TabsContent
+        value="data"
+        className="mt-0 min-h-0 flex-1 overflow-y-auto p-1.5"
+      >
         <div className="grid content-start gap-3">
           <div className="grid grid-cols-2 items-start gap-3">
             <div className="grid content-start gap-2">
