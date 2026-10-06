@@ -109,24 +109,26 @@ const SearchDialog = ({ open, onOpenChange }: SearchDialogProps) => {
 
         <CommandSeparator />
 
-        <CommandGroup forceMount>
-          <CommandItem
-            onSelect={handleCustomOrder}
-            className="group flex items-center gap-3 py-3 cursor-pointer"
-          >
-            <div className="flex h-10 w-10 items-center justify-center rounded-md bg-primary/10">
-              <Package size={18} className="text-primary" />
-            </div>
-            <div className="flex flex-col">
-              <span className="text-sm font-medium">
-                Não encontrou o que queria?
-              </span>
-              <span className="text-xs text-muted-foreground group-data-[selected=true]:text-accent-foreground/80">
-                Clique aqui para entrar em contato
-              </span>
-            </div>
-          </CommandItem>
-        </CommandGroup>
+        {!isLoading && (
+          <CommandGroup forceMount>
+            <CommandItem
+              onSelect={handleCustomOrder}
+              className="group flex items-center gap-3 py-3 cursor-pointer"
+            >
+              <div className="flex h-10 w-10 items-center justify-center rounded-md bg-primary/10">
+                <Package size={18} className="text-primary" />
+              </div>
+              <div className="flex flex-col">
+                <span className="text-sm font-medium">
+                  Não encontrou o que queria?
+                </span>
+                <span className="text-xs text-muted-foreground group-data-[selected=true]:text-accent-foreground/80">
+                  Clique aqui para entrar em contato
+                </span>
+              </div>
+            </CommandItem>
+          </CommandGroup>
+        )}
       </CommandList>
     </CommandDialog>
   );
