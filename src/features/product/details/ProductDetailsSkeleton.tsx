@@ -14,9 +14,9 @@ const ProductDetailsSkeleton = () => {
 
       <section className="py-8 pb-20">
         <div className="container mx-auto px-4">
-          <div className="grid gap-10 lg:grid-cols-2">
+          <div className="grid items-start gap-8 lg:grid-cols-[minmax(0,30rem)_minmax(0,1fr)]">
             {/* Media */}
-            <div className="flex flex-col gap-3">
+            <div className="mx-auto flex w-full max-w-[30rem] flex-col gap-3 lg:mx-0">
               <Skeleton className="aspect-square w-full rounded-xl" />
               <div className="flex gap-3">
                 {Array.from({ length: 4 }).map((_, index) => (
@@ -26,7 +26,7 @@ const ProductDetailsSkeleton = () => {
             </div>
 
             {/* Details */}
-            <div className="flex flex-col justify-center">
+            <div className="flex flex-col justify-start">
               <div className="mb-3 flex flex-wrap gap-2">
                 <Skeleton className="h-6 w-20 rounded-full" />
                 <Skeleton className="h-6 w-24 rounded-full" />
