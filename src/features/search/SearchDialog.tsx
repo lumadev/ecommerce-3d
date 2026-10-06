@@ -1,7 +1,8 @@
 import { useState, useMemo } from "react";
 import { useNavigate } from "react-router-dom";
-import { Sparkles, Package } from "lucide-react";
-import { products } from "@/data/products";
+import { Package } from "lucide-react";
+import { useProducts } from "@/features/product/hooks/useProducts";
+import SearchResultsSkeleton from "./SearchResultsSkeleton";
 import {
   CommandDialog,
   CommandGroup,
@@ -19,6 +20,7 @@ interface SearchDialogProps {
 const SearchDialog = ({ open, onOpenChange }: SearchDialogProps) => {
   const navigate = useNavigate();
   const [search, setSearch] = useState("");
+  const { productList: products, isLoading } = useProducts();
 
   const handleOpenChange = (nextOpen: boolean) => {
     if (!nextOpen) {
@@ -36,7 +38,7 @@ const SearchDialog = ({ open, onOpenChange }: SearchDialogProps) => {
           p.categories.some((category) => category.toLowerCase().includes(normalizedSearch)) ||
           p.description.toLowerCase().includes(normalizedSearch)
       );
-  }, [search]);
+  }, [search, products]);
 
   const handleSelect = (productId: string) => {
     onOpenChange(false);
@@ -65,7 +67,9 @@ const SearchDialog = ({ open, onOpenChange }: SearchDialogProps) => {
         className="h-14 text-base"
       />
       <CommandList>
-        {search.length > 0 && filtered.length === 0 && (
+        {isLoading && <SearchResultsSkeleton />}
+
+        {!isLoading && search.length > 0 && filtered.length === 0 && (
           <div className="py-6 text-center">
             <p className="text-sm text-muted-foreground">
               Nenhum produto encontrado.
@@ -73,7 +77,7 @@ const SearchDialog = ({ open, onOpenChange }: SearchDialogProps) => {
           </div>
         )}
 
-        {filtered.length > 0 && (
+        {!isLoading && filtered.length > 0 && (
           <CommandGroup heading="Produtos">
             {filtered.map((product) => (
               <CommandItem
@@ -98,9 +102,6 @@ const SearchDialog = ({ open, onOpenChange }: SearchDialogProps) => {
                 <span className="text-sm font-semibold text-primary whitespace-nowrap">
                   R$ {product.price.toFixed(2).replace(".", ",")}
                 </span>
-                {product.customizable && (
-                  <Sparkles size={14} className="text-primary shrink-0" />
-                )}
               </CommandItem>
             ))}
           </CommandGroup>
@@ -121,7 +122,7 @@ const SearchDialog = ({ open, onOpenChange }: SearchDialogProps) => {
                 Não encontrou o que queria?
               </span>
               <span className="text-xs text-muted-foreground group-data-[selected=true]:text-accent-foreground/80">
-                Clique aqui para personalizar sua encomenda
+                Clique aqui para entrar em contato
               </span>
             </div>
           </CommandItem>
