@@ -23,28 +23,48 @@ export const AuthSignupForm = ({ onToggleMode, onLoginSucess }: AuthSignupFormPr
   });
 
   const [isLoading, setIsLoading] = useState(false);
+  const [errors, setErrors] = useState<{
+    name?: string;
+    email?: string;
+    password?: string;
+    confirmPassword?: string;
+  }>({});
   const { login } = useAuth();
   const { toast } = useToast();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    if (formData.password !== formData.confirmPassword) {
-      toast({ description: "As senhas informadas precisam ser iguais." });
-      return;
+    const nextErrors: typeof errors = {};
+    if (!formData.name.trim()) {
+      nextErrors.name = "Preencha seu nome";
     }
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email.trim())) {
+      nextErrors.email = "Preencha um email válido";
+    }
+    if (!formData.password) {
+      nextErrors.password = "Preencha sua senha";
+    }
+    if (!formData.confirmPassword) {
+      nextErrors.confirmPassword = "Confirme sua senha";
+    } else if (formData.password !== formData.confirmPassword) {
+      nextErrors.confirmPassword = "As senhas informadas precisam ser iguais";
+    }
+
+    setErrors(nextErrors);
+    if (Object.keys(nextErrors).length > 0) return;
 
     setIsLoading(true);
 
     try {
       await authRepository.register({
-        name: formData.name,
-        email: formData.email,
+        name: formData.name.trim(),
+        email: formData.email.trim(),
         password: formData.password,
       });
 
       await login({
-        email: formData.email,
+        email: formData.email.trim(),
         password: formData.password,
       });
 
@@ -59,41 +79,80 @@ export const AuthSignupForm = ({ onToggleMode, onLoginSucess }: AuthSignupFormPr
 
   const updateFormData = (field: keyof typeof formData) => (value: string) => {
     setFormData((prev) => ({ ...prev, [field]: value }));
+    setErrors((prev) => {
+      if (field === "name" && value.trim()) {
+        return { ...prev, name: undefined };
+      }
+      if (field === "email" && /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value.trim())) {
+        return { ...prev, email: undefined };
+      }
+      if (field === "password") {
+        return {
+          ...prev,
+          password: value ? undefined : prev.password,
+          confirmPassword: formData.confirmPassword
+            ? value !== formData.confirmPassword
+              ? "As senhas informadas precisam ser iguais"
+              : undefined
+            : prev.confirmPassword,
+        };
+      }
+      if (field === "confirmPassword") {
+        return {
+          ...prev,
+          confirmPassword: value
+            ? value === formData.password
+              ? undefined
+              : "As senhas informadas precisam ser iguais"
+            : prev.confirmPassword,
+        };
+      }
+      return prev;
+    });
   };
 
   return (
     <>
       <form 
         onSubmit={handleSubmit} 
+        noValidate
         className="space-y-4"
       >
         <InputField
+          id="signup-name"
           icon={<User size={16} />}
           placeholder="Nome completo"
           value={formData.name}
           onChange={updateFormData("name")}
           autoComplete="off"
+          error={errors.name}
         />
 
         <InputField
+          id="signup-email"
           icon={<Mail size={16} />}
           type="email"
           placeholder="Email"
           value={formData.email}
           onChange={updateFormData("email")}
           autoComplete="off"
+          error={errors.email}
         />
 
         <PasswordField
+          id="signup-password"
           placeholder="Senha"
           value={formData.password}
           onChange={updateFormData("password")}
+          error={errors.password}
         />
 
         <PasswordField
+          id="signup-confirm-password"
           placeholder="Confirmar Senha"
           value={formData.confirmPassword}
           onChange={updateFormData("confirmPassword")}
+          error={errors.confirmPassword}
         />
 
         <button
