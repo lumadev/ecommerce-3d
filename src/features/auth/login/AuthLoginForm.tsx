@@ -19,16 +19,29 @@ export const AuthLoginForm = ({ onToggleMode, onLoginSucess }: AuthLoginFormProp
   });
 
   const [isLoading, setIsLoading] = useState(false);
+  const [errors, setErrors] = useState<{ email?: string; password?: string }>({});
   const { login } = useAuth();
   const { toast } = useToast();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+
+    const nextErrors: typeof errors = {};
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email.trim())) {
+      nextErrors.email = "Preencha um email válido";
+    }
+    if (!formData.password) {
+      nextErrors.password = "Preencha sua senha";
+    }
+
+    setErrors(nextErrors);
+    if (Object.keys(nextErrors).length > 0) return;
+
     setIsLoading(true);
 
     try {
       await login({
-        email: formData.email,
+        email: formData.email.trim(),
         password: formData.password,
       });
 
@@ -44,26 +57,40 @@ export const AuthLoginForm = ({ onToggleMode, onLoginSucess }: AuthLoginFormProp
 
   const updateFormData = (field: keyof typeof formData) => (value: string) => {
     setFormData((prev) => ({ ...prev, [field]: value }));
+    setErrors((prev) => {
+      if (field === "email" && /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value.trim())) {
+        return { ...prev, email: undefined };
+      }
+      if (field === "password" && value.length > 0) {
+        return { ...prev, password: undefined };
+      }
+      return prev;
+    });
   };
 
   return (
     <>
       <form
         onSubmit={handleSubmit}
+        noValidate
         className="space-y-4"
       >
         <InputField
+          id="login-email"
           icon={<Mail size={16} />}
           type="email"
           placeholder="Email"
           value={formData.email}
           onChange={updateFormData("email")}
           autoComplete="off"
+          error={errors.email}
         />
 
         <PasswordField
+          id="login-password"
           value={formData.password}
           onChange={updateFormData("password")}
+          error={errors.password}
         />
 
         <div className="text-right">
