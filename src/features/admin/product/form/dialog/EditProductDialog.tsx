@@ -110,38 +110,46 @@ const EditProductDialog = ({ product, onClose, onSave }: Props) => {
     }
   };
 
+  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    void onSaveEdit();
+  };
+
   return (
     <Dialog
       open={!!product}
       onOpenChange={(isOpen) => !isOpen && void handleCancel()}
     >
       <DialogContent className="flex h-fit max-h-[calc(100vh-2rem)] flex-col overflow-hidden border-border bg-card text-card-foreground sm:max-w-[960px]">
-        <DialogHeader className="shrink-0 border-b border-border pb-4">
-          <DialogTitle className="text-xl">Editar Produto</DialogTitle>
-        </DialogHeader>
+        <form onSubmit={handleSubmit} className="flex min-h-0 flex-1 flex-col overflow-hidden">
+          <DialogHeader className="shrink-0 border-b border-border pb-4">
+            <DialogTitle className="text-xl">Editar Produto</DialogTitle>
+          </DialogHeader>
 
-        <ProductForm
-          form={form}
-          onChange={handleFormChange}
-          onMediaUploadingChange={setIsMediaUploading}
-        />
+          <ProductForm
+            form={form}
+            onChange={handleFormChange}
+            onMediaUploadingChange={setIsMediaUploading}
+          />
 
-        <DialogFooter className="shrink-0 border-t border-border pt-4">
-          <Button
-            variant="outline"
-            onClick={handleCancel}
-            disabled={isLoading || isMediaUploading || isCanceling}
-          >
-            {isCanceling ? "Limpando..." : "Cancelar"}
-          </Button>
-          <Button
-            onClick={onSaveEdit}
-            disabled={isLoading || isMediaUploading || isCanceling}
-          >
-            {isLoading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
-            {isLoading ? "Salvando..." : "Salvar"}
-          </Button>
-        </DialogFooter>
+          <DialogFooter className="shrink-0 border-t border-border pt-4">
+            <Button
+              type="button"
+              variant="outline"
+              onClick={handleCancel}
+              disabled={isLoading || isMediaUploading || isCanceling}
+            >
+              {isCanceling ? "Limpando..." : "Cancelar"}
+            </Button>
+            <Button
+              type="submit"
+              disabled={isLoading || isMediaUploading || isCanceling}
+            >
+              {isLoading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
+              {isLoading ? "Salvando..." : "Salvar"}
+            </Button>
+          </DialogFooter>
+        </form>
       </DialogContent>
     </Dialog>
   );

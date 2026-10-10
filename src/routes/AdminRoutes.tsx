@@ -9,6 +9,7 @@ import OrderPage from "@/features/admin/order/OrderPage";
 import AdminProducts from "@/features/admin/product/AdminProducts";
 import AdminCategories from "@/features/admin/category/AdminCategories";
 import AdminHighlights from "@/features/admin/highlight/AdminHighlights";
+import AdminMerchants from "@/features/admin/merchant/AdminMerchants";
 
 const RequireAdmin = () => {
   const { isAuthenticated, isCheckingSession } = useAdminAuth();
@@ -55,6 +56,7 @@ export const AdminRoutes = () => (
         <Route path="produtos" element={<AdminProducts />} />
         <Route path="categorias" element={<AdminCategories />} />
         <Route path="destaques" element={<AdminHighlights />} />
+        <Route path="lojas" element={<AdminMerchants />} />
       </Route>
     </Routes>
   </AdminAuthProvider>

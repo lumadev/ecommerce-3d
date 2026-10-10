@@ -9,3 +9,5 @@ applyTo: "src/**/*.{jsx,tsx}"
 - Clear a field's error when the user corrects that field, and ensure submit validation rejects missing or incomplete required values.
 - Keep errors accessible, using an appropriate live region such as `role="alert"` and `aria-invalid` where applicable.
 - Reserve form-level messages for errors that do not belong to a specific field, such as a failed server request.
+- Use a semantic `<form onSubmit>` and an explicit `type="submit"` button so Enter in single-line fields submits the form. Mark auxiliary buttons as `type="button"` to prevent accidental submissions.
+- Do not suppress Enter's default form submission in single-line fields. Preserve the native newline behavior of multiline fields such as `<textarea>`.

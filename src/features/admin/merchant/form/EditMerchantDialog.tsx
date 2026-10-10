@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {
   Dialog,
   DialogContent,
@@ -14,44 +14,34 @@ import {
   MerchantFormErrors,
   MerchantFormState,
 } from "../types/merchant-form.types";
-import { CreateMerchantData, Merchant } from "../types/merchant.types";
+import { Merchant, UpdateMerchantData } from "../types/merchant.types";
 
 import MerchantForm from "./MerchantForm";
 import { validateMerchantForm } from "./validateMerchantForm";
 
 interface Props {
-  open: boolean;
+  merchant: Merchant | null;
   onClose: () => void;
-  onCreate: (merchant: CreateMerchantData) => Promise<Merchant>;
+  onSave: (id: string, merchant: UpdateMerchantData) => Promise<Merchant>;
 }
 
-const emptyForm: MerchantFormState = {
-  code: "",
-  name: "",
-  email: "",
-  domain: "",
-  isActive: true,
-};
+const toFormState = (m: Merchant | null): MerchantFormState => ({
+  code: m?.code ?? "",
+  name: m?.name ?? "",
+  email: m?.email ?? "",
+  domain: m?.domain ?? "",
+  isActive: m?.isActive ?? true,
+});
 
-const CreateMerchantDialog = ({ open, onClose, onCreate }: Props) => {
-  const [form, setForm] = useState<MerchantFormState>(emptyForm);
+const EditMerchantDialog = ({ merchant, onClose, onSave }: Props) => {
+  const [form, setForm] = useState<MerchantFormState>(() => toFormState(merchant));
   const [errors, setErrors] = useState<MerchantFormErrors>({});
   const [isLoading, setIsLoading] = useState(false);
 
-  const resetState = () => {
-    setForm(emptyForm);
+  useEffect(() => {
+    setForm(toFormState(merchant));
     setErrors({});
-  };
-
-  const handleCancel = () => {
-    onClose();
-    resetState();
-  };
-
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    void onSaveCreate();
-  };
+  }, [merchant]);
 
   const handleChange = (
     field: keyof MerchantFormState,
@@ -61,8 +51,15 @@ const CreateMerchantDialog = ({ open, onClose, onCreate }: Props) => {
     setErrors((e) => ({ ...e, [field]: undefined }));
   };
 
-  const onSaveCreate = async () => {
-    const validationErrors = validateMerchantForm(form, { validateCode: true });
+  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    void onSaveEdit();
+  };
+
+  const onSaveEdit = async () => {
+    if (!merchant) return;
+
+    const validationErrors = validateMerchantForm(form, { validateCode: false });
 
     if (Object.keys(validationErrors).length > 0) {
       setErrors(validationErrors);
@@ -72,8 +69,8 @@ const CreateMerchantDialog = ({ open, onClose, onCreate }: Props) => {
     const email = form.email.trim();
     const domain = form.domain.trim();
 
-    const newMerchant: CreateMerchantData = {
-      code: form.code.trim(),
+    // A API não aceita string vazia; campos limpos não são enviados.
+    const updatedMerchant: UpdateMerchantData = {
       name: form.name.trim(),
       isActive: form.isActive,
       ...(email && { email }),
@@ -83,9 +80,8 @@ const CreateMerchantDialog = ({ open, onClose, onCreate }: Props) => {
     setIsLoading(true);
 
     try {
-      await onCreate(newMerchant);
+      await onSave(merchant.id, updatedMerchant);
       onClose();
-      resetState();
     } catch {
       // O hook já notifica o erro.
     } finally {
@@ -94,26 +90,30 @@ const CreateMerchantDialog = ({ open, onClose, onCreate }: Props) => {
   };
 
   return (
-    <Dialog open={open} onOpenChange={(isOpen) => !isOpen && handleCancel()}>
+    <Dialog open={!!merchant} onOpenChange={(open) => !open && onClose()}>
       <DialogContent className="max-h-[calc(100vh-2rem)] overflow-y-auto border-border bg-card text-card-foreground sm:max-w-[520px]">
         <form onSubmit={handleSubmit}>
           <DialogHeader className="border-b border-border pb-4">
-            <DialogTitle className="text-xl">Nova Loja</DialogTitle>
+            <DialogTitle className="text-xl">Editar Loja</DialogTitle>
             <DialogDescription className="text-muted-foreground">
-              Preencha os dados da loja.
+              Altere os dados da loja. O código não pode ser alterado.
             </DialogDescription>
           </DialogHeader>
 
-          <MerchantForm form={form} errors={errors} onChange={handleChange} />
+          <MerchantForm
+            form={form}
+            errors={errors}
+            onChange={handleChange}
+            codeDisabled
+          />
 
           <DialogFooter className="border-t border-border pt-4">
-            <Button type="button" variant="outline" onClick={handleCancel} disabled={isLoading}>
+            <Button type="button" variant="outline" onClick={onClose} disabled={isLoading}>
               Cancelar
             </Button>
-
             <Button type="submit" disabled={isLoading}>
               {isLoading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
-              {isLoading ? "Salvando..." : "Confirmar Cadastro"}
+              {isLoading ? "Salvando..." : "Salvar Alterações"}
             </Button>
           </DialogFooter>
         </form>
@@ -122,4 +122,4 @@ const CreateMerchantDialog = ({ open, onClose, onCreate }: Props) => {
   );
 };
 
-export default CreateMerchantDialog;
+export default EditMerchantDialog;
