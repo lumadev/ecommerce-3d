@@ -49,6 +49,11 @@ const EditCategoryDialog = ({ category, onClose, onSave }: Props) => {
 
   const isBusy = isLoading;
 
+  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    void onSaveEdit();
+  };
+
   const handleCancel = () => {
     onClose();
     setForm(emptyForm);
@@ -83,29 +88,31 @@ const EditCategoryDialog = ({ category, onClose, onSave }: Props) => {
   return (
     <Dialog open={!!category} onOpenChange={(open) => !open && onClose()}>
       <DialogContent className="max-h-[calc(100vh-2rem)] overflow-hidden border-border bg-card text-card-foreground sm:max-w-[980px]">
-        <DialogHeader className="border-b border-border pb-4">
-          <DialogTitle className="text-xl">Editar Categoria</DialogTitle>
-          <DialogDescription className="text-muted-foreground">
-            Altere os dados e a foto da categoria.
-          </DialogDescription>
-        </DialogHeader>
+        <form onSubmit={handleSubmit}>
+          <DialogHeader className="border-b border-border pb-4">
+            <DialogTitle className="text-xl">Editar Categoria</DialogTitle>
+            <DialogDescription className="text-muted-foreground">
+              Altere os dados e a foto da categoria.
+            </DialogDescription>
+          </DialogHeader>
 
-        <CategoryForm
-          form={form}
-          onChange={(field, value) => setForm((f) => ({ ...f, [field]: value }))}
-        />
+          <CategoryForm
+            form={form}
+            onChange={(field, value) => setForm((f) => ({ ...f, [field]: value }))}
+          />
 
-        <DialogFooter className="border-t border-border pt-4">
-          <Button variant="outline" onClick={handleCancel} disabled={isBusy}>
-            Cancelar
-          </Button>
-          <Button onClick={onSaveEdit} disabled={isBusy}>
-            {isLoading && (
-              <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-            )}
-            {isLoading ? "Salvando..." : "Salvar Alterações"}
-          </Button>
-        </DialogFooter>
+          <DialogFooter className="border-t border-border pt-4">
+            <Button type="button" variant="outline" onClick={handleCancel} disabled={isBusy}>
+              Cancelar
+            </Button>
+            <Button type="submit" disabled={isBusy}>
+              {isLoading && (
+                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+              )}
+              {isLoading ? "Salvando..." : "Salvar Alterações"}
+            </Button>
+          </DialogFooter>
+        </form>
       </DialogContent>
     </Dialog>
   );

@@ -26,7 +26,10 @@ const HashtagsField = ({ value, onChange }: Props) => {
   };
 
   const handleKeyDown = (e: KeyboardEvent<HTMLInputElement>) => {
-    if (e.key === "Enter" || e.key === ",") {
+    if (e.key === "Enter") {
+      e.preventDefault();
+      add(input);
+    } else if (e.key === ",") {
       e.preventDefault();
       add(input);
     } else if (e.key === "Backspace" && !input && value.length > 0) {

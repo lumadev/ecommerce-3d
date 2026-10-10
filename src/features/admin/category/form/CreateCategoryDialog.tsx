@@ -55,6 +55,11 @@ const CreateCategoryDialog = ({ open, onClose, onCreate }: Props) => {
 
   const isBusy = isLoading || isClosing;
 
+  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    void onSaveCreate();
+  };
+
   const onSaveCreate = async () => {
     if (!form.name.trim()) {
       toast({
@@ -92,36 +97,39 @@ const CreateCategoryDialog = ({ open, onClose, onCreate }: Props) => {
   return (
     <Dialog open={open} onOpenChange={onClose}>
       <DialogContent className="max-h-[calc(100vh-2rem)] overflow-hidden border-border bg-card text-card-foreground sm:max-w-[980px]">
-        <DialogHeader className="border-b border-border pb-4">
-          <DialogTitle className="text-xl">Nova Categoria</DialogTitle>
-          <DialogDescription className="text-muted-foreground">
-            Preencha os dados e visualize a foto antes de confirmar.
-          </DialogDescription>
-        </DialogHeader>
+        <form onSubmit={handleSubmit}>
+          <DialogHeader className="border-b border-border pb-4">
+            <DialogTitle className="text-xl">Nova Categoria</DialogTitle>
+            <DialogDescription className="text-muted-foreground">
+              Preencha os dados e visualize a foto antes de confirmar.
+            </DialogDescription>
+          </DialogHeader>
 
-        <CategoryForm
-          form={form}
-          onChange={(field, value) =>
-            setForm((f) => ({ ...f, [field]: value }))
-          }
-        />
+          <CategoryForm
+            form={form}
+            onChange={(field, value) =>
+              setForm((f) => ({ ...f, [field]: value }))
+            }
+          />
 
-        <DialogFooter className="border-t border-border pt-4">
-          <Button
-            variant="outline"
-            onClick={handleCancel}
-            disabled={isBusy}
-          >
-            Cancelar
-          </Button>
+          <DialogFooter className="border-t border-border pt-4">
+            <Button
+              type="button"
+              variant="outline"
+              onClick={handleCancel}
+              disabled={isBusy}
+            >
+              Cancelar
+            </Button>
 
-          <Button onClick={onSaveCreate} disabled={isBusy}>
-            {isLoading && (
-              <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-            )}
-            {isLoading ? "Salvando..." : "Confirmar Cadastro"}
-          </Button>
-        </DialogFooter>
+            <Button type="submit" disabled={isBusy}>
+              {isLoading && (
+                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+              )}
+              {isLoading ? "Salvando..." : "Confirmar Cadastro"}
+            </Button>
+          </DialogFooter>
+        </form>
       </DialogContent>
     </Dialog>
   );
