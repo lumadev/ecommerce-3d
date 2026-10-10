@@ -1,4 +1,4 @@
-import { Package, ShoppingCart, Tags, Star, LogOut } from "lucide-react";
+import { Package, ShoppingCart, Tags, Star, Store, LogOut } from "lucide-react";
 import { useNavigate, useLocation } from "react-router-dom";
 import { useAdminAuth } from "@/features/auth/hooks/useAdminAuth";
 import {
@@ -23,6 +23,7 @@ const menuItems = [
   { title: "Produtos", icon: Package, key: "produtos" },
   { title: "Categorias", icon: Tags, key: "categorias" },
   { title: "Destaques", icon: Star, key: "destaques" },
+  { title: "Lojas", icon: Store, key: "lojas" },
 ] as const;
 
 export type AdminSection = (typeof menuItems)[number]["key"];
