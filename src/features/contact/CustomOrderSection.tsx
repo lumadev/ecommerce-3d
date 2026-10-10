@@ -158,7 +158,7 @@ const CustomOrderSection = () => {
               className="flex w-full items-center justify-center gap-2 rounded-lg bg-gradient-cta py-3 font-display text-sm font-semibold uppercase tracking-wider text-primary-foreground transition-all hover:shadow-glow-strong hover:scale-[1.02] disabled:opacity-50"
             >
               <Send size={16} />
-              {isLoading ? "Enviando..." : "Enviar Encomenda"}
+              {isLoading ? "Enviando..." : "Enviar Contato"}
             </button>
           </form>
         </motion.div>

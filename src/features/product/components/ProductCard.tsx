@@ -67,17 +67,17 @@ const ProductCard = ({ product, index }: ProductCardProps) => {
         <p className="mb-4 text-sm leading-relaxed text-muted-foreground line-clamp-2">
           {product.description}
         </p>
-        <div className="mt-auto flex flex-wrap items-center justify-between gap-2">
+        <div className="mt-auto flex flex-col items-stretch gap-3 sm:flex-row sm:items-center sm:justify-between sm:gap-2">
           <span className="font-display text-xl font-bold text-primary">
             R$ {product.price.toFixed(2).replace(".", ",")}
           </span>
-          <div className="flex items-center gap-2">
+          <div className="flex w-full gap-2 sm:w-auto">
             <button
               onClick={(e) => {
                 e.stopPropagation();
                 goToProductDetails();
               }}
-              className="flex items-center gap-1.5 rounded-lg border border-primary/30 px-3 py-2 text-sm font-semibold text-primary transition-all hover:border-primary hover:shadow-glow"
+              className="flex flex-1 items-center justify-center gap-1.5 rounded-lg border border-primary/30 px-3 py-2 text-sm font-semibold text-primary transition-all hover:border-primary hover:shadow-glow sm:flex-none"
             >
               <Eye size={16} />
               Visualizar
@@ -88,9 +88,11 @@ const ProductCard = ({ product, index }: ProductCardProps) => {
                 addItem(product);
               }}
               disabled={product.stock !== undefined && product.stock <= 0}
-              className="flex items-center gap-1.5 rounded-lg bg-gradient-cta px-3 py-2 text-sm font-semibold text-primary-foreground transition-all hover:shadow-glow hover:scale-105 disabled:cursor-not-allowed disabled:opacity-50"
+              aria-label="Adicionar ao carrinho"
+              className="flex flex-1 items-center justify-center gap-1.5 rounded-lg bg-gradient-cta px-3 py-2 text-sm font-semibold text-primary-foreground transition-all hover:shadow-glow hover:scale-105 disabled:cursor-not-allowed disabled:opacity-50 sm:flex-none"
             >
               <ShoppingCart size={16} />
+              <span className="sm:hidden">Adicionar</span>
             </button>
           </div>
         </div>
