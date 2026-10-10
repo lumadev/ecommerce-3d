@@ -3,6 +3,7 @@ import { Loader2, Mail } from "lucide-react";
 
 import { getErrorMessage } from "@/infra/http/httpError";
 import { useToast } from "@/hooks/use-toast";
+import { isValidEmail } from "@/lib/validation";
 import { useAuth } from "../hooks/useAuth";
 import { InputField } from "../components/InputField";
 import { PasswordField } from "../components/PasswordField";
@@ -27,7 +28,7 @@ export const AuthLoginForm = ({ onToggleMode, onLoginSucess }: AuthLoginFormProp
     e.preventDefault();
 
     const nextErrors: typeof errors = {};
-    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email.trim())) {
+    if (!isValidEmail(formData.email)) {
       nextErrors.email = "Preencha um email válido";
     }
     if (!formData.password) {
@@ -58,7 +59,7 @@ export const AuthLoginForm = ({ onToggleMode, onLoginSucess }: AuthLoginFormProp
   const updateFormData = (field: keyof typeof formData) => (value: string) => {
     setFormData((prev) => ({ ...prev, [field]: value }));
     setErrors((prev) => {
-      if (field === "email" && /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value.trim())) {
+      if (field === "email" && isValidEmail(value)) {
         return { ...prev, email: undefined };
       }
       if (field === "password" && value.length > 0) {

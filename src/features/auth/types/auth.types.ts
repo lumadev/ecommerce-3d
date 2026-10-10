@@ -14,10 +14,13 @@ export interface LoginAdminData {
   password: string;
 }
 
+export type UserRole = "CUSTOMER" | "ADMIN" | "SUPER_ADMIN";
+
 export interface AuthResponse {
   id: string;
   email: string;
   name: string;
+  role?: UserRole;
   token?: string;
 }
 
@@ -25,5 +28,5 @@ export interface SessionUser {
   id: string;
   email: string;
   name: string;
-  role: "CUSTOMER" | "ADMIN";
+  role: UserRole;
 }

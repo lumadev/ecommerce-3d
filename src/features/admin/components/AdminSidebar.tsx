@@ -1,4 +1,4 @@
-import { Package, ShoppingCart, Tags, Star, Store, LogOut } from "lucide-react";
+import { Package, ShoppingCart, Tags, Star, Store, Users, LogOut } from "lucide-react";
 import { useNavigate, useLocation } from "react-router-dom";
 import { useAdminAuth } from "@/features/auth/hooks/useAdminAuth";
 import {
@@ -23,6 +23,7 @@ const menuItems = [
   { title: "Produtos", icon: Package, key: "produtos" },
   { title: "Categorias", icon: Tags, key: "categorias" },
   { title: "Destaques", icon: Star, key: "destaques" },
+  { title: "Clientes", icon: Users, key: "clientes" },
   { title: "Lojas", icon: Store, key: "lojas" },
 ] as const;
 
@@ -37,7 +38,7 @@ const AdminSidebar = (_props: AdminSidebarProps) => {
   const location = useLocation();
   
   const { state } = useSidebar();
-  const { logout } = useAdminAuth();
+  const { logout, user } = useAdminAuth();
 
   const handleLogout = () => {
     logout();
@@ -65,7 +66,11 @@ const AdminSidebar = (_props: AdminSidebarProps) => {
           <SidebarGroupLabel>Menu</SidebarGroupLabel>
           <SidebarGroupContent>
             <SidebarMenu>
-              {menuItems.map((item) => (
+              {menuItems
+                .filter(
+                  (item) => item.key !== "lojas" || user?.role === "SUPER_ADMIN"
+                )
+                .map((item) => (
                 <SidebarMenuItem key={item.key}>
                   <SidebarMenuButton
                     isActive={location.pathname.endsWith(item.key)}
@@ -78,7 +83,7 @@ const AdminSidebar = (_props: AdminSidebarProps) => {
                     {!collapsed && <span>{item.title}</span>}
                   </SidebarMenuButton>
                 </SidebarMenuItem>
-              ))}
+                ))}
             </SidebarMenu>
           </SidebarGroupContent>
         </SidebarGroup>

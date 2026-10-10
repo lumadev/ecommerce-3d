@@ -4,6 +4,7 @@ import { Send, Sparkles } from "lucide-react";
 
 import { customOrderRepository } from "@/features/contact/repositories/customOrderRepository";
 import { useToast } from "@/hooks/use-toast";
+import { isValidEmail } from "@/lib/validation";
 
 const contactFields = [
   { id: "name", label: "Nome", type: "text", placeholder: "Seu nome" },
@@ -30,7 +31,7 @@ const validateField = (field: ContactField, value: string) => {
     return "Este campo é obrigatório.";
   }
 
-  if (field === "email" && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(normalizedValue)) {
+  if (field === "email" && !isValidEmail(normalizedValue)) {
     return "Informe um e-mail válido.";
   }
 

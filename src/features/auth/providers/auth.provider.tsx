@@ -12,11 +12,16 @@ import {
 const AUTHENTICATED_SESSION_KEY = "auth:authenticated";
 
 function assertRole(user: SessionUser, expectedRole: AuthType) {
-  return user.role === expectedRole;
+  return expectedRole === "ADMIN"
+    ? user.role === "ADMIN" || user.role === "SUPER_ADMIN"
+    : user.role === expectedRole;
 }
 
 export function createAuthProvider<R extends AuthType>(
   role: R,
+  loginRequest: (
+    credentials: CredentialsByRole<R>
+  ) => Promise<AuthResponse>,
   Context: React.Context<AuthContextValue<R> | undefined>
 ) {
   return function AuthProvider({ children }: { children: ReactNode }) {
@@ -44,15 +49,8 @@ export function createAuthProvider<R extends AuthType>(
       }
     };
 
-    const loginByRole: {
-      [K in AuthType]: (data: CredentialsByRole<K>) => Promise<AuthResponse>;
-    } = {
-      CUSTOMER: authRepository.login,
-      ADMIN: authRepository.loginAdmin,
-    };
-
     const login = async (credentials: CredentialsByRole<R>) => {
-      await loginByRole[role](credentials);
+      const loginResponse = await loginRequest(credentials);
 
       const sessionUser = await authRepository.checkSession();
 
@@ -62,10 +60,15 @@ export function createAuthProvider<R extends AuthType>(
         return null;
       }
 
-      window.localStorage.setItem(AUTHENTICATED_SESSION_KEY, "true");
-      setUser(sessionUser);
+      const authenticatedUser =
+        role === "ADMIN" && loginResponse.role === "SUPER_ADMIN"
+          ? { ...sessionUser, role: loginResponse.role }
+          : sessionUser;
 
-      return sessionUser;
+      window.localStorage.setItem(AUTHENTICATED_SESSION_KEY, "true");
+      setUser(authenticatedUser);
+
+      return authenticatedUser;
     };
 
     const logout = async () => {
@@ -107,9 +110,13 @@ export function createAuthProvider<R extends AuthType>(
   };
 }
 
-export const ClientAuthProvider = createAuthProvider(
-  "CUSTOMER", ClientAuthContext
+export const ClientAuthProvider = createAuthProvider<"CUSTOMER">(
+  "CUSTOMER",
+  authRepository.login,
+  ClientAuthContext
 );
-export const AdminAuthProvider = createAuthProvider(
-  "ADMIN", AdminAuthContext
+export const AdminAuthProvider = createAuthProvider<"ADMIN">(
+  "ADMIN",
+  authRepository.loginAdmin,
+  AdminAuthContext
 );

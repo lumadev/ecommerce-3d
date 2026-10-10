@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Mail, User, Loader2 } from "lucide-react";
 import { getErrorMessage } from "@/infra/http/httpError";
 import { useToast } from "@/hooks/use-toast";
+import { isValidEmail } from "@/lib/validation";
 
 import { InputField } from "../components/InputField";
 import { PasswordField } from "../components/PasswordField";
@@ -39,7 +40,7 @@ export const AuthSignupForm = ({ onToggleMode, onLoginSucess }: AuthSignupFormPr
     if (!formData.name.trim()) {
       nextErrors.name = "Preencha seu nome";
     }
-    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email.trim())) {
+    if (!isValidEmail(formData.email)) {
       nextErrors.email = "Preencha um email válido";
     }
     if (!formData.password) {
@@ -83,7 +84,7 @@ export const AuthSignupForm = ({ onToggleMode, onLoginSucess }: AuthSignupFormPr
       if (field === "name" && value.trim()) {
         return { ...prev, name: undefined };
       }
-      if (field === "email" && /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value.trim())) {
+      if (field === "email" && isValidEmail(value)) {
         return { ...prev, email: undefined };
       }
       if (field === "password") {

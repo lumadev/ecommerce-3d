@@ -2,9 +2,7 @@ import {
   MerchantFormErrors,
   MerchantFormState,
 } from "../types/merchant-form.types";
-
-const CODE_PATTERN = /^[a-z0-9]+(?:-[a-z0-9]+)*$/;
-const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+import { isValidEmail, isValidSlug } from "@/lib/validation";
 
 export const validateMerchantForm = (
   form: MerchantFormState,
@@ -19,7 +17,7 @@ export const validateMerchantForm = (
       errors.code = "Informe o código da loja.";
     } else if (code.length > 60) {
       errors.code = "O código deve ter no máximo 60 caracteres.";
-    } else if (!CODE_PATTERN.test(code)) {
+    } else if (!isValidSlug(code)) {
       errors.code = "Use um slug em minúsculas (ex: loja-do-joao).";
     }
   }
@@ -34,7 +32,7 @@ export const validateMerchantForm = (
 
   const email = form.email.trim();
 
-  if (email && !EMAIL_PATTERN.test(email)) {
+  if (email && !isValidEmail(email)) {
     errors.email = "Informe um e-mail válido.";
   }
 

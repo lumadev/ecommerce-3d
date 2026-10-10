@@ -10,6 +10,7 @@ import AdminProducts from "@/features/admin/product/AdminProducts";
 import AdminCategories from "@/features/admin/category/AdminCategories";
 import AdminHighlights from "@/features/admin/highlight/AdminHighlights";
 import AdminMerchants from "@/features/admin/merchant/AdminMerchants";
+import AdminCustomers from "@/features/admin/customer/AdminCustomers";
 
 const RequireAdmin = () => {
   const { isAuthenticated, isCheckingSession } = useAdminAuth();
@@ -46,6 +47,16 @@ const RedirectIfAuthenticated = () => {
   return <AdminLogin />;
 };
 
+const RequireSuperAdmin = () => {
+  const { user } = useAdminAuth();
+
+  if (user?.role !== "SUPER_ADMIN") {
+    return <Navigate to="/admin/pedidos" replace />;
+  }
+
+  return <AdminMerchants />;
+};
+
 export const AdminRoutes = () => (
   <AdminAuthProvider>
     <Routes>
@@ -56,7 +67,8 @@ export const AdminRoutes = () => (
         <Route path="produtos" element={<AdminProducts />} />
         <Route path="categorias" element={<AdminCategories />} />
         <Route path="destaques" element={<AdminHighlights />} />
-        <Route path="lojas" element={<AdminMerchants />} />
+        <Route path="clientes" element={<AdminCustomers />} />
+        <Route path="lojas" element={<RequireSuperAdmin />} />
       </Route>
     </Routes>
   </AdminAuthProvider>
