@@ -42,6 +42,7 @@ const AdminProducts = () => {
       )}
 
       <EditProductDialog
+        key={editingProduct?.id ?? "closed"}
         product={editingProduct}
         onClose={() => setEditingProduct(null)}
         onSave={updateProduct}

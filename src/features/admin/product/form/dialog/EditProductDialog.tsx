@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import {
   Dialog,
   DialogContent,
@@ -52,10 +52,6 @@ const EditProductDialog = ({ product, onClose, onSave }: Props) => {
   const [isLoading, setIsLoading] = useState(false);
   const [isMediaUploading, setIsMediaUploading] = useState(false);
   const [isCanceling, setIsCanceling] = useState(false);
-
-  useEffect(() => {
-    setForm(toFormState(product));
-  }, [product]);
 
   const handleFormChange = <K extends keyof ProductFormState>(
     field: K,
