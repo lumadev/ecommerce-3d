@@ -47,7 +47,7 @@ export const useMerchants = () => {
       const created = await merchantRepository.create(data);
       setMerchantList((prev) => [created, ...prev]);
 
-      toast({ description: "Loja criada com sucesso." });
+      toast({ variant: "success", description: "Loja criada com sucesso." });
       return created;
     } catch (error) {
       toast({ description: "Não foi possível criar a loja." });
@@ -60,7 +60,7 @@ export const useMerchants = () => {
       const updated = await merchantRepository.update(id, data);
       setMerchantList((prev) => prev.map((m) => (m.id === id ? updated : m)));
 
-      toast({ description: "Loja atualizada com sucesso." });
+      toast({ variant: "success", description: "Loja atualizada com sucesso." });
       return updated;
     } catch (error) {
       toast({ description: "Não foi possível atualizar a loja." });

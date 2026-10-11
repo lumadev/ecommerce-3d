@@ -47,7 +47,7 @@ export const useCustomers = () => {
       const created = await customerRepository.create(data);
       setCustomerList((prev) => [created, ...prev]);
 
-      toast({ description: "Cliente criado com sucesso." });
+      toast({ variant: "success", description: "Cliente criado com sucesso." });
       return created;
     } catch (error) {
       toast({ description: "Não foi possível criar o cliente." });
@@ -60,7 +60,7 @@ export const useCustomers = () => {
       const updated = await customerRepository.update(id, data);
       setCustomerList((prev) => prev.map((c) => (c.id === id ? updated : c)));
 
-      toast({ description: "Cliente atualizado com sucesso." });
+      toast({ variant: "success", description: "Cliente atualizado com sucesso." });
       return updated;
     } catch (error) {
       toast({ description: "Não foi possível atualizar o cliente." });
@@ -73,7 +73,7 @@ export const useCustomers = () => {
       await customerRepository.remove(id);
       setCustomerList((prev) => prev.filter((c) => c.id !== id));
 
-      toast({ description: "Cliente removido com sucesso." });
+      toast({ variant: "success", description: "Cliente removido com sucesso." });
     } catch (error) {
       toast({ description: "Não foi possível remover o cliente." });
       throw error;

@@ -114,6 +114,7 @@ const ProductMediaGallery = ({ value, onChange, onUploadingChange }: Props) => {
           ];
           onChange(nextMedia);
           toast({
+            variant: "success",
             description: type === "video"
               ? "Vídeo enviado com sucesso."
               : "Imagem enviada com sucesso.",

@@ -77,6 +77,7 @@ const CustomOrderSection = () => {
       });
 
       toast({
+        variant: "success",
         description: "Mensagem enviada com sucesso! Entraremos em contato em breve.",
       });
 

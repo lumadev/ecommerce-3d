@@ -55,7 +55,7 @@ export const useProducts = () => {
         })
       );
 
-      toast({ description: "Produto atualizado com sucesso." });
+      toast({ variant: "success", description: "Produto atualizado com sucesso." });
       return updated;
     } catch (error) {
       toast({ description: "Não foi possível atualizar o produto." });
@@ -73,7 +73,7 @@ export const useProducts = () => {
 
       setProductList((prev) => [createdProduct, ...prev]);
 
-      toast({ description: "Produto criado com sucesso." });
+      toast({ variant: "success", description: "Produto criado com sucesso." });
       return createdProduct;
     } catch (error) {
       toast({ description: "Não foi possível criar o produto." });
@@ -86,7 +86,7 @@ export const useProducts = () => {
       await productRepository.remove(id);
       setProductList((prev) => prev.filter((p) => p.id !== id));
 
-      toast({ description: "Produto removido com sucesso." });
+      toast({ variant: "success", description: "Produto removido com sucesso." });
     } catch (error) {
       toast({ description: "Não foi possível remover o produto." });
       throw error;

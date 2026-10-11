@@ -48,7 +48,7 @@ export const useHighlights = () => {
         [...prev, created].sort((a, b) => a.position - b.position)
       );
 
-      toast({ description: "Produto adicionado aos destaques." });
+      toast({ variant: "success", description: "Produto adicionado aos destaques." });
       return created;
     } catch (error) {
       toast({ description: "Não foi possível adicionar o produto aos destaques." });
@@ -75,7 +75,7 @@ export const useHighlights = () => {
           );
       });
 
-      toast({ description: "Produto removido dos destaques." });
+      toast({ variant: "success", description: "Produto removido dos destaques." });
     } catch (error) {
       toast({ description: "Não foi possível remover o produto dos destaques." });
       throw error;

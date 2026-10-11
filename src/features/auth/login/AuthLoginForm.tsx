@@ -47,7 +47,7 @@ export const AuthLoginForm = ({ onToggleMode, onForgotPassword, onLoginSucess }:
         password: formData.password,
       });
 
-      toast({ description: "Login realizado com sucesso." });
+      toast({ variant: "success", description: "Login realizado com sucesso." });
 
       onLoginSucess(); // closes modal
     } catch (error) {

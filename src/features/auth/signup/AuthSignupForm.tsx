@@ -69,7 +69,7 @@ export const AuthSignupForm = ({ onToggleMode, onLoginSucess }: AuthSignupFormPr
         password: formData.password,
       });
 
-      toast({ description: "Registro feito com sucesso." });
+      toast({ variant: "success", description: "Registro feito com sucesso." });
       onLoginSucess(); // closes modal
     } catch (error) {
       toast({ description: getErrorMessage(error) });

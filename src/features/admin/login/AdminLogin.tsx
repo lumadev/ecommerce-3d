@@ -48,7 +48,7 @@ const AdminLogin = () => {
       });
 
       if (session) {
-        toast({ description: "Bem-vindo, Administrador!" });
+        toast({ variant: "success", description: "Bem-vindo, Administrador!" });
 
         navigate("/admin");
       } else {

@@ -81,6 +81,7 @@ const CreateCategoryDialog = ({ open, onClose, onCreate }: Props) => {
       await onCreate(newCategory);
 
       toast({
+        variant: "success",
         description: `Categoria "${newCategory.name}" cadastrada com sucesso.`,
       });
       onClose();

@@ -27,7 +27,7 @@ export function useImageUploadActions({
         picturePublicId: result.public_id,
       });
 
-      toast({ description: "Imagem enviada com sucesso." });
+      toast({ variant: "success", description: "Imagem enviada com sucesso." });
     } catch (error) {
       console.error("Erro ao enviar imagem:", error);
       toast({ description: "Não foi possível enviar a imagem. Tente novamente." });
@@ -46,7 +46,7 @@ export function useImageUploadActions({
       }
 
       onRemove();
-      toast({ description: "Imagem removida com sucesso." });
+      toast({ variant: "success", description: "Imagem removida com sucesso." });
     } catch (error) {
       console.error("Erro ao remover imagem:", error);
       toast({ description: "Não foi possível remover a imagem. Tente novamente." });

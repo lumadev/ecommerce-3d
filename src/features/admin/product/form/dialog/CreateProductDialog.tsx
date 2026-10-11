@@ -84,6 +84,7 @@ const CreateProductDialog = ({ open, onClose, onCreate }: Props) => {
       await onCreate(newProduct);
 
       toast({
+        variant: "success",
         description: `Produto "${newProduct.name}" cadastrado com sucesso.`,
       });
       onClose();

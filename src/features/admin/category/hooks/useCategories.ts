@@ -44,7 +44,7 @@ export const useCategories = () => {
       const updated = await categoryRepository.update(id, data);
       setCategoryList((prev) => prev.map((c) => (c.id === id ? updated : c)));
       
-      toast({ description: "Categoria atualizada com sucesso." });
+      toast({ variant: "success", description: "Categoria atualizada com sucesso." });
       return updated;
     } catch (error) {
       toast({ description: "Não foi possível atualizar a categoria." });
@@ -57,7 +57,7 @@ export const useCategories = () => {
       const created = await categoryRepository.create(data);
       setCategoryList((prev) => [created, ...prev]);
       
-      toast({ description: "Categoria criada com sucesso." });
+      toast({ variant: "success", description: "Categoria criada com sucesso." });
       return created;
     } catch (error) {
       toast({ description: "Não foi possível criar a categoria." });
@@ -70,7 +70,7 @@ export const useCategories = () => {
       await categoryRepository.remove(id);
       setCategoryList((prev) => prev.filter((c) => c.id !== id));
 
-      toast({ description: "Categoria removida com sucesso." });
+      toast({ variant: "success", description: "Categoria removida com sucesso." });
     } catch (error) {
       toast({ description: "Não foi possível remover a categoria." });
       throw error;
