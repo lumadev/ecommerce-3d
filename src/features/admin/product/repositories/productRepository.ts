@@ -1,6 +1,7 @@
 import { httpClientAuth } from "@/infra/http/httpClient";
 import {
   CreateProductData,
+  CreateProductPayload,
   Product,
   ProductCategory,
   ProductListItem,
@@ -8,6 +9,7 @@ import {
 } from "../types/product.types";
 
 const BASE_URL = "/products";
+const MERCHANT_CODE = "ecommerce-3d";
 
 type ApiProduct = Omit<Product, "price"> & {
   price: number | string;
@@ -38,7 +40,11 @@ export const productRepository = {
   },
 
   create: async (data: CreateProductData): Promise<Product> => {
-    const response = await httpClientAuth.post<ApiProduct>(BASE_URL, data);
+    const payload: CreateProductPayload = {
+      ...data,
+      merchantCode: MERCHANT_CODE,
+    };
+    const response = await httpClientAuth.post<ApiProduct>(BASE_URL, payload);
     return normalizeProduct(response.data);
   },
 
