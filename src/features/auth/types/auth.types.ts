@@ -9,6 +9,10 @@ export interface LoginData {
   password: string;
 }
 
+export interface ForgotPasswordData {
+  email: string;
+}
+
 export interface LoginAdminData {
   username: string;
   password: string;

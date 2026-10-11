@@ -3,6 +3,7 @@ import {
   RegisterData,
   LoginData,
   LoginAdminData,
+  ForgotPasswordData,
   AuthResponse,
   SessionUser,
 } from "../types/auth.types";
@@ -33,6 +34,12 @@ export const authRepository = {
       password: data.password,
     });
     return response.data;
+  },
+
+  forgotPassword: async (data: ForgotPasswordData): Promise<void> => {
+    await httpClientAuth.post(`${BASE_URL}/forgot-password`, {
+      email: data.email,
+    });
   },
 
   checkSession: async (): Promise<SessionUser> => {

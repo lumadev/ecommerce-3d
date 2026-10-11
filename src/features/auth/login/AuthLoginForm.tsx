@@ -10,10 +10,11 @@ import { PasswordField } from "../components/PasswordField";
 
 interface AuthLoginFormProps {
   onToggleMode: () => void;
+  onForgotPassword: () => void;
   onLoginSucess: () => void;
 }
 
-export const AuthLoginForm = ({ onToggleMode, onLoginSucess }: AuthLoginFormProps) => {
+export const AuthLoginForm = ({ onToggleMode, onForgotPassword, onLoginSucess }: AuthLoginFormProps) => {
   const [formData, setFormData] = useState({
     email: "",
     password: "",
@@ -97,6 +98,7 @@ export const AuthLoginForm = ({ onToggleMode, onLoginSucess }: AuthLoginFormProp
         <div className="text-right">
           <button
             type="button"
+            onClick={onForgotPassword}
             className="text-xs text-primary hover:underline"
           >
             Esqueceu a senha?

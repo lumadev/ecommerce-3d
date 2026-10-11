@@ -77,7 +77,7 @@ const CustomOrderSection = () => {
       });
 
       toast({
-        description: "Encomenda enviada com sucesso! Entraremos em contato em breve.",
+        description: "Mensagem enviada com sucesso! Entraremos em contato em breve.",
       });
 
       setValues({ ...initialValues });

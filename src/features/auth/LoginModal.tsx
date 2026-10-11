@@ -10,6 +10,7 @@ interface LoginModalProps {
 
 const LoginModal = ({ open, onOpenChange }: LoginModalProps) => {
   const [isSignUp, setIsSignUp] = useState(false);
+  const [isForgotPassword, setIsForgotPassword] = useState(false);
 
   return (
     <AnimatePresence>
@@ -42,15 +43,20 @@ const LoginModal = ({ open, onOpenChange }: LoginModalProps) => {
               </h2>
 
               <p className="text-sm text-muted-foreground mt-2">
-                {isSignUp
-                  ? "Crie sua conta para começar"
-                  : "Entre na sua conta"}
+                {isForgotPassword
+                  ? "Informe seu email para recuperar a senha"
+                  : isSignUp
+                    ? "Crie sua conta para começar"
+                    : "Entre na sua conta"}
               </p>
             </div>
 
             <AuthForm
               isSignUp={isSignUp}
+              isForgotPassword={isForgotPassword}
               onToggleMode={() => setIsSignUp(!isSignUp)}
+              onForgotPassword={() => setIsForgotPassword(true)}
+              onBackToLogin={() => setIsForgotPassword(false)}
               onLoginSucess={() => onOpenChange(false)}
             />
           </motion.div>
