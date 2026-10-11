@@ -6,6 +6,7 @@ import {
   ForgotPasswordData,
   AuthResponse,
   SessionUser,
+  ImpersonationTarget,
 } from "../types/auth.types";
 
 const BASE_URL = "/auth";
@@ -46,6 +47,25 @@ export const authRepository = {
     const response = await httpClientAuth.get(`${BASE_URL}/me`);
 
     return response.data;
+  },
+
+  getImpersonationTargets: async (): Promise<ImpersonationTarget[]> => {
+    const response = await httpClientAuth.get(`${BASE_URL}/impersonate/targets`);
+    const payload = response.data;
+
+    if (Array.isArray(payload)) return payload;
+
+    const list = payload?.data ?? payload?.targets ?? payload?.admins;
+
+    return Array.isArray(list) ? list : [];
+  },
+
+  impersonate: async (adminId: string): Promise<void> => {
+    await httpClientAuth.post(`${BASE_URL}/impersonate`, { adminId });
+  },
+
+  stopImpersonation: async (): Promise<void> => {
+    await httpClientAuth.post(`${BASE_URL}/impersonate/stop`);
   },
 
   logout: async (): Promise<void> => {

@@ -33,4 +33,11 @@ export interface SessionUser {
   email: string;
   name: string;
   role: UserRole;
+  impersonatedBy?: string | null;
+}
+
+export interface ImpersonationTarget {
+  id: string;
+  name: string;
+  store?: { name: string } | null;
 }

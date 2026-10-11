@@ -8,6 +8,7 @@ import {
 } from "@/shared/components/ui/sidebar/sidebar";
 
 import AdminSidebar from "@/features/admin/components/AdminSidebar";
+import { ImpersonationSelect } from "@/features/admin/components/ImpersonationSelect";
 
 export const AdminLayout = () => {
   const { user } = useAdminAuth();
@@ -30,11 +31,14 @@ export const AdminLayout = () => {
                   {user?.name || "Painel administrativo"}
                 </p>
               </div>
+
+              <ImpersonationSelect />
             </div>
           </header>
 
           <main className="min-h-0 flex-1 overflow-y-auto p-6">
             <motion.div
+              key={user?.id}
               initial={{ opacity: 0, y: 12 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.3 }}
