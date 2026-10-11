@@ -1,5 +1,6 @@
 import { Outlet } from "react-router-dom";
 import { motion } from "framer-motion";
+import { useAdminAuth } from "@/features/auth/hooks/useAdminAuth";
 
 import {
   SidebarProvider,
@@ -9,6 +10,8 @@ import {
 import AdminSidebar from "@/features/admin/components/AdminSidebar";
 
 export const AdminLayout = () => {
+  const { user } = useAdminAuth();
+
   return (
     <SidebarProvider>
       <div className="flex h-screen w-full overflow-hidden bg-background text-foreground">
@@ -19,12 +22,14 @@ export const AdminLayout = () => {
             <div className="flex h-16 items-center gap-4 px-4">
               <SidebarTrigger />
 
-              <span className="text-sm text-muted-foreground">
-                Olá,{" "}
-                <span className="font-medium text-foreground">
-                  Administrador
-                </span>
-              </span>
+              <div className="min-w-0">
+                <p className="text-[10px] font-medium uppercase tracking-widest text-muted-foreground">
+                  Loja
+                </p>
+                <p className="truncate text-sm font-semibold text-foreground">
+                  {user?.name || "Painel administrativo"}
+                </p>
+              </div>
             </div>
           </header>
 

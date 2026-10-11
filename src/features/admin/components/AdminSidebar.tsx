@@ -1,6 +1,8 @@
-import { Package, ShoppingCart, Tags, Star, Store, Users, LogOut } from "lucide-react";
+import { LogOut } from "lucide-react";
 import { useNavigate, useLocation } from "react-router-dom";
 import { useAdminAuth } from "@/features/auth/hooks/useAdminAuth";
+import { adminNavigationItems } from "@/features/admin/admin-navigation";
+export type { AdminSection } from "@/features/admin/admin-navigation";
 import {
   Sidebar,
   SidebarContent,
@@ -17,17 +19,6 @@ import {
 import {
   useSidebar,
 } from "@/shared/components/ui/sidebar/sidebar-context";
-
-const menuItems = [
-  { title: "Pedidos", icon: ShoppingCart, key: "pedidos" },
-  { title: "Produtos", icon: Package, key: "produtos" },
-  { title: "Categorias", icon: Tags, key: "categorias" },
-  { title: "Destaques", icon: Star, key: "destaques" },
-  { title: "Clientes", icon: Users, key: "clientes" },
-  { title: "Lojas", icon: Store, key: "lojas" },
-] as const;
-
-export type AdminSection = (typeof menuItems)[number]["key"];
 
 interface AdminSidebarProps {
   className?: string;
@@ -66,7 +57,7 @@ const AdminSidebar = (_props: AdminSidebarProps) => {
           <SidebarGroupLabel>Menu</SidebarGroupLabel>
           <SidebarGroupContent>
             <SidebarMenu>
-              {menuItems
+              {adminNavigationItems
                 .filter(
                   (item) => item.key !== "lojas" || user?.role === "SUPER_ADMIN"
                 )

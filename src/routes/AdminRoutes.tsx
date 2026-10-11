@@ -3,6 +3,7 @@ import { Navigate, Route, Routes, useLocation } from "react-router-dom";
 import { AdminAuthProvider } from "@/features/auth/providers/admin-auth.provider";
 import { useAdminAuth } from "@/features/auth/hooks/useAdminAuth";
 import { AdminLayout } from "@/features/admin/AdminLayout";
+import AdminHome from "@/features/admin/AdminHome";
 import { AdminLoadingScreen } from "@/features/admin/components/AdminLoadingScreen";
 import AdminLogin from "@/features/admin/login/AdminLogin";
 import OrderPage from "@/features/admin/order/OrderPage";
@@ -62,7 +63,7 @@ export const AdminRoutes = () => (
     <Routes>
       <Route path="/login" element={<RedirectIfAuthenticated />} />
       <Route path="/*" element={<RequireAdmin />}>
-        <Route index element={<Navigate to="pedidos" replace />} />
+        <Route index element={<AdminHome />} />
         <Route path="pedidos" element={<OrderPage />} />
         <Route path="produtos" element={<AdminProducts />} />
         <Route path="categorias" element={<AdminCategories />} />
