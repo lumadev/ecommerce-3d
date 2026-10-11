@@ -2,14 +2,20 @@ import { Input } from "@/shared/components/ui/input";
 import { Label } from "@/shared/components/ui/label";
 import { Switch } from "@/shared/components/ui/switch";
 import {
+  MerchantAttributeFormItem,
   MerchantFormErrors,
   MerchantFormState,
 } from "../types/merchant-form.types";
+import MerchantAttributesField from "./MerchantAttributesField";
 
 export interface MerchantFormProps {
   form: MerchantFormState;
   errors: MerchantFormErrors;
-  onChange: (field: keyof MerchantFormState, value: string | boolean) => void;
+  onChange: (
+    field: Exclude<keyof MerchantFormState, "attributes">,
+    value: string | boolean
+  ) => void;
+  onAttributesChange: (attributes: MerchantAttributeFormItem[]) => void;
   codeDisabled?: boolean;
 }
 
@@ -24,6 +30,7 @@ const MerchantForm = ({
   form,
   errors,
   onChange,
+  onAttributesChange,
   codeDisabled = false,
 }: MerchantFormProps) => {
   return (
@@ -93,6 +100,12 @@ const MerchantForm = ({
         />
         <FieldError id="merchant-domain-error" message={errors.domain} />
       </div>
+
+      <MerchantAttributesField
+        value={form.attributes}
+        onChange={onAttributesChange}
+        error={errors.attributes}
+      />
 
       <div className="flex items-center gap-3">
         <Switch

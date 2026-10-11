@@ -11,6 +11,7 @@ import { Button } from "@/shared/components/ui/button/button";
 import { Loader2 } from "lucide-react";
 
 import {
+  MerchantAttributeFormItem,
   MerchantFormErrors,
   MerchantFormState,
 } from "../types/merchant-form.types";
@@ -31,6 +32,12 @@ const toFormState = (m: Merchant | null): MerchantFormState => ({
   email: m?.email ?? "",
   domain: m?.domain ?? "",
   isActive: m?.isActive ?? true,
+  attributes: (m?.attributes ?? []).map((a) => ({
+    uid: a.id,
+    key: a.key,
+    type: a.type,
+    productCount: a._count?.products ?? 0,
+  })),
 });
 
 const EditMerchantDialog = ({ merchant, onClose, onSave }: Props) => {
@@ -44,11 +51,16 @@ const EditMerchantDialog = ({ merchant, onClose, onSave }: Props) => {
   }, [merchant]);
 
   const handleChange = (
-    field: keyof MerchantFormState,
+    field: Exclude<keyof MerchantFormState, "attributes">,
     value: string | boolean
   ) => {
     setForm((f) => ({ ...f, [field]: value }));
     setErrors((e) => ({ ...e, [field]: undefined }));
+  };
+
+  const handleAttributesChange = (attributes: MerchantAttributeFormItem[]) => {
+    setForm((f) => ({ ...f, attributes }));
+    setErrors((e) => ({ ...e, attributes: undefined }));
   };
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
@@ -73,6 +85,10 @@ const EditMerchantDialog = ({ merchant, onClose, onSave }: Props) => {
     const updatedMerchant: UpdateMerchantData = {
       name: form.name.trim(),
       isActive: form.isActive,
+      attributes: form.attributes.map((a) => ({
+        key: a.key.trim(),
+        type: a.type,
+      })),
       ...(email && { email }),
       ...(domain && { domain }),
     };
@@ -104,6 +120,7 @@ const EditMerchantDialog = ({ merchant, onClose, onSave }: Props) => {
             form={form}
             errors={errors}
             onChange={handleChange}
+            onAttributesChange={handleAttributesChange}
             codeDisabled
           />
 

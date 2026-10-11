@@ -11,6 +11,7 @@ import { Button } from "@/shared/components/ui/button/button";
 import { Loader2 } from "lucide-react";
 
 import {
+  MerchantAttributeFormItem,
   MerchantFormErrors,
   MerchantFormState,
 } from "../types/merchant-form.types";
@@ -31,6 +32,7 @@ const emptyForm: MerchantFormState = {
   email: "",
   domain: "",
   isActive: true,
+  attributes: [],
 };
 
 const CreateMerchantDialog = ({ open, onClose, onCreate }: Props) => {
@@ -54,11 +56,16 @@ const CreateMerchantDialog = ({ open, onClose, onCreate }: Props) => {
   };
 
   const handleChange = (
-    field: keyof MerchantFormState,
+    field: Exclude<keyof MerchantFormState, "attributes">,
     value: string | boolean
   ) => {
     setForm((f) => ({ ...f, [field]: value }));
     setErrors((e) => ({ ...e, [field]: undefined }));
+  };
+
+  const handleAttributesChange = (attributes: MerchantAttributeFormItem[]) => {
+    setForm((f) => ({ ...f, attributes }));
+    setErrors((e) => ({ ...e, attributes: undefined }));
   };
 
   const onSaveCreate = async () => {
@@ -76,6 +83,10 @@ const CreateMerchantDialog = ({ open, onClose, onCreate }: Props) => {
       code: form.code.trim(),
       name: form.name.trim(),
       isActive: form.isActive,
+      attributes: form.attributes.map((a) => ({
+        key: a.key.trim(),
+        type: a.type,
+      })),
       ...(email && { email }),
       ...(domain && { domain }),
     };
@@ -104,7 +115,12 @@ const CreateMerchantDialog = ({ open, onClose, onCreate }: Props) => {
             </DialogDescription>
           </DialogHeader>
 
-          <MerchantForm form={form} errors={errors} onChange={handleChange} />
+          <MerchantForm
+            form={form}
+            errors={errors}
+            onChange={handleChange}
+            onAttributesChange={handleAttributesChange}
+          />
 
           <DialogFooter className="border-t border-border pt-4">
             <Button type="button" variant="outline" onClick={handleCancel} disabled={isLoading}>

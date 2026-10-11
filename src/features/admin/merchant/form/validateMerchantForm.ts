@@ -40,5 +40,15 @@ export const validateMerchantForm = (
     errors.domain = "O domínio deve ter no máximo 255 caracteres.";
   }
 
+  const keys = form.attributes.map((a) => a.key.trim().toLowerCase());
+
+  if (keys.some((k) => !k)) {
+    errors.attributes = "Informe o nome de todas as variantes.";
+  } else if (keys.some((k) => k.length > 60)) {
+    errors.attributes = "O nome da variante deve ter no máximo 60 caracteres.";
+  } else if (new Set(keys).size !== keys.length) {
+    errors.attributes = "Não repita o nome de uma variante.";
+  }
+
   return errors;
 };
