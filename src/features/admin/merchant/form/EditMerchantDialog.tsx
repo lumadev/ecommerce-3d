@@ -18,6 +18,8 @@ import {
 import { Merchant, UpdateMerchantData } from "../types/merchant.types";
 
 import MerchantForm from "./MerchantForm";
+import ConfirmMerchantChangesDialog from "./ConfirmMerchantChangesDialog";
+import { getMerchantChanges } from "./getMerchantChanges";
 import { validateMerchantForm } from "./validateMerchantForm";
 
 interface Props {
@@ -44,10 +46,12 @@ const EditMerchantDialog = ({ merchant, onClose, onSave }: Props) => {
   const [form, setForm] = useState<MerchantFormState>(() => toFormState(merchant));
   const [errors, setErrors] = useState<MerchantFormErrors>({});
   const [isLoading, setIsLoading] = useState(false);
+  const [isConfirming, setIsConfirming] = useState(false);
 
   useEffect(() => {
     setForm(toFormState(merchant));
     setErrors({});
+    setIsConfirming(false);
   }, [merchant]);
 
   const handleChange = (
@@ -65,10 +69,6 @@ const EditMerchantDialog = ({ merchant, onClose, onSave }: Props) => {
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    void onSaveEdit();
-  };
-
-  const onSaveEdit = async () => {
     if (!merchant) return;
 
     const validationErrors = validateMerchantForm(form, { validateCode: false });
@@ -77,6 +77,19 @@ const EditMerchantDialog = ({ merchant, onClose, onSave }: Props) => {
       setErrors(validationErrors);
       return;
     }
+
+    if (changes.length === 0) {
+      onClose();
+      return;
+    }
+
+    setIsConfirming(true);
+  };
+
+  const changes = merchant ? getMerchantChanges(merchant, form) : [];
+
+  const onSaveEdit = async () => {
+    if (!merchant) return;
 
     const email = form.email.trim();
     const domain = form.domain.trim();
@@ -97,9 +110,10 @@ const EditMerchantDialog = ({ merchant, onClose, onSave }: Props) => {
 
     try {
       await onSave(merchant.id, updatedMerchant);
+      setIsConfirming(false);
       onClose();
     } catch {
-      // O hook já notifica o erro.
+      setIsConfirming(false);
     } finally {
       setIsLoading(false);
     }
@@ -134,6 +148,14 @@ const EditMerchantDialog = ({ merchant, onClose, onSave }: Props) => {
             </Button>
           </DialogFooter>
         </form>
+
+        <ConfirmMerchantChangesDialog
+          open={isConfirming}
+          changes={changes}
+          isLoading={isLoading}
+          onCancel={() => setIsConfirming(false)}
+          onConfirm={() => void onSaveEdit()}
+        />
       </DialogContent>
     </Dialog>
   );
