@@ -40,6 +40,11 @@ export const validateProductForm = (
     return null;
   }
 
+  if (!form.media.some((item) => item.type === "image")) {
+    notify("Adicione ao menos uma foto do produto.");
+    return null;
+  }
+
   return {
     name,
     description: form.description.trim(),

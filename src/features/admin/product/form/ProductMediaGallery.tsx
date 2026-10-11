@@ -13,6 +13,7 @@ interface Props {
   value: ProductFormMedia[];
   onChange: (media: ProductFormMedia[]) => void;
   onUploadingChange: (isUploading: boolean) => void;
+  error?: string;
 }
 
 const getVideoDuration = (file: File): Promise<number> =>
@@ -38,7 +39,7 @@ const getVideoDuration = (file: File): Promise<number> =>
     video.src = objectUrl;
   });
 
-const ProductMediaGallery = ({ value, onChange, onUploadingChange }: Props) => {
+const ProductMediaGallery = ({ value, onChange, onUploadingChange, error }: Props) => {
   const { toast } = useToast();
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [isUploading, setIsUploading] = useState(false);
@@ -166,7 +167,13 @@ const ProductMediaGallery = ({ value, onChange, onUploadingChange }: Props) => {
   };
 
   return (
-    <section className="grid gap-4" aria-labelledby="product-media-heading">
+    <section
+      className="grid gap-4"
+      role="group"
+      aria-labelledby="product-media-heading"
+      aria-describedby={error ? "product-media-error" : undefined}
+      aria-invalid={error ? true : undefined}
+    >
       <div>
         <h3 id="product-media-heading" className="font-medium">
           Fotos e vídeos do produto
@@ -204,6 +211,12 @@ const ProductMediaGallery = ({ value, onChange, onUploadingChange }: Props) => {
           Imagens: até 5 MB. Vídeos: até 100 MB e 60 segundos.
         </span>
       </div>
+
+      {error && (
+        <p id="product-media-error" className="text-sm text-destructive" role="alert">
+          {error}
+        </p>
+      )}
 
       {value.length === 0 ? (
         <div className="flex min-h-40 flex-col items-center justify-center gap-2 rounded-lg border border-dashed border-border bg-muted/20 text-center text-sm text-muted-foreground">

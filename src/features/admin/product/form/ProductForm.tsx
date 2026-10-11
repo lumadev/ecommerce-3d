@@ -20,9 +20,15 @@ interface Props {
     value: ProductFormState[K],
   ) => void;
   onMediaUploadingChange: (isUploading: boolean) => void;
+  hasMediaError: boolean;
 }
 
-const ProductForm = ({ form, onChange, onMediaUploadingChange }: Props) => {
+const ProductForm = ({
+  form,
+  onChange,
+  onMediaUploadingChange,
+  hasMediaError,
+}: Props) => {
   const { categories, isLoading, hasError: hasErrorCategories } = useProductCategories();
 
   return (
@@ -134,6 +140,11 @@ const ProductForm = ({ form, onChange, onMediaUploadingChange }: Props) => {
           value={form.media}
           onChange={(media) => onChange("media", media)}
           onUploadingChange={onMediaUploadingChange}
+          error={
+            hasMediaError && !form.media.some((item) => item.type === "image")
+              ? "Adicione ao menos uma foto do produto."
+              : undefined
+          }
         />
       </TabsContent>
     </Tabs>

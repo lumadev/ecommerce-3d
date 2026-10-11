@@ -37,6 +37,7 @@ const CreateProductDialog = ({ open, onClose, onCreate }: Props) => {
   const [isLoading, setIsLoading] = useState(false);
   const [isMediaUploading, setIsMediaUploading] = useState(false);
   const [isCanceling, setIsCanceling] = useState(false);
+  const [hasMediaError, setHasMediaError] = useState(false);
 
   const handleFormChange = <K extends keyof ProductFormState>(
     field: K,
@@ -67,6 +68,7 @@ const CreateProductDialog = ({ open, onClose, onCreate }: Props) => {
   };
 
   const onSaveCreate = async () => {
+    setHasMediaError(!form.media.some((item) => item.type === "image"));
     const validatedForm = validateProductForm(form, (description) =>
       toast({ description }),
     );
@@ -119,6 +121,7 @@ const CreateProductDialog = ({ open, onClose, onCreate }: Props) => {
             form={form}
             onChange={handleFormChange}
             onMediaUploadingChange={setIsMediaUploading}
+            hasMediaError={hasMediaError}
           />
 
           <DialogFooter className="shrink-0 border-t border-border pt-4">
