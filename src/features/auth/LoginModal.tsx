@@ -42,13 +42,13 @@ const LoginModal = ({ open, onOpenChange }: LoginModalProps) => {
                 JOANES<span className="text-foreground">3D</span>
               </h2>
 
-              <p className="text-sm text-muted-foreground mt-2">
-                {isForgotPassword
-                  ? "Informe seu email para recuperar a senha"
-                  : isSignUp
+              {!isForgotPassword && (
+                <p className="text-sm text-muted-foreground mt-2">
+                  {isSignUp
                     ? "Crie sua conta para começar"
                     : "Entre na sua conta"}
-              </p>
+                </p>
+              )}
             </div>
 
             <AuthForm
