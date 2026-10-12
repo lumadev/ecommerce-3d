@@ -6,6 +6,7 @@ import Products from "@/features/product/ProductsIndex";
 import ProductDetails from "@/features/product/details/ProductDetails";
 import MyOrders from "@/features/order/MyOrders";
 import RoadmapPage from "@/features/roadmap/RoadmapPage";
+import { ResetPasswordModal } from "@/features/auth/reset-password/ResetPasswordModal";
 import NotFound from "@/pages/NotFound";
 
 export const CustomerRoutes = () => (
@@ -17,6 +18,7 @@ export const CustomerRoutes = () => (
       <Route path="/produto/:id" element={<ProductDetails />} />
       <Route path="/meus-pedidos" element={<MyOrders />} />
       <Route path="/future" element={<RoadmapPage />} />
+      <Route path="/redefinir-senha" element={<ResetPasswordModal />} />
       <Route path="*" element={<NotFound />} />
     </Routes>
   </>

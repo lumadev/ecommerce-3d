@@ -4,6 +4,7 @@ import {
   LoginData,
   LoginAdminData,
   ForgotPasswordData,
+  ResetPasswordData,
   AuthResponse,
   SessionUser,
   ImpersonationTarget,
@@ -41,6 +42,14 @@ export const authRepository = {
     await httpClientAuth.post(`${BASE_URL}/forgot-password`, {
       email: data.email,
     });
+  },
+
+  validatePasswordResetToken: async (token: string): Promise<void> => {
+    await httpClientAuth.post(`${BASE_URL}/reset-password/validate`, { token });
+  },
+
+  resetPassword: async (data: ResetPasswordData): Promise<void> => {
+    await httpClientAuth.post(`${BASE_URL}/reset-password`, data);
   },
 
   checkSession: async (): Promise<SessionUser> => {
