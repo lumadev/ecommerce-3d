@@ -7,14 +7,9 @@ const RoadmapPage = () => (
     style={{ fontFamily: "'Nunito', sans-serif" }}
   >
     <div className="mx-auto max-w-2xl px-5 py-16">
-      <header className="mb-14 text-center">
-        <h1 className="text-3xl font-extrabold text-slate-700 md:text-4xl">
-          Nossa lista de tarefas
-        </h1>
-        <p className="mt-3 text-slate-400">
-          Acompanhe o que está sendo feito na loja.
-        </p>
-      </header>
+      <p className="mt-3 text-slate-400 py-8">
+        Milii BabyStore - Acompanhe o que está sendo feito na loja.
+      </p>
 
       <section className="mb-14">
         <h2 className="mb-5 flex items-center gap-2 text-sm font-bold uppercase tracking-widest text-amber-500">
