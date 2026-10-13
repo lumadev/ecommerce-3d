@@ -3,11 +3,17 @@ import { Link } from "react-router-dom";
 
 import { useAdminAuth } from "@/features/auth/hooks/useAdminAuth";
 import { adminNavigationItems } from "@/features/admin/admin-navigation";
+import { useVariants } from "@/features/admin/variant/hooks/useVariants";
 
 const AdminHome = () => {
   const { user } = useAdminAuth();
+  const { variants } = useVariants();
   const navigationItems = adminNavigationItems
-    .filter((item) => item.key !== "lojas" || user?.role === "SUPER_ADMIN")
+    .filter(
+      (item) =>
+        (item.key !== "lojas" || user?.role === "SUPER_ADMIN") &&
+        (item.key !== "variantes" || variants.length > 0)
+    )
     .map((item) => ({ ...item, path: `/admin/${item.key}` }));
 
   return (
