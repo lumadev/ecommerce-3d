@@ -1,4 +1,4 @@
-import { Navigate, Route, Routes, useLocation } from "react-router-dom";
+import { Navigate, Outlet, Route, Routes, useLocation } from "react-router-dom";
 
 import { AdminAuthProvider } from "@/features/auth/providers/admin-auth.provider";
 import { useAdminAuth } from "@/features/auth/hooks/useAdminAuth";
@@ -11,6 +11,7 @@ import AdminProducts from "@/features/admin/product/AdminProducts";
 import AdminCategories from "@/features/admin/category/AdminCategories";
 import AdminHighlights from "@/features/admin/highlight/AdminHighlights";
 import AdminMerchants from "@/features/admin/merchant/AdminMerchants";
+import EditMerchantPage from "@/features/admin/merchant/EditMerchantPage";
 import AdminCustomers from "@/features/admin/customer/AdminCustomers";
 import AdminVariants from "@/features/admin/variant/AdminVariants";
 
@@ -56,7 +57,7 @@ const RequireSuperAdmin = () => {
     return <Navigate to="/admin/pedidos" replace />;
   }
 
-  return <AdminMerchants />;
+  return <Outlet />;
 };
 
 export const AdminRoutes = () => (
@@ -71,7 +72,10 @@ export const AdminRoutes = () => (
         <Route path="destaques" element={<AdminHighlights />} />
         <Route path="clientes" element={<AdminCustomers />} />
         <Route path="variantes" element={<AdminVariants />} />
-        <Route path="lojas" element={<RequireSuperAdmin />} />
+        <Route path="lojas" element={<RequireSuperAdmin />}>
+          <Route index element={<AdminMerchants />} />
+          <Route path=":merchantId/editar" element={<EditMerchantPage />} />
+        </Route>
       </Route>
     </Routes>
   </AdminAuthProvider>

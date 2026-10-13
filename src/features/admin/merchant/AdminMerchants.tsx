@@ -1,20 +1,17 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { Plus } from "lucide-react";
 import { Button } from "@/shared/components/ui/button/button";
 import { useMerchants } from "./hooks/useMerchants";
-import { Merchant } from "./types/merchant.types";
 
 import MerchantTableSkeleton from "./list/MerchantTableSkeleton";
 import MerchantTable from "./list/MerchantTable";
 
-import EditMerchantDialog from "./form/EditMerchantDialog";
 import CreateMerchantDialog from "./form/CreateMerchantDialog";
 
 const AdminMerchants = () => {
-  const { merchantList, isLoading, createMerchant, updateMerchant } =
-    useMerchants();
-
-  const [editingMerchant, setEditingMerchant] = useState<Merchant | null>(null);
+  const { merchantList, isLoading, createMerchant } = useMerchants();
+  const navigate = useNavigate();
   const [createOpen, setCreateOpen] = useState(false);
 
   return (
@@ -33,14 +30,13 @@ const AdminMerchants = () => {
       ) : merchantList.length === 0 ? (
         <p className="text-sm text-muted-foreground">Nenhuma loja encontrada.</p>
       ) : (
-        <MerchantTable merchants={merchantList} onEdit={setEditingMerchant} />
+        <MerchantTable
+          merchants={merchantList}
+          onEdit={(merchant) =>
+            navigate(`/admin/lojas/${merchant.id}/editar`)
+          }
+        />
       )}
-
-      <EditMerchantDialog
-        merchant={editingMerchant}
-        onClose={() => setEditingMerchant(null)}
-        onSave={updateMerchant}
-      />
 
       <CreateMerchantDialog
         open={createOpen}

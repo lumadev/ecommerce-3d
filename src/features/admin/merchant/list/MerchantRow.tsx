@@ -93,6 +93,7 @@ const MerchantRow = ({ merchant, index, onEdit }: Props) => (
 
     <TableCell className="text-center">
       <button
+        type="button"
         onClick={() => onEdit(merchant)}
         aria-label={`Editar ${merchant.name}`}
         className="rounded-md p-2 text-muted-foreground transition-colors hover:bg-secondary hover:text-primary"
