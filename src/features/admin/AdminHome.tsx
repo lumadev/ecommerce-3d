@@ -6,9 +6,9 @@ import { adminNavigationItems } from "@/features/admin/admin-navigation";
 
 const AdminHome = () => {
   const { user } = useAdminAuth();
-  const navigationItems = adminNavigationItems.filter(
-    (item) => item.key !== "lojas" || user?.role === "SUPER_ADMIN"
-  );
+  const navigationItems = adminNavigationItems
+    .filter((item) => item.key !== "lojas" || user?.role === "SUPER_ADMIN")
+    .map((item) => ({ ...item, path: `/admin/${item.key}` }));
 
   return (
     <div className="mx-auto max-w-6xl space-y-8">
@@ -34,7 +34,7 @@ const AdminHome = () => {
           {navigationItems.map((item) => (
             <Link
               key={item.key}
-              to={`/admin/${item.key}`}
+              to={item.path}
               className="group flex min-h-36 flex-col rounded-md border border-border bg-card p-5 transition-colors hover:border-primary/50 hover:bg-secondary/50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
             >
               <div className="flex items-start justify-between gap-4">

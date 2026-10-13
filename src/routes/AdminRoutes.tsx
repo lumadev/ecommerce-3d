@@ -12,6 +12,7 @@ import AdminCategories from "@/features/admin/category/AdminCategories";
 import AdminHighlights from "@/features/admin/highlight/AdminHighlights";
 import AdminMerchants from "@/features/admin/merchant/AdminMerchants";
 import AdminCustomers from "@/features/admin/customer/AdminCustomers";
+import AdminVariants from "@/features/admin/variant/AdminVariants";
 
 const RequireAdmin = () => {
   const { isAuthenticated, isCheckingSession } = useAdminAuth();
@@ -69,6 +70,7 @@ export const AdminRoutes = () => (
         <Route path="categorias" element={<AdminCategories />} />
         <Route path="destaques" element={<AdminHighlights />} />
         <Route path="clientes" element={<AdminCustomers />} />
+        <Route path="variantes" element={<AdminVariants />} />
         <Route path="lojas" element={<RequireSuperAdmin />} />
       </Route>
     </Routes>

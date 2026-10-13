@@ -1,6 +1,7 @@
 import {
   Package,
   ShoppingCart,
+  SlidersHorizontal,
   Star,
   Store,
   Tags,
@@ -25,6 +26,12 @@ export const adminNavigationItems = [
     description: "Organize os produtos em categorias.",
     icon: Tags,
     key: "categorias",
+  },
+  {
+    title: "Variantes",
+    description: "Gerencie as opções das variantes da loja, como tamanhos.",
+    icon: SlidersHorizontal,
+    key: "variantes",
   },
   {
     title: "Destaques",

@@ -38,6 +38,7 @@ export interface SessionUser {
   email: string;
   name: string;
   role: UserRole;
+  merchantId?: string | null;
   impersonatedBy?: string | null;
 }
 

@@ -27,12 +27,18 @@ export const todoTasks: RoadmapTask[] = [
     title: "Pensar na lógica do produto consignado",
     note: "Backend e frontend.",
   },
-  { id: "7", title: "Verificar opções de backend gratuitas" },
-  { id: "8", title: "Criar área de tokens para vincular tokens à loja" },
   {
     id: "9",
     title: "Definir vínculo do Cloudinary e do Resend à loja",
     note: "Cloudinary para fotos e Resend para e-mails.",
+  },
+  {
+    id: "10",
+    title: "Criar documentação dos endpoints do ecommerce backend",
+  },
+  {
+    id: "11",
+    title: "Lógica de observabilidade da aplicação",
   },
   {
     id: "13",
