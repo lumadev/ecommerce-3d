@@ -9,11 +9,13 @@ import {
 
 import AdminSidebar from "@/features/admin/components/AdminSidebar";
 import { ImpersonationSelect } from "@/features/admin/components/ImpersonationSelect";
+import { VariantProvider } from "@/features/admin/variant/variant.provider";
 
 export const AdminLayout = () => {
   const { user } = useAdminAuth();
 
   return (
+    <VariantProvider>
     <SidebarProvider>
       <div className="flex h-screen w-full overflow-hidden bg-background text-foreground">
         <AdminSidebar className="hidden md:flex" />
@@ -23,14 +25,16 @@ export const AdminLayout = () => {
             <div className="flex h-16 items-center gap-4 px-4">
               <SidebarTrigger />
 
-              <div className="min-w-0">
-                <p className="text-[10px] font-medium uppercase tracking-widest text-muted-foreground">
-                  Loja
-                </p>
-                <p className="truncate text-sm font-semibold text-foreground">
-                  {user?.name || "Painel administrativo"}
-                </p>
-              </div>
+              {user?.role !== "SUPER_ADMIN" && (
+                <div className="min-w-0">
+                  <p className="text-[10px] font-medium uppercase tracking-widest text-muted-foreground">
+                    Loja
+                  </p>
+                  <p className="truncate text-sm font-semibold text-foreground">
+                    {user?.name || "Painel administrativo"}
+                  </p>
+                </div>
+              )}
 
               <ImpersonationSelect />
             </div>
@@ -49,5 +53,6 @@ export const AdminLayout = () => {
         </div>
       </div>
     </SidebarProvider>
+    </VariantProvider>
   );
 };
