@@ -1,9 +1,16 @@
 import { X, Minus, Plus, Trash2 } from "lucide-react";
 import { useCartContext as useCart } from "@/features/cart/useCart";
 import { motion, AnimatePresence } from "framer-motion";
+import { useNavigate } from "react-router-dom";
 
 const CartDrawer = () => {
   const { items, isOpen, setIsOpen, removeItem, updateQuantity, totalPrice, clearCart } = useCart();
+  const navigate = useNavigate();
+
+  const handleCheckout = () => {
+    setIsOpen(false);
+    navigate("/checkout");
+  };
 
   return (
     <AnimatePresence>
@@ -107,7 +114,7 @@ const CartDrawer = () => {
                       R$ {totalPrice.toFixed(2).replace(".", ",")}
                     </span>
                   </div>
-                  <button className="mb-2 w-full rounded-lg bg-gradient-cta py-3 font-display text-sm font-semibold uppercase tracking-wider text-primary-foreground transition-all hover:shadow-glow-strong hover:scale-[1.02]">
+                  <button onClick={handleCheckout} className="mb-2 w-full rounded-lg bg-gradient-cta py-3 font-display text-sm font-semibold uppercase tracking-wider text-primary-foreground transition-all hover:shadow-glow-strong hover:scale-[1.02]">
                     Finalizar Pedido
                   </button>
                   <button
