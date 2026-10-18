@@ -1,4 +1,5 @@
 import { httpClientAuth } from "@/infra/http/httpClient";
+import { MERCHANT_CODE } from "@/shared/config/merchant";
 import {
   CreateProductData,
   CreateProductPayload,
@@ -9,7 +10,6 @@ import {
 } from "../types/product.types";
 
 const BASE_URL = "/products";
-const MERCHANT_CODE = "ecommerce-3d";
 
 type ApiProduct = Omit<Product, "price"> & {
   price: number | string;
@@ -34,6 +34,7 @@ const normalizeProductListItem = (
 export const productRepository = {
   findAll: async (signal?: AbortSignal): Promise<ProductListItem[]> => {
     const response = await httpClientAuth.get<ApiProductListItem[]>(BASE_URL, {
+      params: { merchantCode: MERCHANT_CODE },
       signal,
     });
     return response.data.map(normalizeProductListItem);
@@ -44,12 +45,16 @@ export const productRepository = {
       ...data,
       merchantCode: MERCHANT_CODE,
     };
-    const response = await httpClientAuth.post<ApiProduct>(BASE_URL, payload);
+    const response = await httpClientAuth.post<ApiProduct>(BASE_URL, payload, {
+      params: { merchantCode: MERCHANT_CODE },
+    });
     return normalizeProduct(response.data);
   },
 
   findOne: async (id: string): Promise<Product> => {
-    const response = await httpClientAuth.get<ApiProduct>(`${BASE_URL}/${id}`);
+    const response = await httpClientAuth.get<ApiProduct>(`${BASE_URL}/${id}`, {
+      params: { merchantCode: MERCHANT_CODE },
+    });
     return normalizeProduct(response.data);
   },
 
@@ -59,12 +64,15 @@ export const productRepository = {
   ): Promise<ProductListItem> => {
     const response = await httpClientAuth.patch<ApiProductListItem>(
       `${BASE_URL}/${id}`,
-      data
+      data,
+      { params: { merchantCode: MERCHANT_CODE } }
     );
     return normalizeProductListItem(response.data);
   },
 
   remove: async (id: string): Promise<void> => {
-    await httpClientAuth.delete(`${BASE_URL}/${id}`);
+    await httpClientAuth.delete(`${BASE_URL}/${id}`, {
+      params: { merchantCode: MERCHANT_CODE },
+    });
   },
 };

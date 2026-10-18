@@ -1,0 +1,1 @@
+export const MERCHANT_CODE = "ecommerce-3d";
