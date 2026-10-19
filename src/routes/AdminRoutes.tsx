@@ -60,6 +60,7 @@ const RequireSuperAdmin = () => {
   return <Outlet />;
 };
 
+/** @deprecated The admin panel is maintained in the ecommerce-admin project. */
 export const AdminRoutes = () => (
   <AdminAuthProvider>
     <Routes>

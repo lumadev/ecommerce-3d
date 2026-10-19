@@ -13,6 +13,13 @@ VITE_API_URL=https://api.example.com/api pnpm build
 Não inclua arquivos `.env` com valores reais no repositório. Use `.env.example`
 como referência para a configuração local.
 
+## Painel administrativo
+
+O painel administrativo deste projeto está deprecated e suas rotas `/admin/*`
+foram mantidas temporariamente por compatibilidade. O acesso e a evolução do
+admin devem ocorrer pelo projeto `ecommerce-admin`; este repositório permanece
+responsável pela experiência da loja.
+
 ## Deploy na Vercel (SPA com React Router)
 
 Este projeto usa `BrowserRouter`, então rotas como `/admin/login` precisam de
