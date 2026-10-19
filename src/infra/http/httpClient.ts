@@ -1,4 +1,5 @@
 import axios, { AxiosError, AxiosInstance, InternalAxiosRequestConfig } from "axios";
+import { MERCHANT_CODE } from "@/shared/config/merchant";
 
 /**
  * O backend (Render free tier) "dorme" após um período de inatividade e leva
@@ -85,5 +86,66 @@ export const httpClientPublic = axios.create({
   withCredentials: false,
 });
 
+let activeMerchantCode: string | undefined = MERCHANT_CODE;
+
+const MERCHANT_SCOPED_COLLECTIONS = new Set([
+  "/categories",
+  "/highlights",
+  "/products",
+  "/users",
+  "/variants",
+]);
+
+export const setActiveMerchantCode = (merchantCode?: string | null) => {
+  activeMerchantCode = merchantCode ?? undefined;
+};
+
+const requiresMerchantCodeQuery = (method: string, requestPath: string) => {
+  if (method === "get" && MERCHANT_SCOPED_COLLECTIONS.has(requestPath)) {
+    return true;
+  }
+
+  if (method === "post" && requestPath === "/users/admin") {
+    return true;
+  }
+
+  return (
+    ["get", "patch", "delete"].includes(method) &&
+    /^\/users\/[^/]+$/.test(requestPath) &&
+    requestPath !== "/users/admin"
+  );
+};
+
+const registerMerchantCodeParam = (client: AxiosInstance) => {
+  client.interceptors.request.use((config) => {
+    const requestPath = config.url?.split("?")[0].replace(/\/$/, "");
+    const method = config.method?.toLowerCase() ?? "get";
+
+    if (
+      !activeMerchantCode ||
+      !requestPath ||
+      !requiresMerchantCodeQuery(method, requestPath)
+    ) {
+      return config;
+    }
+
+    if (config.params instanceof URLSearchParams) {
+      if (!config.params.has("merchantCode")) {
+        config.params.set("merchantCode", activeMerchantCode);
+      }
+      return config;
+    }
+
+    const params = config.params as Record<string, unknown> | undefined;
+    config.params = {
+      ...params,
+      merchantCode: params?.merchantCode ?? activeMerchantCode,
+    };
+    return config;
+  });
+};
+
 registerColdStartRetry(httpClientAuth);
 registerColdStartRetry(httpClientPublic);
+registerMerchantCodeParam(httpClientAuth);
+registerMerchantCodeParam(httpClientPublic);

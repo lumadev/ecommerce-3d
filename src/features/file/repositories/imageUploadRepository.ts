@@ -1,4 +1,5 @@
 import { httpClientAuth } from "@/infra/http/httpClient";
+import { MERCHANT_CODE } from "@/shared/config/merchant";
 import type { ProductMediaType } from "@/features/product/types/product-media.types";
 
 interface UploadMediaResponse {
@@ -21,6 +22,7 @@ export const mediaUploadRepository = {
     formData.append("file", file);
     formData.append("folder", folder);
     formData.append("mediaType", mediaType);
+    formData.append("merchantCode", MERCHANT_CODE);
 
     const response = await httpClientAuth.post<UploadMediaResponse>(
       "/upload",
@@ -35,7 +37,11 @@ export const mediaUploadRepository = {
     mediaType: ProductMediaType = "image",
   ): Promise<void> => {
     const response = await httpClientAuth.delete<{ result: string }>("/upload", {
-      data: { public_id: publicId, media_type: mediaType },
+      data: {
+        public_id: publicId,
+        media_type: mediaType,
+        merchantCode: MERCHANT_CODE,
+      },
     });
     if (response.data.result === "error") {
       throw new Error(`Could not delete ${mediaType} media ${publicId}.`);

@@ -34,7 +34,6 @@ const normalizeProductListItem = (
 export const productRepository = {
   findAll: async (signal?: AbortSignal): Promise<ProductListItem[]> => {
     const response = await httpClientAuth.get<ApiProductListItem[]>(BASE_URL, {
-      params: { merchantCode: MERCHANT_CODE },
       signal,
     });
     return response.data.map(normalizeProductListItem);
@@ -45,16 +44,12 @@ export const productRepository = {
       ...data,
       merchantCode: MERCHANT_CODE,
     };
-    const response = await httpClientAuth.post<ApiProduct>(BASE_URL, payload, {
-      params: { merchantCode: MERCHANT_CODE },
-    });
+    const response = await httpClientAuth.post<ApiProduct>(BASE_URL, payload);
     return normalizeProduct(response.data);
   },
 
   findOne: async (id: string): Promise<Product> => {
-    const response = await httpClientAuth.get<ApiProduct>(`${BASE_URL}/${id}`, {
-      params: { merchantCode: MERCHANT_CODE },
-    });
+    const response = await httpClientAuth.get<ApiProduct>(`${BASE_URL}/${id}`);
     return normalizeProduct(response.data);
   },
 
@@ -64,15 +59,12 @@ export const productRepository = {
   ): Promise<ProductListItem> => {
     const response = await httpClientAuth.patch<ApiProductListItem>(
       `${BASE_URL}/${id}`,
-      data,
-      { params: { merchantCode: MERCHANT_CODE } }
+      data
     );
     return normalizeProductListItem(response.data);
   },
 
   remove: async (id: string): Promise<void> => {
-    await httpClientAuth.delete(`${BASE_URL}/${id}`, {
-      params: { merchantCode: MERCHANT_CODE },
-    });
+    await httpClientAuth.delete(`${BASE_URL}/${id}`);
   },
 };

@@ -9,14 +9,15 @@ const BASE_URL = "/categories";
 
 export const categoryRepository = {
   findAll: async (signal?: AbortSignal): Promise<Category[]> => {
-    const response = await httpClientAuth.get<Category[]>(BASE_URL, {
-      signal,
-    });
+    const response = await httpClientAuth.get<Category[]>(BASE_URL, { signal });
     return response.data;
   },
     
   create: async (data: CreateCategoryData): Promise<Category> => {
-    const response = await httpClientAuth.post<Category>(BASE_URL, data);
+    const response = await httpClientAuth.post<Category>(BASE_URL, {
+      ...data,
+      merchantCode: MERCHANT_CODE,
+    });
     return response.data;
   },
 

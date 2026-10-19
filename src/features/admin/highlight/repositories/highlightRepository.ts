@@ -21,9 +21,7 @@ const normalizeHighlight = (highlight: ApiHighlight): Highlight => ({
 
 export const highlightRepository = {
   findAll: async (signal?: AbortSignal): Promise<Highlight[]> => {
-    const response = await httpClientPublic.get<ApiHighlight[]>(BASE_URL, {
-      signal,
-    });
+    const response = await httpClientPublic.get<ApiHighlight[]>(BASE_URL, { signal });
     return response.data.map(normalizeHighlight);
   },
 

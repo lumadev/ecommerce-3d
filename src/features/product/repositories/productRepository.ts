@@ -1,5 +1,4 @@
 import { httpClientPublic } from "@/infra/http/httpClient";
-import { MERCHANT_CODE } from "@/shared/config/merchant";
 import {
   Product,
   ProductCategory,
@@ -27,7 +26,6 @@ const normalizeProductListItem = (
 export const productRepository = {
   findAll: async (signal?: AbortSignal): Promise<ProductListItem[]> => {
     const response = await httpClientPublic.get<ApiProductListItem[]>(BASE_URL, {
-      params: { merchantCode: MERCHANT_CODE },
       signal,
     });
     return response.data.map(normalizeProductListItem);
@@ -39,7 +37,7 @@ export const productRepository = {
   ): Promise<ProductListItem> => {
     const response = await httpClientPublic.get<ApiProductListItem>(
       `${BASE_URL}/${id}`,
-      { params: { merchantCode: MERCHANT_CODE }, signal }
+      { signal }
     );
     return normalizeProductListItem(response.data);
   },
