@@ -5,6 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
+    "start": "node scripts/init.js",
     "run:front": "cd ../ecommerce-3d-back && pnpm dev",
     "run:all": "concurrently \"pnpm run dev\" \"pnpm run run:front\"",
     "build": "vite build",
