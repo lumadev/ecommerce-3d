@@ -1,4 +1,4 @@
-import { httpClientAuth, httpClientPublic } from "@/infra/http/httpClient";
+import { httpClientPublic } from "@/infra/http/httpClient";
 import type { Highlight, HighlightProduct } from "../types/highlight.types";
 
 const BASE_URL = "/highlights";
@@ -25,30 +25,5 @@ export const highlightRepository = {
       signal,
     });
     return response.data.map(normalizeHighlight);
-  },
-
-  create: async (productId: string): Promise<Highlight> => {
-    const response = await httpClientAuth.post<ApiHighlight>(BASE_URL, {
-      productId,
-    });
-    return normalizeHighlight(response.data);
-  },
-
-  remove: async (id: string): Promise<void> => {
-    await httpClientAuth.delete(`${BASE_URL}/${id}`);
-  },
-
-  increase: async (id: string): Promise<Highlight> => {
-    const response = await httpClientAuth.patch<ApiHighlight>(
-      `${BASE_URL}/${id}/increase`
-    );
-    return normalizeHighlight(response.data);
-  },
-
-  decrease: async (id: string): Promise<Highlight> => {
-    const response = await httpClientAuth.patch<ApiHighlight>(
-      `${BASE_URL}/${id}/decrease`
-    );
-    return normalizeHighlight(response.data);
   },
 };

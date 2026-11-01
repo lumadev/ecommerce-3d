@@ -14,9 +14,8 @@ applyTo: "src/**/*.{ts,tsx}"
 ## Arquitetura de pastas (feature-based)
 
 O projeto usa uma arquitetura orientada a features, não por tipo de arquivo
-global. Cada recurso de negócio vive em `src/features/<feature>/` (ou
-`src/features/admin/<recurso>/` para a área administrativa) com subpastas por
-responsabilidade:
+global. Cada recurso de negócio vive em `src/features/<feature>/` com
+subpastas por responsabilidade:
 
 ```text
 src/features/<feature>/
@@ -55,9 +54,8 @@ src/features/<feature>/
   `cart.provider.tsx`).
 - Utilitários e seletores da feature seguem `<recurso>.utils.ts` e
   `<recurso>.selectors.ts`.
-- Diálogos de formulário do admin seguem `Create<Recurso>Dialog.tsx` e
-  `Edit<Recurso>Dialog.tsx`, com um `<Recurso>Form.tsx` compartilhado (ver
-  [`docs/admin-form.md`](../../src/features/admin/docs/admin-form.md)).
+- Diálogos de formulário seguem os padrões de validação e apresentação
+  existentes na feature.
 
 ## Divisão de componentes
 

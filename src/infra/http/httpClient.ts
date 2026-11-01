@@ -86,34 +86,14 @@ export const httpClientPublic = axios.create({
   withCredentials: false,
 });
 
-let activeMerchantCode: string | undefined = MERCHANT_CODE;
-
 const MERCHANT_SCOPED_COLLECTIONS = new Set([
   "/categories",
   "/highlights",
   "/products",
-  "/users",
-  "/variants",
 ]);
 
-export const setActiveMerchantCode = (merchantCode?: string | null) => {
-  activeMerchantCode = merchantCode ?? undefined;
-};
-
 const requiresMerchantCodeQuery = (method: string, requestPath: string) => {
-  if (method === "get" && MERCHANT_SCOPED_COLLECTIONS.has(requestPath)) {
-    return true;
-  }
-
-  if (method === "post" && requestPath === "/users/admin") {
-    return true;
-  }
-
-  return (
-    ["get", "patch", "delete"].includes(method) &&
-    /^\/users\/[^/]+$/.test(requestPath) &&
-    requestPath !== "/users/admin"
-  );
+  return method === "get" && MERCHANT_SCOPED_COLLECTIONS.has(requestPath);
 };
 
 const registerMerchantCodeParam = (client: AxiosInstance) => {
@@ -122,7 +102,6 @@ const registerMerchantCodeParam = (client: AxiosInstance) => {
     const method = config.method?.toLowerCase() ?? "get";
 
     if (
-      !activeMerchantCode ||
       !requestPath ||
       !requiresMerchantCodeQuery(method, requestPath)
     ) {
@@ -131,7 +110,7 @@ const registerMerchantCodeParam = (client: AxiosInstance) => {
 
     if (config.params instanceof URLSearchParams) {
       if (!config.params.has("merchantCode")) {
-        config.params.set("merchantCode", activeMerchantCode);
+        config.params.set("merchantCode", MERCHANT_CODE);
       }
       return config;
     }
@@ -139,7 +118,7 @@ const registerMerchantCodeParam = (client: AxiosInstance) => {
     const params = config.params as Record<string, unknown> | undefined;
     config.params = {
       ...params,
-      merchantCode: params?.merchantCode ?? activeMerchantCode,
+      merchantCode: params?.merchantCode ?? MERCHANT_CODE,
     };
     return config;
   });

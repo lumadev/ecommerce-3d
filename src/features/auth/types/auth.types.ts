@@ -18,11 +18,6 @@ export interface ResetPasswordData {
   password: string;
 }
 
-export interface LoginAdminData {
-  username: string;
-  password: string;
-}
-
 export type UserRole = "CUSTOMER" | "ADMIN" | "SUPER_ADMIN";
 
 export interface AuthResponse {
@@ -38,12 +33,4 @@ export interface SessionUser {
   email: string;
   name: string;
   role: UserRole;
-  merchantId?: string | null;
-  impersonatedBy?: string | null;
-}
-
-export interface ImpersonationTarget {
-  id: string;
-  name: string;
-  store?: { name: string } | null;
 }
