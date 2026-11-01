@@ -5,7 +5,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/shared/components/ui/table";
-import { ProductListItem } from "../types/product.types";
+import { ProductListItem } from "@/features/product/types/product.types";
 import ProductRow from "./ProductRow";
 
 interface Props {

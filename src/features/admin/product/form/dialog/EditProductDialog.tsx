@@ -10,7 +10,10 @@ import { Button } from "@/shared/components/ui/button/button";
 import { Loader2 } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { mediaUploadRepository } from "@/features/file/repositories/imageUploadRepository";
-import { ProductListItem, UpdateProductData } from "../../types/product.types";
+import {
+  ProductListItem,
+  UpdateProductData,
+} from "@/features/product/types/product.types";
 import { ProductFormState } from "../../types/product-form.types";
 import ProductForm from "../ProductForm";
 import { validateProductForm } from "../../helpers/product-form.helpers";

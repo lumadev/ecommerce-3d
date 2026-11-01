@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Plus } from "lucide-react";
 import { Button } from "@/shared/components/ui/button/button";
 import { useProducts } from "./hooks/useProducts";
-import { ProductListItem } from "./types/product.types";
+import { ProductListItem } from "@/features/product/types/product.types";
 
 import ProductTableSkeleton from "./list/ProductTableSkeleton";
 import ProductTable from "./list/ProductTable";

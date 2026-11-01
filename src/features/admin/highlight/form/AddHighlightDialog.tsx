@@ -12,8 +12,8 @@ import { Input } from "@/shared/components/ui/input";
 import { Button } from "@/shared/components/ui/button/button";
 import { Skeleton } from "@/shared/components/ui/skeleton";
 import { useToast } from "@/hooks/use-toast";
-import { productRepository } from "@/features/admin/product/repositories/productRepository";
-import { ProductListItem } from "@/features/admin/product/types/product.types";
+import { productRepository } from "@/features/product/repositories/productRepository";
+import { ProductListItem } from "@/features/product/types/product.types";
 
 interface Props {
   open: boolean;
@@ -40,7 +40,7 @@ const AddHighlightDialog = ({ open, onClose, excludedProductIds, onLink }: Props
       setIsLoading(true);
 
       try {
-        const all = await productRepository.findAll(controller.signal);
+        const all = await productRepository.findAllForAdmin(controller.signal);
         setProducts(all);
       } catch (error) {
         if (axios.isCancel(error)) {

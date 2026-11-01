@@ -1,9 +1,13 @@
-import { httpClientPublic } from "@/infra/http/httpClient";
-import {
+import { httpClientAuth, httpClientPublic } from "@/infra/http/httpClient";
+import { MERCHANT_CODE } from "@/shared/config/merchant";
+import type {
+  CreateProductData,
+  CreateProductPayload,
   Product,
   ProductCategory,
   ProductListItem,
-} from "@/features/admin/product/types/product.types";
+  UpdateProductData,
+} from "../types/product.types";
 
 const BASE_URL = "/products";
 
@@ -31,6 +35,13 @@ export const productRepository = {
     return response.data.map(normalizeProductListItem);
   },
 
+  findAllForAdmin: async (signal?: AbortSignal): Promise<ProductListItem[]> => {
+    const response = await httpClientAuth.get<ApiProductListItem[]>(BASE_URL, {
+      signal,
+    });
+    return response.data.map(normalizeProductListItem);
+  },
+
   findOne: async (
     id: string,
     signal?: AbortSignal
@@ -40,5 +51,40 @@ export const productRepository = {
       { signal }
     );
     return normalizeProductListItem(response.data);
+  },
+
+  findOneForAdmin: async (id: string): Promise<Product> => {
+    const response = await httpClientAuth.get<ApiProduct>(`${BASE_URL}/${id}`);
+    return {
+      ...response.data,
+      price: Number(response.data.price),
+    };
+  },
+
+  create: async (data: CreateProductData): Promise<Product> => {
+    const payload: CreateProductPayload = {
+      ...data,
+      merchantCode: MERCHANT_CODE,
+    };
+    const response = await httpClientAuth.post<ApiProduct>(BASE_URL, payload);
+    return {
+      ...response.data,
+      price: Number(response.data.price),
+    };
+  },
+
+  update: async (
+    id: string,
+    data: UpdateProductData
+  ): Promise<ProductListItem> => {
+    const response = await httpClientAuth.patch<ApiProductListItem>(
+      `${BASE_URL}/${id}`,
+      data
+    );
+    return normalizeProductListItem(response.data);
+  },
+
+  remove: async (id: string): Promise<void> => {
+    await httpClientAuth.delete(`${BASE_URL}/${id}`);
   },
 };

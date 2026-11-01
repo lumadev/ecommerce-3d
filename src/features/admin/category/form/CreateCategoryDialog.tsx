@@ -13,7 +13,10 @@ import { imageUploadRepository } from "@/features/file/repositories/imageUploadR
 import { useToast } from "@/hooks/use-toast";
 
 import { CategoryFormState } from "@/features/admin/category/types/category-form.types";
-import { Category, CreateCategoryData } from "../types/category.types";
+import {
+  Category,
+  CreateCategoryData,
+} from "@/features/category/types/category.types";
 
 import CategoryForm from "./CategoryForm";
 

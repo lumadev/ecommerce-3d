@@ -5,7 +5,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/shared/components/ui/table";
-import { Category } from "@/data/categories";
+import { Category } from "@/features/category/types/category.types";
 import CategoryRow from "./CategoryRow";
 
 interface Props {

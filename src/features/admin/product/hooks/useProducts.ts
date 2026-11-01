@@ -1,12 +1,12 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { useToast } from "@/hooks/use-toast";
-import { productRepository } from "../repositories/productRepository";
+import { productRepository } from "@/features/product/repositories/productRepository";
 import {
   CreateProductData,
   ProductListItem,
   UpdateProductData,
-} from "../types/product.types";
+} from "@/features/product/types/product.types";
 
 export const useProducts = () => {
   const { toast } = useToast();
@@ -20,7 +20,7 @@ export const useProducts = () => {
       setIsLoading(true);
 
       try {
-        const products = await productRepository.findAll(controller.signal);
+        const products = await productRepository.findAllForAdmin(controller.signal);
         setProductList(products);
       } catch (error) {
         if (axios.isCancel(error)) {

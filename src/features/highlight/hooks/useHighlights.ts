@@ -2,7 +2,7 @@ import { useCallback, useEffect, useState } from "react";
 import axios from "axios";
 import { useToast } from "@/hooks/use-toast";
 import { highlightRepository } from "../repositories/highlightRepository";
-import { Highlight } from "../types/highlight.types";
+import type { Highlight } from "../types/highlight.types";
 
 export const useHighlights = () => {
   const { toast } = useToast();

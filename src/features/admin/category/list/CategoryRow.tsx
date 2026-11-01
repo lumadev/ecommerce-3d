@@ -3,7 +3,7 @@ import { Pencil, Trash2 } from "lucide-react";
 import { Badge } from "@/shared/components/ui/badge";
 import { TableCell } from "@/shared/components/ui/table";
 import ConfirmActionDialog from "@/shared/components/ConfirmActionDialog";
-import { Category } from "@/data/categories";
+import { Category } from "@/features/category/types/category.types";
 
 interface Props {
   category: Category;

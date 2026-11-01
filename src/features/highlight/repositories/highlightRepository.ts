@@ -1,5 +1,5 @@
 import { httpClientAuth, httpClientPublic } from "@/infra/http/httpClient";
-import { Highlight, HighlightProduct } from "../types/highlight.types";
+import type { Highlight, HighlightProduct } from "../types/highlight.types";
 
 const BASE_URL = "/highlights";
 
@@ -21,7 +21,9 @@ const normalizeHighlight = (highlight: ApiHighlight): Highlight => ({
 
 export const highlightRepository = {
   findAll: async (signal?: AbortSignal): Promise<Highlight[]> => {
-    const response = await httpClientPublic.get<ApiHighlight[]>(BASE_URL, { signal });
+    const response = await httpClientPublic.get<ApiHighlight[]>(BASE_URL, {
+      signal,
+    });
     return response.data.map(normalizeHighlight);
   },
 

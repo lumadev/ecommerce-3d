@@ -10,9 +10,11 @@ import {
 import { Button } from "@/shared/components/ui/button/button";
 import { Loader2 } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
-import { Category } from "@/data/categories";
 import { CategoryFormState } from "@/features/admin/category/types/category-form.types";
-import { UpdateCategoryData } from "@/features/admin/category/types/category.types";
+import {
+  Category,
+  UpdateCategoryData,
+} from "@/features/category/types/category.types";
 
 import CategoryForm from "./CategoryForm";
 

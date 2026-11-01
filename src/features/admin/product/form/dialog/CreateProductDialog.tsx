@@ -12,7 +12,10 @@ import { Loader2 } from "lucide-react";
 import { mediaUploadRepository } from "@/features/file/repositories/imageUploadRepository";
 import { useToast } from "@/hooks/use-toast";
 import { ProductFormState } from "../../types/product-form.types";
-import { Product, CreateProductData } from "../../types/product.types";
+import {
+  Product,
+  CreateProductData,
+} from "@/features/product/types/product.types";
 import ProductForm from "../ProductForm";
 import { validateProductForm } from "../../helpers/product-form.helpers";
 

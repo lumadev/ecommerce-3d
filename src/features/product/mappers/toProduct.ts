@@ -1,4 +1,4 @@
-import { ProductListItem } from "@/features/admin/product/types/product.types";
+import { ProductListItem } from "@/features/product/types/product.types";
 import { Product } from "@/data/products";
 import type { ProductMedia } from "@/data/products";
 import type {

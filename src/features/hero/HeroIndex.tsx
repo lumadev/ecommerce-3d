@@ -1,7 +1,7 @@
 import { motion } from "framer-motion";
 import { ChevronDown } from "lucide-react";
 import { Product } from "@/data/products";
-import { useHighlights } from "@/features/admin/highlight/hooks/useHighlights";
+import { useHighlights } from "@/features/highlight/hooks/useHighlights";
 import HeroContent from "./HeroContent";
 import HeroCarousel from "./HeroCarousel";
 import HeroCarouselSkeleton from "./HeroCarouselSkeleton";

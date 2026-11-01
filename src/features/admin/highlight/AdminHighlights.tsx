@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Plus } from "lucide-react";
 import { Button } from "@/shared/components/ui/button/button";
-import { useHighlights } from "./hooks/useHighlights";
+import { useHighlights } from "@/features/highlight/hooks/useHighlights";
 
 import HighlightListSkeleton from "./list/HighlightListSkeleton";
 import HighlightList from "./list/HighlightList";

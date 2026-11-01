@@ -1,7 +1,7 @@
 import { motion } from "framer-motion";
 import { PackageCheck, Pencil, Trash2 } from "lucide-react";
 import { TableCell } from "@/shared/components/ui/table";
-import { ProductListItem } from "../types/product.types";
+import { ProductListItem } from "@/features/product/types/product.types";
 import ConfirmActionDialog from "@/shared/components/ConfirmActionDialog";
 
 interface Props {

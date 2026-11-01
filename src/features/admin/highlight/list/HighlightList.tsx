@@ -1,4 +1,4 @@
-import { Highlight } from "../types/highlight.types";
+import { Highlight } from "@/features/highlight/types/highlight.types";
 import HighlightCard from "./HighlightCard";
 
 interface Props {

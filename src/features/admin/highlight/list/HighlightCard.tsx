@@ -1,7 +1,7 @@
 import { motion } from "framer-motion";
 import { ChevronDown, ChevronUp, Trash2 } from "lucide-react";
 import ConfirmActionDialog from "@/shared/components/ConfirmActionDialog";
-import { Highlight } from "../types/highlight.types";
+import { Highlight } from "@/features/highlight/types/highlight.types";
 
 interface Props {
   highlight: Highlight;

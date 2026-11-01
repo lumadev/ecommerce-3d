@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
-import { categoryRepository } from "@/features/product/repositories/categoryRepository";
+import { categoryRepository } from "@/features/category/repositories/categoryRepository";
 
 type ProductCategory = {
   id: string;

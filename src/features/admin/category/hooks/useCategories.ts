@@ -1,9 +1,12 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { useToast } from "@/hooks/use-toast";
-import { categoryRepository } from "../repositories/categoryRepository";
-import { categoryRepository as publicCategoryRepository } from "@/features/product/repositories/categoryRepository";
-import { Category, CreateCategoryData, UpdateCategoryData } from "../types/category.types";
+import { categoryRepository } from "@/features/category/repositories/categoryRepository";
+import {
+  Category,
+  CreateCategoryData,
+  UpdateCategoryData,
+} from "@/features/category/types/category.types";
 
 export const useCategories = () => {
   const { toast } = useToast();
@@ -17,7 +20,7 @@ export const useCategories = () => {
       setIsLoading(true);
 
       try {
-        const categories = await publicCategoryRepository.findAll(controller.signal);
+        const categories = await categoryRepository.findAll(controller.signal);
         setCategoryList(categories);
       } catch (error) {
         if (axios.isCancel(error)) {

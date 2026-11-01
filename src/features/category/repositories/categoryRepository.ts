@@ -1,5 +1,6 @@
-import { httpClientAuth } from "@/infra/http/httpClient";
-import {
+import { httpClientAuth, httpClientPublic } from "@/infra/http/httpClient";
+import { MERCHANT_CODE } from "@/shared/config/merchant";
+import type {
   Category,
   CreateCategoryData,
   UpdateCategoryData,
@@ -9,10 +10,10 @@ const BASE_URL = "/categories";
 
 export const categoryRepository = {
   findAll: async (signal?: AbortSignal): Promise<Category[]> => {
-    const response = await httpClientAuth.get<Category[]>(BASE_URL, { signal });
+    const response = await httpClientPublic.get<Category[]>(BASE_URL, { signal });
     return response.data;
   },
-    
+
   create: async (data: CreateCategoryData): Promise<Category> => {
     const response = await httpClientAuth.post<Category>(BASE_URL, {
       ...data,

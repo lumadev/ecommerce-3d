@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Plus } from "lucide-react";
 import { Button } from "@/shared/components/ui/button/button";
-import { Category } from "@/data/categories";
+import { Category } from "@/features/category/types/category.types";
 import { useCategories } from "./hooks/useCategories";
 
 import CategoryTableSkeleton from "./list/CategoryTableSkeleton";
