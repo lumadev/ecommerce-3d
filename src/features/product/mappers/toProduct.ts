@@ -7,7 +7,7 @@ import type {
 } from "@/features/product/types/product-media.types";
 
 interface ProductMediaSource {
-  mediaUrls: string[];
+  mediaUrls?: string[];
   mediaTypes?: ProductMediaType[];
   media?: ProductMediaRecord[];
 }
@@ -21,7 +21,7 @@ export const toProductMedia = (product: ProductMediaSource): ProductMedia[] => {
     );
   }
 
-  return product.mediaUrls.map((src, index) => ({
+  return (product.mediaUrls ?? []).map((src, index) => ({
     type: product.mediaTypes?.[index] ?? "image",
     src,
   }));

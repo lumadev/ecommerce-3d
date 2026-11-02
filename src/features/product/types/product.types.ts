@@ -1,7 +1,10 @@
-import type {
-  ProductMediaRecord,
-  ProductMediaType,
-} from "@/features/product/types/product-media.types";
+import type { ProductMediaRecord } from "@/features/product/types/product-media.types";
+
+export interface ProductVariant {
+  attributeId: string;
+  name: string;
+  value: string;
+}
 
 export interface Product {
   id: string;
@@ -9,12 +12,8 @@ export interface Product {
   description: string;
   price: number;
   stock: number;
-  mediaUrls: string[];
-  mediaTypes?: ProductMediaType[];
-  media?: ProductMediaRecord[];
-  mediaPublicIds?: string[];
-  createdAt: Date;
-  updatedAt: Date;
+  media: ProductMediaRecord[];
+  variants: ProductVariant[];
 }
 
 export interface ProductCategory {
