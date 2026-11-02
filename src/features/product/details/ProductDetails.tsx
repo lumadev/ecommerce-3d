@@ -36,6 +36,7 @@ const ProductDetailContent = () => {
   useEffect(() => {
     setQuantity(1);
     setActiveMedia(0);
+    window.scrollTo({ top: 0, behavior: "smooth" });
   }, [id]);
 
   const cachedProduct = (location.state as ProductDetailsLocationState | null)
