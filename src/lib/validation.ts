@@ -15,3 +15,4 @@ export const exceedsMaxLength = (value: string, max: number) => value.trim().len
 
 export const passwordsMatch = (password: string, confirmation: string) =>
   password === confirmation;
+

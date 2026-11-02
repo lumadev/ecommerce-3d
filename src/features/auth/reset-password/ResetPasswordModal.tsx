@@ -12,7 +12,9 @@ import {
 import { useNavigate, useSearchParams } from "react-router-dom";
 
 import { PasswordField } from "../components/PasswordField";
+import { PasswordStrength } from "../components/PasswordStrength";
 import { useResetPassword } from "../hooks/useResetPassword";
+import { isStrongPassword } from "../passwordValidation";
 
 export const ResetPasswordModal = () => {
   const [searchParams] = useSearchParams();
@@ -30,7 +32,11 @@ export const ResetPasswordModal = () => {
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    const nextPasswordError = password ? undefined : "Informe uma nova senha.";
+    const nextPasswordError = !password
+      ? "Informe uma nova senha."
+      : !isStrongPassword(password)
+        ? "A senha não atende aos requisitos."
+        : undefined;
     const nextConfirmationError = !confirmation
       ? "Confirme sua nova senha."
       : password !== confirmation
@@ -170,6 +176,7 @@ export const ResetPasswordModal = () => {
                 onChange={updatePassword}
                 error={passwordError}
               />
+              <PasswordStrength password={password} />
               <PasswordField
                 id="reset-password-confirmation"
                 placeholder="Confirme a nova senha"
@@ -184,7 +191,7 @@ export const ResetPasswordModal = () => {
               )}
               <button
                 type="submit"
-                disabled={isSubmitting}
+                disabled={isSubmitting || !isStrongPassword(password)}
                 className="flex w-full items-center justify-center gap-2 rounded-lg bg-primary py-3 text-sm font-semibold text-primary-foreground hover:bg-primary/90 disabled:cursor-not-allowed disabled:opacity-50"
               >
                 {isSubmitting ? (

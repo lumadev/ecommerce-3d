@@ -6,7 +6,9 @@ import { isValidEmail } from "@/lib/validation";
 
 import { InputField } from "../components/InputField";
 import { PasswordField } from "../components/PasswordField";
+import { PasswordStrength } from "../components/PasswordStrength";
 import { useAuth } from "../hooks/useAuth";
+import { isStrongPassword } from "../passwordValidation";
 import { authRepository } from "../repositories/authRepository";
 
 
@@ -45,6 +47,8 @@ export const AuthSignupForm = ({ onToggleMode, onLoginSucess }: AuthSignupFormPr
     }
     if (!formData.password) {
       nextErrors.password = "Preencha sua senha";
+    } else if (!isStrongPassword(formData.password)) {
+      nextErrors.password = "A senha não atende aos requisitos";
     }
     if (!formData.confirmPassword) {
       nextErrors.confirmPassword = "Confirme sua senha";
@@ -148,6 +152,8 @@ export const AuthSignupForm = ({ onToggleMode, onLoginSucess }: AuthSignupFormPr
           error={errors.password}
         />
 
+        <PasswordStrength password={formData.password} />
+
         <PasswordField
           id="signup-confirm-password"
           placeholder="Confirmar Senha"
@@ -158,7 +164,7 @@ export const AuthSignupForm = ({ onToggleMode, onLoginSucess }: AuthSignupFormPr
 
         <button
           type="submit"
-          disabled={isLoading}
+          disabled={isLoading || !isStrongPassword(formData.password)}
           className="w-full rounded-lg bg-primary py-3 text-sm font-semibold text-primary-foreground hover:bg-primary/90 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center"
         >
           {isLoading ? (
