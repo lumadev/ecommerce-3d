@@ -7,6 +7,8 @@ import { fileURLToPath } from "node:url";
 const rootDir = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const backendDir = path.resolve(rootDir, "..", "ecommerce-3d-back");
 
+const adminDir = path.resolve(rootDir, "..", "ecommerce-admin");
+
 const DB_CONTAINER = "postgres-db";
 const BACKEND_HOST = "localhost";
 const BACKEND_PORT = 3000;
@@ -171,6 +173,12 @@ try {
   await ensureBackend();
   log("Subindo frontend...");
   startProcess("frontend", rootDir);
+  if (existsSync(adminDir)) {
+    log("Subindo admin...");
+    startProcess("admin", adminDir);
+  } else {
+    log(`Admin não encontrado em ${adminDir}, ignorando.`);
+  }
 } catch (error) {
   console.error(`[init] ${error.message}`);
   shutdown();
