@@ -39,7 +39,7 @@ export const PasswordField = ({ value, onChange, placeholder = "Senha", id, erro
           {show ? <EyeOff size={16} /> : <Eye size={16} />}
         </button>
       </div>
-      {error && <p id={id ? `${id}-error` : undefined} role="alert" className="text-xs text-destructive">{error}</p>}
+      {error && <p id={id ? `${id}-error` : undefined} role="alert" className="text-xs text-destructive/80">{error}</p>}
     </div>
   );
 };

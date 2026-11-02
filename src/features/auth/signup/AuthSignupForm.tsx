@@ -172,8 +172,8 @@ export const AuthSignupForm = ({ onToggleMode, onLoginSucess }: AuthSignupFormPr
 
         <button
           type="submit"
-          disabled={isLoading || !isStrongPassword(formData.password)}
-          className="w-full rounded-lg bg-primary py-3 text-sm font-semibold text-primary-foreground hover:bg-primary/90 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center"
+          disabled={isLoading}
+          className="w-full rounded-lg bg-primary py-3 text-sm font-semibold text-primary-foreground hover:bg-primary/90 disabled:opacity-50 disabled:cursor-default flex items-center justify-center"
         >
           {isLoading ? (
             <Loader2 size={18} className="animate-spin" />

@@ -40,7 +40,7 @@ export const InputField = ({
           className="w-full rounded-lg border border-border bg-secondary py-3 pl-10 pr-4 text-sm text-foreground placeholder:text-muted-foreground focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary"
         />
       </div>
-      {error && <p id={id ? `${id}-error` : undefined} role="alert" className="text-xs text-destructive">{error}</p>}
+      {error && <p id={id ? `${id}-error` : undefined} role="alert" className="text-xs text-destructive/80">{error}</p>}
     </div>
   );
 };
