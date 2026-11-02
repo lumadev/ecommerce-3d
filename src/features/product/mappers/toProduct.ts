@@ -27,6 +27,11 @@ export const toProductMedia = (product: ProductMediaSource): ProductMedia[] => {
   }));
 };
 
+const toSize = (product: ProductListItem): string | undefined =>
+  (product.variants ?? [])
+    .find((variant) => variant.name.toLowerCase().includes("tamanho"))
+    ?.value.trim() || undefined;
+
 export const toProduct = (product: ProductListItem): Product => ({
   id: product.id,
   name: product.name,
@@ -37,4 +42,5 @@ export const toProduct = (product: ProductListItem): Product => ({
   media: toProductMedia(product),
   categories: product.categories.map((category) => category.name),
   customizable: false,
+  size: toSize(product),
 });

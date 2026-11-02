@@ -104,6 +104,18 @@ const ProductDetailContent = () => {
                 {product.description}
               </p>
 
+              {product.size && (
+                <div className="mb-6 flex flex-wrap items-center gap-3">
+                  <span className="inline-flex items-center gap-2 font-display text-sm font-semibold text-foreground">
+                    <Ruler size={18} className="text-primary" />
+                    Tamanho
+                  </span>
+                  <span className="inline-flex items-center rounded-lg border border-primary/40 bg-primary/10 px-4 py-1.5 font-display text-sm font-semibold text-primary">
+                    {product.size}
+                  </span>
+                </div>
+              )}
+
               {/* Specs */}
               {/* <div className="mb-8 grid grid-cols-3 gap-4">
                 <div className="flex flex-col items-center gap-2 rounded-xl border border-border bg-card p-4">

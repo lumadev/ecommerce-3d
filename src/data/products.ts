@@ -19,6 +19,7 @@ export interface Product {
   media?: ProductMedia[];
   categories: string[];
   customizable: boolean;
+  size?: string;
 }
 
 export const products: Product[] = [
