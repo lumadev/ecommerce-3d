@@ -1,4 +1,5 @@
 import { httpClientAuth } from "@/infra/http/httpClient";
+import { MERCHANT_CODE } from "@/shared/config/merchant";
 import {
   RegisterData,
   LoginData,
@@ -13,6 +14,7 @@ const BASE_URL = "/auth";
 export const authRepository = {
   register: async (data: RegisterData): Promise<AuthResponse> => {
     const response = await httpClientAuth.post(`${BASE_URL}/register`, {
+      merchantCode: MERCHANT_CODE,
       name: data.name,
       email: data.email,
       password: data.password,
@@ -22,6 +24,7 @@ export const authRepository = {
 
   login: async (data: LoginData): Promise<AuthResponse> => {
     const response = await httpClientAuth.post(`${BASE_URL}/login`, {
+      merchantCode: MERCHANT_CODE,
       email: data.email,
       password: data.password,
     });
@@ -30,6 +33,7 @@ export const authRepository = {
 
   forgotPassword: async (data: ForgotPasswordData): Promise<void> => {
     await httpClientAuth.post(`${BASE_URL}/forgot-password`, {
+      merchantCode: MERCHANT_CODE,
       email: data.email,
     });
   },
@@ -43,7 +47,9 @@ export const authRepository = {
   },
 
   checkSession: async (): Promise<SessionUser> => {
-    const response = await httpClientAuth.get(`${BASE_URL}/me`);
+    const response = await httpClientAuth.get(`${BASE_URL}/me`, {
+      params: { merchantCode: MERCHANT_CODE },
+    });
 
     return response.data;
   },

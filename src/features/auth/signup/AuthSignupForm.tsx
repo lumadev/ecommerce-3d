@@ -1,4 +1,5 @@
 import { useState } from "react";
+import axios from "axios";
 import { Mail, User, Loader2 } from "lucide-react";
 import { getErrorMessage } from "@/infra/http/httpError";
 import { useToast } from "@/hooks/use-toast";
@@ -76,6 +77,13 @@ export const AuthSignupForm = ({ onToggleMode, onLoginSucess }: AuthSignupFormPr
       toast({ variant: "success", description: "Registro feito com sucesso." });
       onLoginSucess(); // closes modal
     } catch (error) {
+      if (axios.isAxiosError(error) && error.response?.status === 409) {
+        setErrors((prev) => ({
+          ...prev,
+          email: "Já existe um cadastro com este email nesta loja",
+        }));
+        return;
+      }
       toast({ description: getErrorMessage(error) });
     } finally {
       setIsLoading(false);

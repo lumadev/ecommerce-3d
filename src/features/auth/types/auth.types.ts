@@ -33,4 +33,5 @@ export interface SessionUser {
   email: string;
   name: string;
   role: UserRole;
+  merchant?: { id: string; code: string; name: string };
 }
