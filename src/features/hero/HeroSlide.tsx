@@ -33,7 +33,7 @@ const HeroSlide = ({ product, isActive, onAdd }) => {
       <div className="absolute inset-0 bg-gradient-to-t from-background/90 via-background/20 to-transparent" />
 
       <motion.div
-        className="absolute bottom-0 left-0 right-0 p-6"
+        className="absolute bottom-0 left-0 right-0 p-3 sm:p-6"
         initial={false}
         animate={{
           opacity: isActive ? 1 : 0,
@@ -42,32 +42,32 @@ const HeroSlide = ({ product, isActive, onAdd }) => {
         transition={{ duration: 0.5, delay: 0.2 }}
       >
         {product.categories.length > 0 && (
-          <span className="mb-2 inline-block rounded-full bg-primary/20 px-3 py-1 font-display text-xs uppercase tracking-wider text-primary">
+          <span className="mb-2 hidden rounded-full bg-primary/20 px-3 py-1 font-display text-xs uppercase tracking-wider text-primary sm:inline-block">
             {product.categories.join(" • ")}
           </span>
         )}
-        <h3 className="mb-1 font-display text-xl font-bold text-foreground">
+        <h3 className="mb-2 line-clamp-1 font-display text-base font-bold text-foreground sm:mb-1 sm:text-xl">
           {product.name}
         </h3>
 
-        <div className="flex items-center justify-between">
+        <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
           <span className="font-display text-lg font-bold text-primary">
             R$ {product.price.toFixed(2)}
           </span>
-          <div className="flex items-center gap-2">
+          <div className="flex w-full items-center gap-2 sm:w-auto">
             <button
               onClick={() => navigate(`/produto/${product.id}`)}
-              className="flex items-center gap-2 rounded-lg border border-primary/30 px-4 py-2 text-sm font-medium text-primary transition-all hover:border-primary hover:bg-primary/10"
+              className="flex min-w-0 flex-1 items-center justify-center gap-1.5 rounded-lg border border-primary/30 px-2 py-1.5 text-xs font-medium text-primary transition-all hover:border-primary hover:bg-primary/10 sm:flex-none sm:gap-2 sm:px-4 sm:py-2 sm:text-sm"
             >
               <Eye className="h-4 w-4" />
-              Visualizar
+              <span className="whitespace-nowrap">Visualizar</span>
             </button>
             <button
               onClick={onAdd}
-              className="flex items-center gap-2 rounded-lg bg-primary/20 px-4 py-2 text-sm font-medium text-primary transition-all hover:bg-primary hover:text-primary-foreground"
+              className="flex min-w-0 flex-1 items-center justify-center gap-1.5 rounded-lg bg-primary/20 px-2 py-1.5 text-xs font-medium text-primary transition-all hover:bg-primary hover:text-primary-foreground sm:flex-none sm:gap-2 sm:px-4 sm:py-2 sm:text-sm"
             >
               <ShoppingCart className="h-4 w-4" />
-              Adicionar
+              <span className="whitespace-nowrap">Adicionar</span>
             </button>
           </div>
         </div>
