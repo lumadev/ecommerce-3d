@@ -1,8 +1,16 @@
-import { ArrowLeft, ShoppingCart, Sparkles, Package, Ruler, Layers } from "lucide-react";
+import {
+  ArrowLeft,
+  ArrowRight,
+  ShoppingCart,
+  Sparkles,
+  Package,
+  Ruler,
+  Layers,
+} from "lucide-react";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { useCartContext as useCart } from "@/features/cart/useCart";
 import { motion } from "framer-motion";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 import CartDrawer from "@/features/cart/components/CartDrawer";
 import Footer from "@/layout/components/Footer";
@@ -10,7 +18,9 @@ import MediaCarousel from "./MediaCarousel";
 import ProductNotFound from "./ProductNotFound";
 import ProductDetailsSkeleton from "./ProductDetailsSkeleton";
 import { useProduct } from "@/features/product/hooks/useProduct";
+import { useProducts } from "@/features/product/hooks/useProducts";
 import { ProductDetailsLocationState } from "./productDetailsLocationState";
+import RelatedProducts from "./RelatedProducts";
 
 const ProductDetailContent = () => {
   const { id } = useParams<{ id: string }>();
@@ -18,9 +28,15 @@ const ProductDetailContent = () => {
 
   const navigate = useNavigate();
   const { addItem, items } = useCart();
+  const { productList } = useProducts();
 
   const [quantity, setQuantity] = useState(1);
   const [activeMedia, setActiveMedia] = useState(0);
+
+  useEffect(() => {
+    setQuantity(1);
+    setActiveMedia(0);
+  }, [id]);
 
   const cachedProduct = (location.state as ProductDetailsLocationState | null)
     ?.product;
@@ -33,6 +49,36 @@ const ProductDetailContent = () => {
   if (!product) {
     return <ProductNotFound />;
   }
+
+  const currentProductIndex = productList.findIndex(
+    (item) => item.id === product.id,
+  );
+  const nextProduct =
+    productList.length > 1
+      ? productList[
+          (currentProductIndex >= 0 ? currentProductIndex + 1 : 0) %
+            productList.length
+        ]
+      : undefined;
+  const relatedProducts = productList
+    .filter(
+      (item) =>
+        item.id !== product.id &&
+        item.categories.some((category) =>
+          product.categories.some(
+            (productCategory) =>
+              productCategory.toLocaleLowerCase() ===
+              category.toLocaleLowerCase(),
+          ),
+        ),
+    )
+    .slice(0, 4);
+
+  const goToProduct = (productId: string, selectedProduct: typeof product) => {
+    navigate(`/produto/${productId}`, {
+      state: { product: selectedProduct } satisfies ProductDetailsLocationState,
+    });
+  };
 
   const quantityInCart =
     items.find((item) => item.product.id === product.id)?.quantity ?? 0;
@@ -52,24 +98,35 @@ const ProductDetailContent = () => {
   return (
     <div className="min-h-screen bg-background pt-16">
       <div className="container mx-auto px-4 pt-12 pb-4">
-        <button
-          onClick={() => navigate("/produtos")}
-          className="inline-flex items-center gap-2 rounded-lg border border-primary/30 px-4 py-2 font-display text-sm font-medium text-primary transition-all hover:border-primary hover:shadow-glow"
-        >
-          <ArrowLeft className="h-4 w-4" />
-          Voltar
-        </button>
+        <div className="flex items-center justify-between gap-3">
+          <button
+            onClick={() => navigate("/produtos")}
+            className="inline-flex h-10 shrink-0 items-center gap-2 whitespace-nowrap rounded-lg border border-primary/30 px-4 font-display text-sm font-medium leading-none text-primary transition-all hover:border-primary hover:shadow-glow"
+          >
+            <ArrowLeft className="h-4 w-4" />
+            Voltar
+          </button>
+          {nextProduct && (
+            <button
+              onClick={() => goToProduct(nextProduct.id, nextProduct)}
+              className="inline-flex h-10 shrink-0 items-center gap-2 whitespace-nowrap rounded-lg border border-primary/30 px-4 font-display text-sm font-medium leading-none text-primary transition-all hover:border-primary hover:shadow-glow"
+            >
+              Próximo produto
+              <ArrowRight className="h-4 w-4" />
+            </button>
+          )}
+        </div>
       </div>
 
-      <section className="py-8 pb-20">
+      <section className="py-6 pb-16">
         <div className="container mx-auto px-4">
-          <div className="grid items-start gap-8 lg:grid-cols-[minmax(0,30rem)_minmax(0,1fr)]">
+          <div className="grid items-start gap-6 lg:grid-cols-[minmax(0,26rem)_minmax(0,1fr)] lg:gap-8">
             {/* Media Carousel */}
             <motion.div
               initial={{ opacity: 0, x: -30 }}
               animate={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.5 }}
-              className="mx-auto flex w-full max-w-[30rem] flex-col gap-3 lg:mx-0"
+              className="mx-auto flex w-full max-w-[26rem] flex-col gap-2 lg:mx-0"
             >
               <MediaCarousel
                 media={product.media && product.media.length > 0 ? product.media : [{ type: "image", src: product.image, alt: product.name }]}
@@ -136,23 +193,23 @@ const ProductDetailContent = () => {
               </div> */}
 
               {/* Price & Add */}
-              <div className="flex flex-col gap-4 rounded-xl border border-border bg-card p-6">
+              <div className="flex flex-col gap-3 rounded-xl border border-border bg-card p-4 sm:p-5">
                 <div className="flex items-center justify-between">
-                  <span className="font-display text-3xl font-bold text-primary">
+                  <span className="font-display text-2xl font-bold text-primary">
                     R$ {product.price.toFixed(2).replace(".", ",")}
                   </span>
                 </div>
 
-                <div className="flex items-center gap-4">
+                <div className="flex items-center gap-3">
                   <div className="flex items-center rounded-lg border border-border">
                     <button
                       onClick={() => setQuantity((q) => Math.max(1, q - 1))}
                       disabled={quantity <= 1}
-                      className="px-3 py-2 text-lg font-semibold text-muted-foreground transition-colors hover:text-foreground"
+                      className="px-2.5 py-1.5 text-lg font-semibold text-muted-foreground transition-colors hover:text-foreground"
                     >
                       −
                     </button>
-                    <span className="min-w-[2.5rem] text-center font-display text-lg font-bold text-foreground">
+                    <span className="min-w-[2rem] text-center font-display text-base font-bold text-foreground">
                       {quantityToAdd}
                     </span>
                     <button
@@ -165,7 +222,7 @@ const ProductDetailContent = () => {
                         availableStock !== undefined &&
                         quantity >= availableStock
                       }
-                      className="px-3 py-2 text-lg font-semibold text-muted-foreground transition-colors hover:text-foreground"
+                      className="px-2.5 py-1.5 text-lg font-semibold text-muted-foreground transition-colors hover:text-foreground"
                     >
                       +
                     </button>
@@ -174,7 +231,7 @@ const ProductDetailContent = () => {
                   <button
                     onClick={handleAddToCart}
                     disabled={isOutOfStock}
-                    className="flex flex-1 items-center justify-center gap-2 rounded-lg bg-gradient-cta px-6 py-3 font-display text-sm font-semibold text-primary-foreground transition-all hover:shadow-glow hover:scale-105 disabled:cursor-not-allowed disabled:opacity-50"
+                    className="flex min-h-10 flex-1 items-center justify-center gap-2 rounded-lg bg-gradient-cta px-3 py-2 font-display text-xs font-semibold text-primary-foreground transition-all hover:shadow-glow disabled:cursor-not-allowed disabled:opacity-50 sm:text-sm lg:w-56 lg:flex-none"
                   >
                     <ShoppingCart size={18} />
                     {isOutOfStock
@@ -188,6 +245,7 @@ const ProductDetailContent = () => {
         </div>
       </section>
 
+      <RelatedProducts products={relatedProducts} />
       <Footer />
       <CartDrawer />
     </div>

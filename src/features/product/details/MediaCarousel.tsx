@@ -87,7 +87,7 @@ const MediaCarousel = ({ media, activeIndex, onChange, productName, customizable
               onClick={() => onChange(i)}
               aria-label={`Selecionar mídia ${i + 1}`}
               className={cn(
-                "relative h-20 w-20 shrink-0 overflow-hidden rounded-lg border-2 transition-all",
+                "relative h-16 w-16 shrink-0 overflow-hidden rounded-lg border-2 transition-all",
                 i === activeIndex ? "border-primary shadow-glow" : "border-border hover:border-primary/50"
               )}
             >
