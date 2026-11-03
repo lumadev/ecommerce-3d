@@ -1,6 +1,7 @@
+import { useEffect } from "react";
 import { CartProvider } from "@/features/cart/cart.provider";
 import { ArrowLeft } from "lucide-react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import ProductGrid from "@/features/product/components/ProductGrid";
 import CartDrawer from "@/features/cart/components/CartDrawer";
 import Footer from "@/layout/components/Footer";
@@ -8,7 +9,16 @@ import { useProducts } from "@/features/product/hooks/useProducts";
 
 const Products = () => {
   const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
   const { productList, isLoading } = useProducts();
+  const categoryName = searchParams.get("category");
+  const visibleProducts = categoryName
+    ? productList.filter((product) => product.categories.includes(categoryName))
+    : productList;
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [categoryName]);
 
   return (
     <div className="min-h-screen bg-background pt-16">
@@ -21,7 +31,11 @@ const Products = () => {
             Voltar
           </button>
         </div>
-        <ProductGrid products={productList} isLoading={isLoading} />
+        <ProductGrid
+          products={visibleProducts}
+          isLoading={isLoading}
+          categoryName={categoryName}
+        />
         <Footer />
         <CartDrawer />
       </div>

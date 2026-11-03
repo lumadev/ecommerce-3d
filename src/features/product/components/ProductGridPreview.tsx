@@ -11,13 +11,20 @@ interface ProductGridPreviewProps {
   limit: number;
   /** Rota do catálogo completo, usada pelo botão "Ver mais". */
   viewAllHref: string;
+  categoryName?: string | null;
 }
 
 /**
  * Versão reduzida do ProductGrid usada na Home: mostra apenas os primeiros
  * `limit` produtos e um botão "Ver mais" para o catálogo completo.
  */
-const ProductGridPreview = ({ products, isLoading, limit, viewAllHref }: ProductGridPreviewProps) => {
+const ProductGridPreview = ({
+  products,
+  isLoading,
+  limit,
+  viewAllHref,
+  categoryName,
+}: ProductGridPreviewProps) => {
   const visibleProducts = products.slice(0, limit);
   const showViewAll = products.length > visibleProducts.length;
 
@@ -26,7 +33,16 @@ const ProductGridPreview = ({ products, isLoading, limit, viewAllHref }: Product
       <div className="container mx-auto px-4">
         <div className="mb-12 text-center">
           <h2 className="mb-4 font-display text-3xl font-bold text-foreground sm:text-4xl">
-            Nossos <span className="text-gradient-primary">Produtos</span>
+            {categoryName ? (
+              <>
+                Produtos em{" "}
+                <span className="text-gradient-primary">{categoryName}</span>
+              </>
+            ) : (
+              <>
+                Nossos <span className="text-gradient-primary">Produtos</span>
+              </>
+            )}
           </h2>
           <p className="mx-auto max-w-xl text-muted-foreground">
             Cada peça é impressa com precisão e cuidado. Explore nosso catálogo e encontre algo especial.

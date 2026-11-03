@@ -1,31 +1,34 @@
 import { useEffect, useState } from "react";
 import { Category } from "@/features/category/types/category.types";
 import { categoryRepository } from "@/features/category/repositories/categoryRepository";
+import { useToast } from "@/hooks/use-toast";
 
 export const useCategoriesSection = () => {
+  const { toast } = useToast();
   const [categories, setCategories] = useState<Category[]>([]);
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    let isMounted = true;
+    const controller = new AbortController();
 
     const load = async () => {
       try {
-        const data = await categoryRepository.findAll();
-        if (isMounted) setCategories(data);
+        const data = await categoryRepository.findAll(controller.signal);
+        setCategories(data);
       } catch {
-        // silently fail — section simply renders nothing
+        if (controller.signal.aborted) return;
+        toast({ description: "Não foi possível carregar as categorias." });
       } finally {
-        if (isMounted) setIsLoading(false);
+        if (!controller.signal.aborted) setIsLoading(false);
       }
     };
 
     void load();
 
     return () => {
-      isMounted = false;
+      controller.abort();
     };
-  }, []);
+  }, [toast]);
 
   return { categories, isLoading };
 };
